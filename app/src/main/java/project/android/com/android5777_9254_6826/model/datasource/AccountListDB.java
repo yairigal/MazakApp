@@ -53,7 +53,7 @@ public class AccountListDB implements IAccountDatabase {
         //running on the list trying to find.
         for (int i =0;i<accountList.size();i++){
             curr = accountList.get(i);
-            if(curr.UserName == username)
+            if(curr.UserName.equals(username))
                 break;
         }
         if(curr == null)
