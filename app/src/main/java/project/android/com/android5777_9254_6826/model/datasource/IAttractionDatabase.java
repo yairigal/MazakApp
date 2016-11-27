@@ -37,4 +37,5 @@ public interface IAttractionDatabase extends IDatabase {
      * @return list of the attraction in the database
      */
 	public ArrayList<Attraction> getAttractionList();
+	public boolean ifNewAttractionAdded();
 }
