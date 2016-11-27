@@ -1,7 +1,5 @@
 package project.android.com.android5777_9254_6826.model.datasource;
 
-import android.widget.Toast;
-
 import java.util.ArrayList;
 
 import project.android.com.android5777_9254_6826.model.entities.Account;
