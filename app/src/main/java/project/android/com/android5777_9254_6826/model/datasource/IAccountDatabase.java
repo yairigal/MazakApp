@@ -27,4 +27,14 @@ public interface IAccountDatabase extends IDatabase {
 	public Account getAccount(long id) throws Exception;
 	public Account getAccount(String username) throws Exception;
 	public boolean isRegistered(String userName);
+
+	/**
+	 * checks if the account exists and returns true if the passToCheck equals to the Account's password
+	 * if the account doesnt exists throws exception.
+	 * @param userName hello
+	 * @param passToCheck
+	 * @return true if the passtoCheck equals to the account's password
+	 * @throws Exception if the account was not found.
+     */
+	public boolean verifyPassword(String userName,String passToCheck) throws Exception;
 }

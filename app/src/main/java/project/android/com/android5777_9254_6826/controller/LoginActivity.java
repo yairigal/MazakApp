@@ -34,8 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import project.android.com.android5777_9254_6826.R;
-import project.android.com.android5777_9254_6826.model.datasource.AccountListDB;
-import project.android.com.android5777_9254_6826.model.datasource.IAccountDatabase;
+import project.android.com.android5777_9254_6826.model.backend.Backend;
+import project.android.com.android5777_9254_6826.model.backend.FactoryDatabase;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -304,6 +304,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private String toToast;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -313,7 +314,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-            Login(mEmail,mPassword);
+            Toast.makeText(getApplicationContext(),toToast,Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -337,7 +338,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             // TODO: register the new account here
             //calling Login();
-            publishProgress();
+            Login(mEmail,mPassword);
             return true;
         }
 
@@ -360,20 +361,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
 
-        private void Login(String email,String pass){
-            AccountListDB DB = AccountListDB.getDB();
-            //if registered - log in
-            if(DB.isRegistered(email)) {
+        private void Login(String email, String pass) {
+
+            Backend DB = FactoryDatabase.getDatabase();
+            try {
+                //AccountListDB DB = AccountListDB.getDB();
+
+                //if registered - log in
+                //Thread.sleep(6000);
+                if (DB.verifyPassword(email, pass)) {
+                    //TODO make login arrangements
+                    toToast = "- Logged in -";
+                    publishProgress();
+                } else {
+                    toToast = "- Wrong password -";
+                    publishProgress();
+                }
+
+            } catch (Exception ex) {
+                //if couldnt find the account - regiter
+                DB.addNewAccount(email, pass);
+                toToast = "- Registered -";
                 publishProgress();
-                Toast.makeText(getApplicationContext(), "- Logged in -", Toast.LENGTH_SHORT).show();
-                return;
             }
-            //else if not registered - register.
-            DB.addNewAccount(email,pass);
-            Toast.makeText(getApplicationContext(), "- Registered -", Toast.LENGTH_SHORT).show();
         }
+
+
     }
-
-
 }
+
+
+
 
