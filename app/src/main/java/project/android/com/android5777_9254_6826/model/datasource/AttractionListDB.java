@@ -37,4 +37,9 @@ public class AttractionListDB implements IAttractionDatabase {
     public ArrayList<Attraction> getAttractionList() {
         return attractionsList;
     }
+
+    @Override
+    public boolean ifNewAttractionAdded() {
+        return false;
+    }
 }

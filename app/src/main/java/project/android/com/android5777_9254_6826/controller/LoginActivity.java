@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,8 +35,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import project.android.com.android5777_9254_6826.R;
+import project.android.com.android5777_9254_6826.model.backend.Backend;
+import project.android.com.android5777_9254_6826.model.backend.FactoryDatabase;
+import project.android.com.android5777_9254_6826.model.backend.ListDatabase;
 import project.android.com.android5777_9254_6826.model.datasource.AccountListDB;
 import project.android.com.android5777_9254_6826.model.datasource.IAccountDatabase;
+import project.android.com.android5777_9254_6826.model.datasource.IDatabase;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -361,12 +366,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         private void Login(String email,String pass){
-            AccountListDB DB = AccountListDB.getDB();
+            //AccountListDB DB = AccountListDB.getDB();
+            Backend DB = FactoryDatabase.getDatabase();
             //if registered - log in
+
             if(DB.isRegistered(email)) {
-                publishProgress();
-                Toast.makeText(getApplicationContext(), "- Logged in -", Toast.LENGTH_SHORT).show();
-                return;
+               // IDatabase db = FactoryDatabase.getDatabase();
+                try {
+                    String pass2 = DB.getAccount(email).Password;
+                    if (pass.equals(pass2)) {
+                        //TODO make login arrangements
+                        Toast.makeText(getApplicationContext(), "- Logged in -", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                catch(    Exception ex  )
+                {}
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "- Wrong Password -", Toast.LENGTH_SHORT).show();
             }
             //else if not registered - register.
             DB.addNewAccount(email,pass);

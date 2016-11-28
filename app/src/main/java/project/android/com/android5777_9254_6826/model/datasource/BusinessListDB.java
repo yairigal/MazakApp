@@ -23,4 +23,9 @@ public class BusinessListDB implements IBusinessDatabase {
     public ArrayList<Business> getBusinessList() {
         return businessList;
     }
+
+    @Override
+    public boolean ifNewBusinessAdded() {
+        return false;
+    }
 }
