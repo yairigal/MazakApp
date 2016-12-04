@@ -38,4 +38,5 @@ public interface IAttractionDatabase extends IDatabase {
      */
 	public ArrayList<Attraction> getAttractionList();
 	public boolean ifNewAttractionAdded();
+	int removeAttraction(String attractionID);
 }

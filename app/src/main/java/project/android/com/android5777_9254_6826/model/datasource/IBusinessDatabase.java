@@ -21,4 +21,5 @@ public interface IBusinessDatabase extends IDatabase {
 	public boolean addNewBusiness(String ID, String Name, Address address, String Email, URL Website);
 	public ArrayList<Business> getBusinessList();
 	public boolean ifNewBusinessAdded();
+	int removeBusiness(String businessID);
 }

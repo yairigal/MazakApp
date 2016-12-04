@@ -22,8 +22,9 @@ public class Attraction {
 	public float Price;
 	public String Description;
 	public String BusinessID;
+	public String AttractionID;
 
-	public Attraction(Properties.AttractionType type, String country, Date startDate, Date endDate, float price, String description, String businessID) {
+	public Attraction(String attractionID,Properties.AttractionType type, String country, Date startDate, Date endDate, float price, String description, String businessID) {
 		Type = type;
 		Country = country;
 		StartDate = startDate;
@@ -31,5 +32,6 @@ public class Attraction {
 		Price = price;
 		Description = description;
 		BusinessID = businessID;
+		AttractionID = attractionID;
 	}
 }

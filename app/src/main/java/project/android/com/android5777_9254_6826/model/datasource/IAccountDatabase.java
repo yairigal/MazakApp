@@ -22,11 +22,11 @@ public interface IAccountDatabase extends IDatabase {
 	 * @param Password
      * @return true - if succeeded , else false;
      */
-	public boolean addNewAccount(String UserName, String Password);
-	public ArrayList<Account> getAccountList();
-	public Account getAccount(long id) throws Exception;
-	public Account getAccount(String username) throws Exception;
-	public boolean isRegistered(String userName);
+	boolean addNewAccount(String UserName, String Password);
+	ArrayList<Account> getAccountList();
+	Account getAccount(long id) throws Exception;
+	Account getAccount(String username) throws Exception;
+	boolean isRegistered(String userName);
 
 	/**
 	 * checks if the account exists and returns true if the passToCheck equals to the Account's password
@@ -36,5 +36,6 @@ public interface IAccountDatabase extends IDatabase {
 	 * @return true if the passtoCheck equals to the account's password
 	 * @throws Exception if the account was not found.
      */
-	public boolean verifyPassword(String userName,String passToCheck) throws Exception;
+	boolean verifyPassword(String userName,String passToCheck) throws Exception;
+	int removeAccount(String username);
 }
