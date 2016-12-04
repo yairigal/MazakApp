@@ -3,9 +3,11 @@
   <option name="EDITOR_FONT_SIZE" value="12" />
   <option name="EDITOR_FONT_NAME" value="Monospaced" />
   <attributes>
-    <option name="CONSOLE_WHITE_OUTPUT">
+    <option name="TEXT">
       <value>
-        <option name="FOREGROUND" value="fff6f4" />
+        <option name="FOREGROUND" value="f9fff3" />
+        <option name="BACKGROUND" value="2b2b2b" />
+        <option name="EFFECT_TYPE" value="5" />
       </value>
     </option>
   </attributes>
