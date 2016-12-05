@@ -11,8 +11,7 @@
 package project.android.com.android5777_9254_6826.model.entities;
 
 
-
-public class Account {
+public class Account{
 	 public long AccountNumber;
 	 public String UserName;
 	 public String Password;

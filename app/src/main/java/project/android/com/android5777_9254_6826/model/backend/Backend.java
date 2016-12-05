@@ -9,4 +9,5 @@ import project.android.com.android5777_9254_6826.model.datasource.IBusinessDatab
  */
 
 public interface Backend extends IBusinessDatabase,IAttractionDatabase,IAccountDatabase {
+    //TODO add fucntions to the interfaces that has selection arguments
 }

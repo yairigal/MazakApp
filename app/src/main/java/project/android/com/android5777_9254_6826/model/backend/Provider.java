@@ -6,8 +6,16 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+
+import project.android.com.android5777_9254_6826.model.entities.Account;
+import project.android.com.android5777_9254_6826.model.entities.Attraction;
+import project.android.com.android5777_9254_6826.model.entities.Business;
+
 public class Provider extends ContentProvider {
     String currentUri = "content://"+"project.android.com.android5777_9254_6826.model.backend.Provider/";
+    Uri thisUri = Uri.parse(currentUri);
     //this is a sample of a Uri to the database :
     //currentUri+"Business/1";
     //currentUri+"Attractions/1";
@@ -26,13 +34,19 @@ public class Provider extends ContentProvider {
         // Implement this to handle requests to delete one or more rows.
         int match = matcher.match(uri);
         int rowID = 0;
+        int rowNum;
         switch (match){
             case ATTRACTIONS_ID:
-                rowID = db.removeAttraction(selectionArgs[0]);
+                rowNum = Integer.parseInt(uri.getLastPathSegment());
+                rowID = db.removeAttraction(rowNum);
                 break;
             case BUSINESS_ID:
+                rowNum = Integer.parseInt(uri.getLastPathSegment());
+                rowID = db.removeBusiness(rowNum);
                 break;
             case ACCOUNTS_ID:
+                rowNum = Integer.parseInt(uri.getLastPathSegment());
+                rowID = db.removeAccount(rowNum);
                 break;
             default:
                 return -1;
@@ -50,8 +64,31 @@ public class Provider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO: Implement this to handle requests to insert a new row.
-        throw new UnsupportedOperationException("Not yet implemented");
+
+        int rowID = 0;
+        switch (matcher.match(uri))
+        {
+            case ACCOUNTS:
+                Account curr = ContentValuesSerializer.contentValuesToAccount(values);
+                rowID = db.addNewAccount(curr);
+                break;
+            case BUSINESS:
+                try {
+                    Business buss = ContentValuesSerializer.contentValuesToBusiness(values);
+                    rowID = db.addNewBusiness(buss);
+                } catch (MalformedURLException e) {
+                    return null;
+                }
+                break;
+            case ATTRACTIONS:
+                Attraction att = ContentValuesSerializer.contentValuesToAttraction(values);
+                rowID = db.addNewAttraction(att);
+                break;
+            default:
+                return null;
+        }
+        Uri toReturn = Uri.parse(uri.toString() +"/"+rowID);
+        return toReturn;
     }
 
     @Override
@@ -63,15 +100,18 @@ public class Provider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        // TODO: Implement this to handle query requests from clients.
-        throw new UnsupportedOperationException("Not yet implemented");
+        // TODO: implement it when sqlite is coming
+
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        delete(uri,selection,selectionArgs);
+        Uri newUri = Uri.parse(uri.getPath());
+        Uri ret = insert(newUri,values);
+        int row =  Integer.parseInt(ret.getLastPathSegment());
+        return row;
     }
     private void initMatcher(){
         matcher.addURI(currentUri,"/Accounts",ACCOUNTS);

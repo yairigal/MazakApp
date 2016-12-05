@@ -14,12 +14,12 @@ package project.android.com.android5777_9254_6826.model.datasource;
 import java.util.ArrayList;
 import java.util.Date;
 
+import project.android.com.android5777_9254_6826.model.entities.Account;
 import project.android.com.android5777_9254_6826.model.entities.Attraction;
 import project.android.com.android5777_9254_6826.model.entities.Properties;
 
 public interface IAttractionDatabase extends IDatabase {
     /**
-     *
      * @param Type
      * @param Country
      * @param StartDate
@@ -29,14 +29,17 @@ public interface IAttractionDatabase extends IDatabase {
      * @param BusinessID
      * @return returns true if succeeded , else false;
      */
-	public boolean addNewAttraction(Properties.AttractionType Type, String Country, Date StartDate,
-								 Date EndDate, float Price, String Description, String BusinessID);
+    int addNewAttraction(String ID,Properties.AttractionType Type, String Country, Date StartDate,
+                         Date EndDate, float Price, String Description, String BusinessID);
+    int addNewAttraction(Attraction toInsert);
 
     /**
-     *
      * @return list of the attraction in the database
      */
-	public ArrayList<Attraction> getAttractionList();
-	public boolean ifNewAttractionAdded();
-	int removeAttraction(String attractionID);
+    ArrayList<Attraction> getAttractionList();
+
+    boolean ifNewAttractionAdded();
+
+    int removeAttraction(String attractionID);
+    int removeAttraction(int rowID);
 }

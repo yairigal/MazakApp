@@ -22,7 +22,8 @@ public interface IAccountDatabase extends IDatabase {
 	 * @param Password
      * @return true - if succeeded , else false;
      */
-	boolean addNewAccount(String UserName, String Password);
+	int addNewAccount(String UserName, String Password);
+	int addNewAccount(Account toInsert);
 	ArrayList<Account> getAccountList();
 	Account getAccount(long id) throws Exception;
 	Account getAccount(String username) throws Exception;
@@ -38,4 +39,5 @@ public interface IAccountDatabase extends IDatabase {
      */
 	boolean verifyPassword(String userName,String passToCheck) throws Exception;
 	int removeAccount(String username);
+	int removeAccount(int rowID);
 }

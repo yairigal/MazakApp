@@ -20,12 +20,24 @@ import project.android.com.android5777_9254_6826.model.entities.Properties;
 public class ListDatabase implements Backend {
 
     private static ArrayList<Account> accountList = new ArrayList<Account>();
+    private static ArrayList<Business> businessList = new ArrayList<Business>();
+    private static ArrayList<Attraction> attractionsList = new ArrayList<Attraction>();
     private static long AccountNumber = 0;
+    private boolean latelyAddedNewAttraction;
+    private boolean latelyAddedNewBusiness;
+
 
     @Override
-    public boolean addNewAccount(String UserName, String Password) {
-        accountList.add(new Account(++AccountNumber, UserName, Password));
-        return true;
+    public int addNewAccount(String UserName, String Password) {
+        Account a = new Account(++AccountNumber, UserName, Password);
+        accountList.add(a);
+        return accountList.indexOf(a);
+    }
+
+    @Override
+    public int addNewAccount(Account toInsert) {
+        accountList.add(toInsert);
+        return accountList.indexOf(toInsert);
     }
 
     @Override
@@ -76,15 +88,25 @@ public class ListDatabase implements Backend {
     @Override
     public boolean verifyPassword(String userName, String passToCheck) throws Exception {
         Account curr = getAccount(userName);
-        if(curr.Password.equals(passToCheck))
+        if (curr.Password.equals(passToCheck))
             return true;
         return false;
     }
 
-    /////////////////////////////////////////////
-    private static ArrayList<Attraction> attractionsList = new ArrayList<Attraction>();
+    @Override
+    public int removeAccount(String username) {
+        return 0;
+    }
 
-    private boolean latelyAddedNewAttraction;
+    @Override
+    public int removeAccount(int rowID) {
+        try {
+            accountList.remove(rowID);
+            return rowID;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
     /**
      * @param Type
@@ -97,10 +119,17 @@ public class ListDatabase implements Backend {
      * @return returns true if succeeded , else false;
      */
     @Override
-    public boolean addNewAttraction(Properties.AttractionType Type, String Country, Date StartDate, Date EndDate, float Price, String Description, String BusinessID) {
-        attractionsList.add(new Attraction(Type, Country, StartDate, EndDate, Price, Description, BusinessID));
+    public int addNewAttraction(String ID, Properties.AttractionType Type, String Country, Date StartDate, Date EndDate, float Price, String Description, String BusinessID) {
+        Attraction a = new Attraction(ID, Type, Country, StartDate, EndDate, Price, Description, BusinessID);
+        attractionsList.add(a);
         latelyAddedNewAttraction = true;
-        return true;
+        return attractionsList.indexOf(a);
+    }
+
+    @Override
+    public int addNewAttraction(Attraction toInsert) {
+        attractionsList.add(toInsert);
+        return attractionsList.indexOf(toInsert);
     }
 
     /**
@@ -120,16 +149,33 @@ public class ListDatabase implements Backend {
         return false;
     }
 
-    /////////////////////////////////////////////
-    private static ArrayList<Business> businessList = new ArrayList<Business>();
-
-    private boolean latelyAddedNewBusiness;
+    @Override
+    public int removeAttraction(String attractionID) {
+        return 0;
+    }
 
     @Override
-    public boolean addNewBusiness(String ID, String Name, Address address, String Email, URL Website) {
-        businessList.add(new Business(ID, Name, address, Email, Website));
+    public int removeAttraction(int rowID) {
+        try {
+            attractionsList.remove(rowID);
+            return rowID;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public int addNewBusiness(String ID, String Name, Address address, String Email, URL Website) {
+        Business a = new Business(ID, Name, address, Email, Website);
+        businessList.add(a);
         latelyAddedNewBusiness = true;
-        return true;
+        return businessList.indexOf(a);
+    }
+
+    @Override
+    public int addNewBusiness(Business toInsert) {
+        businessList.add(toInsert);
+        return businessList.indexOf(toInsert);
     }
 
     @Override
@@ -150,6 +196,20 @@ public class ListDatabase implements Backend {
         }
         return false;
     }
-    /////////////////////////////////////////////
+
+    @Override
+    public int removeBusiness(String businessID) {
+        return 0;
+    }
+
+    @Override
+    public int removeBusiness(int rowID) {
+        try {
+            businessList.remove(rowID);
+            return rowID;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
 }

@@ -15,9 +15,9 @@ package project.android.com.android5777_9254_6826.model.entities;
 import java.net.URL;
 
 public class Business {
-	private String BusinessID;
-	private String BusinessName;
-	private Address BusinessAddress;
+	public String BusinessID;
+	public String BusinessName;
+	public Address BusinessAddress;
 	public String Email;
 	public URL Website;
 
