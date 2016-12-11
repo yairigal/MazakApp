@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -70,6 +72,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    SharedPreferences sharedpreferences;
+    public static final String mypreference = "mypref";
+    public static final String Password = "passKey";
+    public static final String Email = "emailKey";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +88,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
+
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+        if (sharedpreferences.contains(Password)) {
+            mPasswordView.setText(sharedpreferences.getString(Password, ""));
+        }
+        if (sharedpreferences.contains(Email)) {
+            mEmailView.setText(sharedpreferences.getString(Email, ""));
+
+        }
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -377,6 +397,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (DB.verifyPassword(email, pass)) {
                     //TODO make login arrangements
                     toToast = "- Logged in -";
+                    SaveSharedpreferences();
+                    IntentNextActivity();
                     publishProgress();
                 } else {
                     toToast = "- Wrong password -";
@@ -384,14 +406,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
 
             } catch (Exception ex) {
-                //if couldnt find the account - regiter
+                //if couldn't find the account - register
                 DB.addNewAccount(email, pass);
                 toToast = "- Registered -";
+                SaveSharedpreferences();
+                IntentNextActivity();
                 publishProgress();
             }
         }
+        private void SaveSharedpreferences(){
+            String n = mPasswordView.getText().toString();
+            String e = mEmailView.getText().toString();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString(Password, n);
+            editor.putString(Email, e);
+            editor.commit();
+        }
 
+        private void IntentNextActivity(){
 
+        }
     }
 }
 

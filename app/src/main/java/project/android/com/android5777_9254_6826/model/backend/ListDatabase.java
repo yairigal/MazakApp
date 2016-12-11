@@ -48,6 +48,10 @@ public class ListDatabase implements Backend {
         return accountList;
     }
 
+    public Cursor CgetAccountList(){
+        return null;
+    }
+
     @Override
     public Account getAccount(long id) throws Exception {
         Account curr = null;
@@ -195,6 +199,7 @@ public class ListDatabase implements Backend {
     public ArrayList<Business> getBusinessList() {
         return businessList;
     }
+
 
     /**
      * checks if lately a new Business has been added.

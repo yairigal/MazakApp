@@ -84,6 +84,8 @@ public class Provider extends ContentProvider {
                 Attraction att = ContentValuesSerializer.contentValuesToAttraction(values);
                 rowID = db.addNewAttraction(att);
                 break;
+
+
             default:
                 return null;
         }
@@ -100,9 +102,93 @@ public class Provider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        // TODO: implement it when sqlite is coming
 
+        switch(matcher.match(uri)){
+            case ACCOUNTS:
+                return db.getAccountList();
+                break;
+            case BUSINESS:
+                try {
+                    return db.getBusinessList();
+                } catch (MalformedURLException e) {
+                    return null;
+                }
+                break;
+            case ATTRACTIONS:
+                return db.getAttractionList();
+                break;
+            case ACCOUNTS_ID:
+                break;
+            case BUSINESS_ID:
+                break;
+            case ATTRACTIONS_ID:
+                break;
+            default:
+        }
+
+
+        String table = uri.getPath();
+        if (table.contains(TABLE_USERS_NAME) && s==null)//s is the id
+            try {
+                return ds.getUsers();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        if (table.contains(TABLE_USERS_NAME))
+            try {
+                return ds.Get_User(s);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
+
+
+        if (table.contains(TABLE_BUSINESS_NAME) && s==null) {
+            try {
+                return ds.getBusiness();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        if (table.contains(TABLE_BUSINESS_NAME)) {
+
+            try {
+
+                return ds.Get_Business(s);
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+                return null;
+            }
+
+        }
+
+
+        if (table.contains(TABLE_ACTIVITY_NAME)) {
+
+            try {
+
+                return ds.getActivitys();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+                return null;
+
+            }
+
+        }
+        return null;
+        // TODO: implement it when sqlite is coming
     }
+
+
 
     @Override
     public int update(Uri uri, ContentValues values, String selection,
