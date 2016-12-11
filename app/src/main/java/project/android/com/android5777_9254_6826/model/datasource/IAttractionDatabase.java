@@ -11,6 +11,10 @@
 package project.android.com.android5777_9254_6826.model.datasource;
 
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -42,4 +46,10 @@ public interface IAttractionDatabase extends IDatabase {
 
     int removeAttraction(String attractionID);
     int removeAttraction(int rowID);
+    Uri insert(Attraction ac);
+    int delete(Uri uri, String selection, String[] selectionArgs);
+    int update(Uri uri, ContentValues values, String selection,
+               String[] selectionArgs);
+    Cursor query(Uri uri, String[] projection, String selection,
+                 String[] selectionArgs, String sortOrder);
 }

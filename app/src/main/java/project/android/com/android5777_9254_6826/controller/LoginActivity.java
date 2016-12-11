@@ -3,6 +3,8 @@ package project.android.com.android5777_9254_6826.controller;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Service;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -36,6 +38,7 @@ import java.util.List;
 import project.android.com.android5777_9254_6826.R;
 import project.android.com.android5777_9254_6826.model.backend.Backend;
 import project.android.com.android5777_9254_6826.model.backend.FactoryDatabase;
+import project.android.com.android5777_9254_6826.model.backend.service;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -97,6 +100,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        //add this to the main activity.
+        startService(new Intent(getApplicationContext(),service.class));
     }
 
     private void populateAutoComplete() {

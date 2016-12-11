@@ -27,7 +27,12 @@
             android:name=".model.backend.Provider"
             android:authorities="Business;Attractions;Accounts"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true" />
+
+        <service
+            android:name=".model.backend.service"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

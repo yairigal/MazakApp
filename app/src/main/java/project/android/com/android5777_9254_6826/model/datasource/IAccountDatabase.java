@@ -11,6 +11,10 @@
 package project.android.com.android5777_9254_6826.model.datasource;
 
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 import project.android.com.android5777_9254_6826.model.entities.Account;
@@ -40,4 +44,10 @@ public interface IAccountDatabase extends IDatabase {
 	boolean verifyPassword(String userName,String passToCheck) throws Exception;
 	int removeAccount(String username);
 	int removeAccount(int rowID);
+	Uri insert(Account ac);
+	int delete(Uri uri, String selection, String[] selectionArgs);
+	int update(Uri uri, ContentValues values, String selection,
+					  String[] selectionArgs);
+	Cursor query(Uri uri, String[] projection, String selection,
+						String[] selectionArgs, String sortOrder);
 }
