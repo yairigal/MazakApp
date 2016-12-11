@@ -1,5 +1,9 @@
 package project.android.com.android5777_9254_6826.model.backend;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +29,6 @@ public class ListDatabase implements Backend {
     private static long AccountNumber = 0;
     private boolean latelyAddedNewAttraction;
     private boolean latelyAddedNewBusiness;
-
 
     @Override
     public int addNewAccount(String UserName, String Password) {
@@ -108,6 +111,11 @@ public class ListDatabase implements Backend {
         }
     }
 
+    @Override
+    public Uri insert(Account ac) {
+        return null;
+    }
+
     /**
      * @param Type
      * @param Country
@@ -165,6 +173,11 @@ public class ListDatabase implements Backend {
     }
 
     @Override
+    public Uri insert(Attraction ac) {
+        return null;
+    }
+
+    @Override
     public int addNewBusiness(String ID, String Name, Address address, String Email, URL Website) {
         Business a = new Business(ID, Name, address, Email, Website);
         businessList.add(a);
@@ -210,6 +223,26 @@ public class ListDatabase implements Backend {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Override
+    public Uri insert(Business ac) {
+        return null;
+    }
+
+    @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        return 0;
+    }
+
+    @Override
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        return 0;
+    }
+
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        return null;
     }
 
 }

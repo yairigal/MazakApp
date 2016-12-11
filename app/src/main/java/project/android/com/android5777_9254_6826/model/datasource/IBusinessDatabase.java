@@ -11,6 +11,10 @@
 package project.android.com.android5777_9254_6826.model.datasource;
 
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -25,4 +29,10 @@ public interface IBusinessDatabase extends IDatabase {
 	boolean ifNewBusinessAdded();
 	int removeBusiness(String businessID);
 	int removeBusiness(int rowID);
+	Uri insert(Business ac);
+	int delete(Uri uri, String selection, String[] selectionArgs);
+	int update(Uri uri, ContentValues values, String selection,
+			   String[] selectionArgs);
+	Cursor query(Uri uri, String[] projection, String selection,
+				 String[] selectionArgs, String sortOrder);
 }
