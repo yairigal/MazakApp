@@ -18,6 +18,12 @@ public class Address {
 		City = city;
 		Street = street;
 	}
+	public Address()
+	{
+		Country ="";
+		City = "";
+		Street ="";
+	}
 
 	private String Country;
 	private String City;

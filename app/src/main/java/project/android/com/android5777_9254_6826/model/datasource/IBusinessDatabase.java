@@ -26,7 +26,9 @@ public interface IBusinessDatabase extends IDatabase {
 	int addNewBusiness(String ID, String Name, Address address, String Email, URL Website);
 	int addNewBusiness(Business toInsert);
 	ArrayList<Business> getBusinessList();
+	Cursor CgetBusinessList();
 	boolean ifNewBusinessAdded();
+	Business getBusiness(String businessID) throws Exception;
 	int removeBusiness(String businessID);
 	int removeBusiness(int rowID);
 	Uri insert(Business ac);

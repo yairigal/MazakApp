@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.net.Uri;
 
 import java.net.MalformedURLException;
@@ -102,91 +103,63 @@ public class Provider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-
-        switch(matcher.match(uri)){
+        String token = uri.getLastPathSegment();
+        switch (matcher.match(uri)) {
             case ACCOUNTS:
-                return db
-                break;
+                return db.CgetAccountList();
             case BUSINESS:
+                return db.CgetBusinessList();
+            case ATTRACTIONS:
+                return db.CgetAttractionList();
+            case ACCOUNTS_ID:
                 try {
-                    return db.getBusinessList();
-                } catch (MalformedURLException e) {
-                    return null;
+
+                    Account acc = db.getAccount(token);
+                    MatrixCursor acccursor = new MatrixCursor(new String[]{"AccountNumber", "UserName", "Password"});
+                    acccursor.addRow(new Object[]{acc.getAccountNumber(), acc.getUserName(), acc.getPassword()});
+                } catch (Exception e) {
                 }
                 break;
-            case ATTRACTIONS:
-                return db.getAttractionList();
-                break;
-            case ACCOUNTS_ID:
-                break;
             case BUSINESS_ID:
+
+                try {
+                    Business bus = db.getBusiness(token);
+
+                    MatrixCursor buscursor = new MatrixCursor(
+                            new String[]{"BusinessID", "BusinessName", "BusinessAddress",
+                                    "Email", "Website"});
+                    buscursor.addRow(new Object[]{bus.getBusinessID(), bus.getBusinessName(),
+                            bus.getBusinessAddress(), bus.getEmail(), bus.getWebsite()});
+                    return buscursor;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case ATTRACTIONS_ID:
-                break;
+
+                Attraction att = null;
+                try {
+                    att = db.getAttraction(token);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                MatrixCursor attcursor = new MatrixCursor(
+                        new String[]{"AttractionID", "Type", "Country",
+                                "StartDate", "EndDate", "Price", "Description", "BusinessID"});
+                attcursor.addRow(new Object[]{att.getAttractionID(), att.getType(),
+                        att.getCountry(), att.getStartDate(), att.getEndDate(),
+                        att.getPrice(), att.getDescription(), att.getBusinessID()});
+                return attcursor;
             default:
+                return null;
         }
-
-
-        String table = uri.getPath();
-        if (table.contains(TABLE_USERS_NAME) && s==null)//s is the id
-            try {
-                return ds.getUsers();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        if (table.contains(TABLE_USERS_NAME))
-            try {
-                return ds.Get_User(s);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-
-
-
-        if (table.contains(TABLE_BUSINESS_NAME) && s==null) {
-            try {
-                return ds.getBusiness();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        if (table.contains(TABLE_BUSINESS_NAME)) {
-
-            try {
-
-                return ds.Get_Business(s);
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-
-                return null;
-            }
-
-        }
-
-
-        if (table.contains(TABLE_ACTIVITY_NAME)) {
-
-            try {
-
-                return ds.getActivitys();
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-
-                return null;
-
-            }
-
-        }
-        return null;
         // TODO: implement it when sqlite is coming
+        return null;
     }
+
+
+
+
 
 
 

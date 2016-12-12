@@ -83,6 +83,8 @@ public class ListDatabase implements Backend {
             curr = accountList.get(i);
             if (curr.getUserName().equals(username))
                 break;
+            else
+                curr = null;
         }
         if (curr == null)
             throw new Exception("Cannot find this Account");
@@ -175,6 +177,22 @@ public class ListDatabase implements Backend {
         }
         return attractionCursor;
     }
+
+    @Override
+    public Attraction getAttraction(String attractionID) throws Exception {
+        Attraction curr = null;
+        //running on the list trying to find.
+        for (int i = 0; i < attractionsList.size(); i++) {
+            curr = attractionsList.get(i);
+            if (curr.getBusinessID().equals(attractionID))
+                break;
+        }
+        if (curr == null)
+            throw new Exception("Cannot find this Account");
+        return curr;
+
+    }
+
     @Override
     public boolean ifNewAttractionAdded() {
         if (latelyAddedNewAttraction) {
@@ -236,6 +254,20 @@ public class ListDatabase implements Backend {
         return businessCursor;
     }
 
+    @Override
+    public Business getBusiness(String businessID) throws Exception {
+        Business curr = null;
+        //running on the list trying to find.
+        for (int i = 0; i < businessList.size(); i++) {
+            curr = businessList.get(i);
+            if (curr.getBusinessID().equals(businessID))
+                break;
+        }
+        if (curr == null)
+            throw new Exception("Cannot find this Account");
+        return curr;
+
+    }
 
 
     /**

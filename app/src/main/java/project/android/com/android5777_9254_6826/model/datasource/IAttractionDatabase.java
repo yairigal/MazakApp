@@ -41,7 +41,8 @@ public interface IAttractionDatabase extends IDatabase {
      * @return list of the attraction in the database
      */
     ArrayList<Attraction> getAttractionList();
-
+    Cursor CgetAttractionList();
+    Attraction getAttraction(String attractionID) throws Exception;
     boolean ifNewAttractionAdded();
 
     int removeAttraction(String attractionID);

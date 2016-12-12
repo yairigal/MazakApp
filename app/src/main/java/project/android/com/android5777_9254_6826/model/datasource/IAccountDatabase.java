@@ -29,6 +29,7 @@ public interface IAccountDatabase extends IDatabase {
 	int addNewAccount(String UserName, String Password);
 	int addNewAccount(Account toInsert);
 	ArrayList<Account> getAccountList();
+	Cursor CgetAccountList();
 	Account getAccount(long id) throws Exception;
 	Account getAccount(String username) throws Exception;
 	boolean isRegistered(String userName);
