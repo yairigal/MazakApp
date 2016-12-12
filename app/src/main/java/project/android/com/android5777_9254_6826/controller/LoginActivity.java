@@ -41,6 +41,7 @@ import project.android.com.android5777_9254_6826.R;
 import project.android.com.android5777_9254_6826.model.backend.Backend;
 import project.android.com.android5777_9254_6826.model.backend.FactoryDatabase;
 import project.android.com.android5777_9254_6826.model.backend.service;
+import project.android.com.android5777_9254_6826.model.entities.Business;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -424,7 +425,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         private void IntentNextActivity(){
-
+            Intent Bus = new Intent(getBaseContext(),BusinessesActivity.class);
+            startActivity(Bus);
         }
     }
 }

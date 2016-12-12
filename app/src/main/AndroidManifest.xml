@@ -32,7 +32,21 @@
         <service
             android:name=".model.backend.service"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".controller.BusinessesActivity"
+            android:label="@string/title_activity_businesses"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".controller.BusinessActivity"
+            android:label="@string/title_activity_business"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".controller.AddBusinessActivity" />
+        <activity
+            android:name=".controller.AddAttractionActivity"
+            android:label="@string/title_activity_add_attraction"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

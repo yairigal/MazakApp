@@ -12,9 +12,12 @@
 package project.android.com.android5777_9254_6826.model.entities;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.net.URL;
 
-public class Business {
+public class Business implements Parcelable {
 	private String BusinessID;
 	private String BusinessName;
 	private Address BusinessAddress;
@@ -67,5 +70,19 @@ public class Business {
 		BusinessAddress = address;
 		Email = email;
 		Website = website;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(BusinessID);
+		dest.writeString(BusinessName);
+		dest.writeString(Email);
+		dest.writeValue(BusinessAddress);
+		dest.writeValue(Website);
 	}
 }
