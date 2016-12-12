@@ -12,9 +12,35 @@ package project.android.com.android5777_9254_6826.model.entities;
 
 
 public class Account{
-	 public long AccountNumber;
-	 public String UserName;
-	 public String Password;
+	public long getAccountNumber() {
+		return AccountNumber;
+	}
+
+	public void setAccountNumber(long accountNumber) {
+		AccountNumber = accountNumber;
+	}
+
+
+
+	public String getUserName() {
+		return UserName;
+	}
+
+	public void setUserName(String userName) {
+		UserName = userName;
+	}
+
+	public String getPassword() {
+		return Password;
+	}
+
+	public void setPassword(String password) {
+		Password = password;
+	}
+
+	private String UserName;
+	private String Password;
+	private long AccountNumber;
 
 	public Account(long id, String userName, String password) {
 		this.AccountNumber = id;

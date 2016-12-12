@@ -15,11 +15,51 @@ package project.android.com.android5777_9254_6826.model.entities;
 import java.net.URL;
 
 public class Business {
-	public String BusinessID;
-	public String BusinessName;
-	public Address BusinessAddress;
-	public String Email;
-	public URL Website;
+	private String BusinessID;
+	private String BusinessName;
+	private Address BusinessAddress;
+	private String Email;
+	private URL Website;
+
+	public String getBusinessID() {
+		return BusinessID;
+	}
+
+	public void setBusinessID(String businessID) {
+		BusinessID = businessID;
+	}
+
+	public String getBusinessName() {
+		return BusinessName;
+	}
+
+	public void setBusinessName(String businessName) {
+		BusinessName = businessName;
+	}
+
+	public Address getBusinessAddress() {
+		return BusinessAddress;
+	}
+
+	public void setBusinessAddress(Address businessAddress) {
+		BusinessAddress = businessAddress;
+	}
+
+	public String getEmail() {
+		return Email;
+	}
+
+	public void setEmail(String email) {
+		Email = email;
+	}
+
+	public URL getWebsite() {
+		return Website;
+	}
+
+	public void setWebsite(URL website) {
+		Website = website;
+	}
 
 	public Business(String id, String name, Address address, String email, URL website) {
 		BusinessID = id;

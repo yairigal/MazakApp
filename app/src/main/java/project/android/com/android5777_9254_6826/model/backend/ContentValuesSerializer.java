@@ -28,9 +28,9 @@ public class ContentValuesSerializer {
     }
     public static ContentValues accountToContentValues(Account account){
         ContentValues values = new ContentValues();
-        values.put("username",account.UserName);
-        values.put("password",account.Password);
-        values.put("accountnumber",account.AccountNumber);
+        values.put("username",account.getUserName());
+        values.put("password",account.getPassword());
+        values.put("accountnumber",account.getAccountNumber());
         return values;
     }
 
@@ -56,23 +56,23 @@ public class ContentValuesSerializer {
     }
     public static ContentValues attractionToContentValues(Attraction attraction){
         ContentValues values = new ContentValues();
-        values.put("attractionid",attraction.AttractionID);
+        values.put("attractionid",attraction.getAttractionID());
         //saving the enum as String
-        values.put("type",attraction.Type.toString());
-        values.put("country",attraction.Country);
-        values.put("startdate",attraction.StartDate.toString());
-        values.put("enddate",attraction.EndDate.toString());
-        values.put("price",attraction.Price);
-        values.put("description",attraction.Description);
-        values.put("businessid",attraction.BusinessID);
+        values.put("type",attraction.getType().toString());
+        values.put("country",attraction.getCountry());
+        values.put("startdate",attraction.getStartDate().toString());
+        values.put("enddate",attraction.getEndDate().toString());
+        values.put("price",attraction.getPrice());
+        values.put("description",attraction.getDescription());
+        values.put("businessid",attraction.getBusinessID());
         return values;
     }
 
     public static Business contentValuesToBusiness(ContentValues values) throws MalformedURLException {
         Address adr = new Address();
-        adr.City = values.getAsString("city");
-        adr.Country = values.getAsString("country");
-        adr.Street = values.getAsString("street");
+        adr.setCity(values.getAsString("city"));
+        adr.setCountry(values.getAsString("country"));
+        adr.setStreet(values.getAsString("street"));
 
         URL url = new URL(values.getAsString("url"));
 
@@ -86,13 +86,13 @@ public class ContentValuesSerializer {
     }
     public static ContentValues businessToContentValues(Business business){
         ContentValues values = new ContentValues();
-        values.put("id",business.BusinessID);
-        values.put("name",business.BusinessName);
-        values.put("country",business.BusinessAddress.Country);
-        values.put("city",business.BusinessAddress.City);
-        values.put("street",business.BusinessAddress.Street);
-        values.put("email",business.Email);
-        values.put("url",business.Website.toString());
+        values.put("id",business.getBusinessID());
+        values.put("name",business.getBusinessName());
+        values.put("country",business.getBusinessAddress().getCountry());
+        values.put("city",business.getBusinessAddress().getCity());
+        values.put("street",business.getBusinessAddress().getStreet());
+        values.put("email",business.getEmail());
+        values.put("url",business.getWebsite().toString());
         return values;
     }
 }

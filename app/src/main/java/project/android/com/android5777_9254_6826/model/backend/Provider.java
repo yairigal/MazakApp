@@ -105,7 +105,7 @@ public class Provider extends ContentProvider {
 
         switch(matcher.match(uri)){
             case ACCOUNTS:
-                return db.getAccountList();
+                return db
                 break;
             case BUSINESS:
                 try {

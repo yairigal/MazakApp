@@ -2,6 +2,7 @@ package project.android.com.android5777_9254_6826.model.backend;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.net.Uri;
 
 import java.net.URL;
@@ -44,13 +45,21 @@ public class ListDatabase implements Backend {
     }
 
     @Override
-    public ArrayList<Account> getAccountList() {
-        return accountList;
+    public ArrayList<Account> getAccountList() {return accountList;}
+
+    public Cursor CgetAccountList() {
+        Account acc;
+
+        MatrixCursor accountCursor = new MatrixCursor(new String[]{"AccountNumber","UserName", "Password"});
+
+        for (int i =0; i < accountList.size();i++){
+            acc = accountList.get(i);
+            accountCursor.addRow(new Object[]{acc.getAccountNumber(),acc.getUserName(),acc.getPassword()});
+        }
+        return accountCursor;
     }
 
-    public Cursor CgetAccountList(){
-        return null;
-    }
+
 
     @Override
     public Account getAccount(long id) throws Exception {
@@ -58,7 +67,7 @@ public class ListDatabase implements Backend {
         //running on the list trying to find.
         for (int i = 0; i < accountList.size(); i++) {
             curr = accountList.get(i);
-            if (curr.AccountNumber == id)
+            if (curr.getAccountNumber() == id)
                 break;
         }
         if (curr == null)
@@ -72,7 +81,7 @@ public class ListDatabase implements Backend {
         //running on the list trying to find.
         for (int i = 0; i < accountList.size(); i++) {
             curr = accountList.get(i);
-            if (curr.UserName.equals(username))
+            if (curr.getUserName().equals(username))
                 break;
         }
         if (curr == null)
@@ -86,7 +95,7 @@ public class ListDatabase implements Backend {
         //running on the list trying to find.
         for (int i = 0; i < accountList.size(); i++) {
             curr = accountList.get(i);
-            if (curr.UserName.equals(userName))
+            if (curr.getUserName().equals(userName))
                 return true;
         }
         return false;
@@ -95,7 +104,7 @@ public class ListDatabase implements Backend {
     @Override
     public boolean verifyPassword(String userName, String passToCheck) throws Exception {
         Account curr = getAccount(userName);
-        if (curr.Password.equals(passToCheck))
+        if (curr.getPassword().equals(passToCheck))
             return true;
         return false;
     }
@@ -152,6 +161,20 @@ public class ListDatabase implements Backend {
         return attractionsList;
     }
 
+    public Cursor CgetAttractionList() {
+        Attraction att;
+
+        MatrixCursor attractionCursor = new MatrixCursor(
+                new String[]{"AttractionID","Type", "Country",
+                "StartDate","EndDate","Price","Description","BusinessID"});
+        for (int i =0; i < attractionsList.size();i++){
+            att = attractionsList.get(i);
+            attractionCursor.addRow(new Object[]{att.getAttractionID(),att.getType(),
+            att.getCountry(),att.getStartDate(),att.getEndDate(),
+            att.getPrice(),att.getDescription(),att.getBusinessID()});
+        }
+        return attractionCursor;
+    }
     @Override
     public boolean ifNewAttractionAdded() {
         if (latelyAddedNewAttraction) {
@@ -199,6 +222,20 @@ public class ListDatabase implements Backend {
     public ArrayList<Business> getBusinessList() {
         return businessList;
     }
+
+    public Cursor CgetBusinessList() {
+        Business bus;
+        MatrixCursor businessCursor = new MatrixCursor(
+                new String[]{"BusinessID","BusinessName", "BusinessAddress",
+                        "Email","Website"});
+        for (int i =0; i < businessList.size();i++){
+            bus = businessList.get(i);
+            businessCursor.addRow(new Object[]{bus.getBusinessID(),bus.getBusinessName(),
+            bus.getBusinessAddress(), bus.getEmail(), bus.getWebsite()});
+        }
+        return businessCursor;
+    }
+
 
 
     /**
