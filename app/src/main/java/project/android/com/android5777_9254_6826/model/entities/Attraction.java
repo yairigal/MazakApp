@@ -9,12 +9,13 @@
 //
 //
 package project.android.com.android5777_9254_6826.model.entities;
+import java.io.Serializable;
 import java.util.Date;
 
 import project.android.com.android5777_9254_6826.model.entities.Properties;
 
 
-public class Attraction {
+public class Attraction implements Serializable {
 	private Properties.AttractionType Type;
 	private String Country;
 	private Date StartDate;

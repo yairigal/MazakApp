@@ -108,4 +108,8 @@
     <string name="BusinessesTitle">Businesses</string>
     <string name="title_activity_business">BusinessActivity</string>
     <string name="title_activity_add_attraction">AddAttractionActivity</string>
+    <string name="title_activity_business_page">BusinessPageActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_business_details">BusinessDetailsActivity</string>
+    <string name="title_activity_business_deatils">BusinessDeatilsActivity</string>
 </resources>

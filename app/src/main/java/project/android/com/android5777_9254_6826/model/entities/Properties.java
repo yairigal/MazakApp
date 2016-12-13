@@ -11,8 +11,9 @@
 package project.android.com.android5777_9254_6826.model.entities;
 
 
+import java.io.Serializable;
 
-public class Properties {
+public class Properties implements Serializable {
 	public static enum AttractionType {
 		HotelDeal,
 		TravelAgency,

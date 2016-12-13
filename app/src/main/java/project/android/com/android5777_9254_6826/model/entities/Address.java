@@ -11,8 +11,9 @@
 package project.android.com.android5777_9254_6826.model.entities;
 
 
+import java.io.Serializable;
 
-public class Address {
+public class Address implements Serializable {
 	public Address(String country, String city, String street) {
 		Country = country;
 		City = city;
@@ -51,6 +52,16 @@ public class Address {
 
 	public void setStreet(String street) {
 		Street = street;
+	}
+
+	@Override
+	public String toString(){
+		String toReturn  = "";
+		toReturn+=Street+", ";
+		toReturn+=City+", ";
+		toReturn+=Country+".";
+		return toReturn;
+
 	}
 
 

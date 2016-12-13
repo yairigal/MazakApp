@@ -11,7 +11,9 @@
 package project.android.com.android5777_9254_6826.model.entities;
 
 
-public class Account{
+import java.io.Serializable;
+
+public class Account implements Serializable{
 	public long getAccountNumber() {
 		return AccountNumber;
 	}

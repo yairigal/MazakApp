@@ -23,7 +23,7 @@ import project.android.com.android5777_9254_6826.model.entities.Address;
 import project.android.com.android5777_9254_6826.model.entities.Business;
 
 public interface IBusinessDatabase extends IDatabase {
-	int addNewBusiness(String ID, String Name, Address address, String Email, URL Website);
+	int addNewBusiness(String accountID,String ID, String Name, Address address, String Email, URL Website);
 	int addNewBusiness(Business toInsert);
 	ArrayList<Business> getBusinessList();
 	Cursor CgetBusinessList();
@@ -37,4 +37,5 @@ public interface IBusinessDatabase extends IDatabase {
 			   String[] selectionArgs);
 	Cursor query(Uri uri, String[] projection, String selection,
 				 String[] selectionArgs, String sortOrder);
+	ArrayList<Business> getBusinessList(String AccountID);
 }

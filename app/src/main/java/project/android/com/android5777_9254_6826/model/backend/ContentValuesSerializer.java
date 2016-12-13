@@ -77,6 +77,7 @@ public class ContentValuesSerializer {
         URL url = new URL(values.getAsString("url"));
 
         Business toReturn = new Business(
+                values.getAsString("accountID"),
                 values.getAsString("id"),
                 values.getAsString("name"),
                 adr,
@@ -86,6 +87,7 @@ public class ContentValuesSerializer {
     }
     public static ContentValues businessToContentValues(Business business){
         ContentValues values = new ContentValues();
+        values.put("accountID",business.getAccountID());
         values.put("id",business.getBusinessID());
         values.put("name",business.getBusinessName());
         values.put("country",business.getBusinessAddress().getCountry());

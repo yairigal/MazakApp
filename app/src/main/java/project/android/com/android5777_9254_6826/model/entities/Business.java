@@ -14,75 +14,90 @@ package project.android.com.android5777_9254_6826.model.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Business implements Parcelable {
-	private String BusinessID;
-	private String BusinessName;
-	private Address BusinessAddress;
-	private String Email;
-	private URL Website;
+public class Business implements Serializable {
 
-	public String getBusinessID() {
-		return BusinessID;
-	}
 
-	public void setBusinessID(String businessID) {
-		BusinessID = businessID;
-	}
+    private String AccountID;
+    private String BusinessID;
+    private String BusinessName;
+    private Address BusinessAddress;
+    private String Email;
+    private URL Website;
 
-	public String getBusinessName() {
-		return BusinessName;
-	}
+    public String getAccountID() {
+        return AccountID;
+    }
 
-	public void setBusinessName(String businessName) {
-		BusinessName = businessName;
-	}
+    public void setAccountID(String accountID) {
+        AccountID = accountID;
+    }
 
-	public Address getBusinessAddress() {
-		return BusinessAddress;
-	}
+    public String getBusinessID() {
+        return BusinessID;
+    }
 
-	public void setBusinessAddress(Address businessAddress) {
-		BusinessAddress = businessAddress;
-	}
+    public void setBusinessID(String businessID) {
+        BusinessID = businessID;
+    }
 
-	public String getEmail() {
-		return Email;
-	}
+    public String getBusinessName() {
+        return BusinessName;
+    }
 
-	public void setEmail(String email) {
-		Email = email;
-	}
+    public void setBusinessName(String businessName) {
+        BusinessName = businessName;
+    }
 
-	public URL getWebsite() {
-		return Website;
-	}
+    public Address getBusinessAddress() {
+        return BusinessAddress;
+    }
 
-	public void setWebsite(URL website) {
-		Website = website;
-	}
+    public void setBusinessAddress(Address businessAddress) {
+        BusinessAddress = businessAddress;
+    }
 
-	public Business(String id, String name, Address address, String email, URL website) {
-		BusinessID = id;
-		BusinessName = name;
-		BusinessAddress = address;
-		Email = email;
-		Website = website;
-	}
+    public String getEmail() {
+        return Email;
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    public void setEmail(String email) {
+        Email = email;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(BusinessID);
-		dest.writeString(BusinessName);
-		dest.writeString(Email);
-		dest.writeValue(BusinessAddress);
-		dest.writeValue(Website);
-	}
+    public URL getWebsite() {
+        return Website;
+    }
+
+    public void setWebsite(URL website) {
+        if (website == null)
+            try {
+                Website = new URL("http://www.google.com");
+            } catch (MalformedURLException e) {
+                Log.d("Error in Business:", e.getMessage());
+            }
+        else
+            Website = website;
+    }
+
+    public Business(String accountID,String id, String name, Address address, String email, URL website) {
+        AccountID = accountID;
+        BusinessID = id;
+        BusinessName = name;
+        BusinessAddress = address;
+        Email = email;
+        if (website == null)
+            try {
+                Website = new URL("http://www.google.com");
+            } catch (MalformedURLException e) {
+                Log.d("Error in Business:", e.getMessage());
+            }
+        else
+            Website = website;
+    }
 }

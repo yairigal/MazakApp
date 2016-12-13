@@ -41,6 +41,7 @@ import project.android.com.android5777_9254_6826.R;
 import project.android.com.android5777_9254_6826.model.backend.Backend;
 import project.android.com.android5777_9254_6826.model.backend.FactoryDatabase;
 import project.android.com.android5777_9254_6826.model.backend.service;
+import project.android.com.android5777_9254_6826.model.entities.Account;
 import project.android.com.android5777_9254_6826.model.entities.Business;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -77,6 +78,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public static final String mypreference = "mypref";
     public static final String Password = "passKey";
     public static final String Email = "emailKey";
+    String email,password;
+    Account currentAccount;
+    Backend DB;
 
 
 
@@ -84,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        DB = FactoryDatabase.getDatabase();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -184,8 +189,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        email = mEmailView.getText().toString();
+        password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -389,7 +394,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private void Login(String email, String pass) {
 
-            Backend DB = FactoryDatabase.getDatabase();
             try {
                 //AccountListDB DB = AccountListDB.getDB();
 
@@ -424,10 +428,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             editor.commit();
         }
 
-        private void IntentNextActivity(){
-            Intent Bus = new Intent(getBaseContext(),BusinessesActivity.class);
-            startActivity(Bus);
-        }
+
+    }
+    private void IntentNextActivity(){
+
+        AsyncTask<Void,Void,Void> as = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    Intent Bus = new Intent(getBaseContext(),BusinessesActivity.class);
+                    currentAccount = DB.getAccount(email);
+                    Bus.putExtra("account",currentAccount);
+                    startActivity(Bus);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+        as.execute();
+
     }
 }
 

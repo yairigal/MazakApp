@@ -223,8 +223,8 @@ public class ListDatabase implements Backend {
     }
 
     @Override
-    public int addNewBusiness(String ID, String Name, Address address, String Email, URL Website) {
-        Business a = new Business(ID, Name, address, Email, Website);
+    public int addNewBusiness(String accountID, String ID, String Name, Address address, String Email, URL Website) {
+        Business a = new Business(accountID,ID, Name, address, Email, Website);
         businessList.add(a);
         latelyAddedNewBusiness = true;
         return businessList.indexOf(a);
@@ -317,6 +317,16 @@ public class ListDatabase implements Backend {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         return null;
+    }
+
+    @Override
+    public ArrayList<Business> getBusinessList(String AccountID) {
+        ArrayList<Business> toReturn = new ArrayList<Business>();
+        for(int i=0;i<businessList.size();i++){
+            if(AccountID.equals(businessList.get(i).getAccountID()))
+                toReturn.add(businessList.get(i));
+        }
+        return toReturn;
     }
 
 }
