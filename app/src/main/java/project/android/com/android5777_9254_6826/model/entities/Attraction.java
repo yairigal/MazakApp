@@ -18,14 +18,19 @@ import project.android.com.android5777_9254_6826.model.entities.Properties;
 public class Attraction implements Serializable {
 	private Properties.AttractionType Type;
 	private String Country;
-	private Date StartDate;
-	private Date EndDate;
+	private String StartDate;
+	private String EndDate;
 	private float Price;
 	private String Description;
 	private String BusinessID;
 	private String AttractionID;
 
-	public Attraction(String attractionID,Properties.AttractionType type, String country, Date startDate, Date endDate, float price, String description, String businessID) {
+
+
+	private String AttractionName;
+
+	public Attraction(String attractionID,Properties.AttractionType type,String attractionName,  String country, String startDate, String endDate, float price, String description, String businessID) {
+		AttractionName= attractionName;
 		Type = type;
 		Country = country;
 		StartDate = startDate;
@@ -36,6 +41,13 @@ public class Attraction implements Serializable {
 		AttractionID = attractionID;
 	}
 
+	public String getAttractionName() {
+		return AttractionName;
+	}
+
+	public void setAttractionName(String attractionName) {
+		AttractionName = attractionName;
+	}
 	public Properties.AttractionType getType() {
 		return Type;
 	}
@@ -52,19 +64,19 @@ public class Attraction implements Serializable {
 		Country = country;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return StartDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		StartDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return EndDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		EndDate = endDate;
 	}
 

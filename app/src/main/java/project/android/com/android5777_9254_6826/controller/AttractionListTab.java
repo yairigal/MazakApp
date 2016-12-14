@@ -86,7 +86,7 @@ public class AttractionListTab extends Fragment {
         //TODO need to change this to real AsyncTask and to get attractions by Business
         Attraction[] lst = new Attraction[20];
         for(int i = 0;i<20;i++){
-            lst[i] = new Attraction("12345", Properties.AttractionType.Airline,"israel",new Date(),new Date(),500,"Hello my name is Yair","12345");
+            lst[i] = new Attraction("12345", Properties.AttractionType.Airline,"cool stuff","israel",(new Date()).toString(),new Date().toString(),500,"Hello my name is Yair","12345");
         }
         return lst;
     }

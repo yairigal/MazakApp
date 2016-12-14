@@ -18,6 +18,28 @@ public class Properties implements Serializable {
 		HotelDeal,
 		TravelAgency,
 		EntertainmentShow,
-		Airline
+		Airline;
+		public static int valueof(String str){
+			switch(str){
+				case "HotelDeal":
+					return 0;
+				case "TravelAgency":
+					return 1;
+				case "EntertainmentShow":
+					return 2;
+				case "Airline":
+					return 3;
+				default:
+					return -1;
+
+			}
+
+		}
+		public static String[] getTypes() {
+			return new String[]{"HotelDeal",
+					"TravelAgency",
+					"EntertainmentShow",
+					"Airline"};
+		}
 	}
 }

@@ -142,8 +142,8 @@ public class ListDatabase implements Backend {
      * @return returns true if succeeded , else false;
      */
     @Override
-    public int addNewAttraction(String ID, Properties.AttractionType Type, String Country, Date StartDate, Date EndDate, float Price, String Description, String BusinessID) {
-        Attraction a = new Attraction(ID, Type, Country, StartDate, EndDate, Price, Description, BusinessID);
+    public int addNewAttraction(String ID, Properties.AttractionType Type, String AttractionName, String Country, String StartDate, String EndDate, float Price, String Description, String BusinessID) {
+        Attraction a = new Attraction(ID, Type,AttractionName, Country, StartDate, EndDate, Price, Description, BusinessID);
         attractionsList.add(a);
         latelyAddedNewAttraction = true;
         return attractionsList.indexOf(a);

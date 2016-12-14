@@ -37,18 +37,14 @@ public class ContentValuesSerializer {
     public static Attraction contentValuesToAttraction(ContentValues values){
         DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
         Date dates = null,datee = null;
-        try {
-             dates = (Date) format.parse(values.getAsString("startdate"));
-             datee = (Date) format.parse(values.getAsString("startdate"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
         Attraction toReturn = new Attraction(
                 values.getAsString("attractionid"),
                 (Properties.AttractionType.valueOf(values.getAsString("type"))),
+                values.getAsString("attractionname"),
                 values.getAsString("country"),
-                dates,
-                datee,
+                values.getAsString("startdate"),
+                values.getAsString("startdate"),
                 values.getAsFloat("price"),
                 values.getAsString("description"),
                 values.getAsString("businessid"));

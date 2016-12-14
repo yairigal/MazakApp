@@ -14,7 +14,7 @@
         android:text="Business ID:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/editText"
+        android:layout_alignTop="@+id/AttractionID"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="11dp"
@@ -27,7 +27,7 @@
         android:inputType="numberSigned"
         android:ems="10"
         android:layout_marginTop="34dp"
-        android:id="@+id/editText"
+        android:id="@+id/AttractionID"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/AttractionID"
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
         android:layout_marginTop="12dp" />
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/AttractionName"
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3" />
 
@@ -57,7 +57,7 @@
         android:inputType="textPersonName"
         android:text="Name"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/AttractionName"
         android:layout_alignTop="@+id/textView3"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -118,7 +118,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="26dp"
-        android:id="@+id/button"
+        android:id="@+id/AddAttButton"
         android:layout_below="@+id/textView8"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -129,9 +129,9 @@
         android:inputType="textPostalAddress"
         android:ems="10"
         android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/editText2"
-        android:layout_alignStart="@+id/editText2"
-        android:id="@+id/editText6" />
+        android:layout_alignLeft="@+id/AttractionName"
+        android:layout_alignStart="@+id/AttractionName"
+        android:id="@+id/AttStartDate" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
         android:layout_below="@+id/textView6"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/editText4" />
+        android:id="@+id/AttDescription" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -150,9 +150,9 @@
         android:text="Name"
         android:ems="10"
         android:layout_alignTop="@+id/textView8"
-        android:layout_alignLeft="@+id/editText4"
-        android:layout_alignStart="@+id/editText4"
-        android:id="@+id/editText5" />
+        android:layout_alignLeft="@+id/AttDescription"
+        android:layout_alignStart="@+id/AttDescription"
+        android:id="@+id/AttEndDate" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
         android:inputType="textPostalAddress"
         android:ems="10"
         android:id="@+id/editText7"
-        android:layout_below="@+id/editText6"
+        android:layout_below="@+id/AttStartDate"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
