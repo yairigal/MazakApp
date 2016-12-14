@@ -1,5 +1,6 @@
 package project.android.com.android5777_9254_6826.controller;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,6 +25,8 @@ import project.android.com.android5777_9254_6826.model.entities.Business;
 
 public class BusinessDeatilsActivity extends AppCompatActivity {
 
+    Business currentBusiness;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -43,7 +46,7 @@ public class BusinessDeatilsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_deatils);
-
+        currentBusiness = getBusinessFromIntent();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -54,18 +57,19 @@ public class BusinessDeatilsActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+    }
 
+    private void moveToAttractionActivity() {
+        Intent intent = new Intent(getBaseContext(),AddAttractionActivity.class);
+        startActivity(intent);
+    }
+
+    private Business getBusinessFromIntent() {
+        return (Business) getIntent().getSerializableExtra("business");
     }
 
 
@@ -124,7 +128,6 @@ public class BusinessDeatilsActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             //TODO get business object from BusinessActivity
-            BusinessActivity.context.se
             View rootView = inflater.inflate(R.layout.content_business_details, container, false);
             return rootView;
         }
@@ -144,7 +147,20 @@ public class BusinessDeatilsActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position);
+            switch (position){
+                case 0:
+                    BusinessDetailsTab tab1 = new BusinessDetailsTab();
+                    tab1.setBusiness(currentBusiness);
+                    return tab1;
+                case 1:
+                    AttractionListTab tab2 = new AttractionListTab();
+                    tab2.setBusiness(currentBusiness);
+                    return tab2;
+                default:
+                    BusinessDetailsTab tab3 = new BusinessDetailsTab();
+                    tab3.setBusiness(currentBusiness);
+                    return tab3;
+            }
         }
 
         @Override
@@ -157,11 +173,9 @@ public class BusinessDeatilsActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Business Details";
                 case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
+                    return "Attractions";
             }
             return null;
         }

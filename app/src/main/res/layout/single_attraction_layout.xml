@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/attractionIDTV"
+        android:layout_weight="1"
+        android:text="12345"
+        android:textStyle="normal|bold"
+        android:textSize="20sp" />
+
+    <TextView
+        android:text="Date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/attractionIDTV"
+        android:id="@+id/DateTV"
+        android:textAlignment="textEnd" />
+
+    <TextView
+        android:text="Price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/DateTV"
+        android:layout_toRightOf="@id/attractionIDTV"
+        android:id="@+id/PriceTV"
+        android:textAlignment="textEnd" />
+
+    <TextView
+        android:text="short sentence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DescriptionTV"
+        android:layout_below="@+id/attractionIDTV"
+        android:textSize="12sp"
+        android:textAlignment="center" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/DescriptionTV"
+        android:background="@android:color/darker_gray"/>
+
+
+</RelativeLayout>
