@@ -1,13 +1,18 @@
 package project.android.com.android5777_9254_6826.controller;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,18 +26,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Date;
+import java.util.Locale;
 
 import project.android.com.android5777_9254_6826.R;
 import project.android.com.android5777_9254_6826.model.backend.Backend;
@@ -44,6 +52,7 @@ import project.android.com.android5777_9254_6826.model.entities.Properties;
 
 import static android.R.attr.type;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class AddAttractionActivity extends AppCompatActivity {
 
 
@@ -59,6 +68,7 @@ public class AddAttractionActivity extends AppCompatActivity {
     String type;
     Attraction att;
     int TextIDClicked;
+    Calendar myCalendar = Calendar.getInstance();
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -66,6 +76,7 @@ public class AddAttractionActivity extends AppCompatActivity {
      */
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,35 +110,39 @@ public class AddAttractionActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                type =  parent.getItemAtPosition(0).toString();
+                type = parent.getItemAtPosition(0).toString();
 
             }
         });
+        datePickerPopup();
 
 
         // popup for calendar
-        StartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextIDClicked = v.getId();
-                showPopup(AddAttractionActivity.this);
+        /** StartDate.setOnClickListener(new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override public void onClick(View v) {
+        TextIDClicked = v.getId();
+        //showPopup(AddAttractionActivity.this);
+        datePickerPopup();
 
-            }
+        }
         });
-        EndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextIDClicked = v.getId();
-                showPopup(AddAttractionActivity.this);
+         EndDate.setOnClickListener(new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override public void onClick(View v) {
+        TextIDClicked = v.getId();
+        //showPopup(AddAttractionActivity.this);
+        datePickerPopup();
 
-            }
+        }
         });
+         */
         Button addatt = (Button) findViewById(R.id.AddAttButton);
         addatt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(datesAreOK() && restIsFilledOut()){
+                if (datesAreOK() && restIsFilledOut()) {
                     att = new Attraction(attractionID.toString(),
                             Properties.AttractionType.valueOf(type),
                             attractionName.toString(),
@@ -144,16 +159,13 @@ public class AddAttractionActivity extends AppCompatActivity {
                         }
                     }.execute();
 
-                    Snackbar.make(v, "Business Added!", Snackbar.LENGTH_SHORT).isShown();
+                    Toast.makeText(getApplicationContext(), "Business Added!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(), BusinessesActivity.class);
                     intent.putExtra("business", currentbusiness);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     Snackbar.make(v, "Your input is not compatible, please check!", Snackbar.LENGTH_SHORT).isShown();
                 }
-
-
             }
 
         });
@@ -162,25 +174,24 @@ public class AddAttractionActivity extends AppCompatActivity {
     }
 
     private boolean restIsFilledOut() {
-        return attractionID.toString().length()>0&&
-                (type.toString()).length()>0&&
-                attractionName.toString().length()>0&&
-                Country.toString().length()>0&&
-                StartDate.toString().length()>0&&
-                EndDate.toString().length()>0&&
-                        (Price.toString()).length()>0&&
-                Description.toString().length()>0;
+        return attractionID.toString().length() > 0 &&
+                (type.toString()).length() > 0 &&
+                attractionName.toString().length() > 0 &&
+                Country.toString().length() > 0 &&
+                StartDate.toString().length() > 0 &&
+                EndDate.toString().length() > 0 &&
+                (Price.toString()).length() > 0 &&
+                Description.toString().length() > 0;
 
     }
 
     private boolean datesAreOK() {
-    String[] strt = StartDate.getText().toString().split("/");
-    String[] end = EndDate.getText().toString().split("/");
-    Date start = new Date(Integer.parseInt(strt[0]),Integer.parseInt(strt[1]),Integer.parseInt(strt[2]));
-    Date ende = new Date(Integer.parseInt(strt[0]),Integer.parseInt(strt[1]),Integer.parseInt(strt[1]));
-    return (ende.after(start) || ende.equals(start)) && start.after(new Date());
+        String[] strt = StartDate.getText().toString().split("/");
+        String[] end = EndDate.getText().toString().split("/");
+        Date start = new Date(Integer.parseInt(strt[0]), Integer.parseInt(strt[1]), Integer.parseInt(strt[2]));
+        Date ende = new Date(Integer.parseInt(strt[0]), Integer.parseInt(strt[1]), Integer.parseInt(strt[1]));
+        return (ende.after(start) || ende.equals(start)) && start.after(new Date());
     }
-
 
     private void showPopup(Activity context) {
 
@@ -221,6 +232,57 @@ public class AddAttractionActivity extends AppCompatActivity {
             }
         });
         popupWindow.showAtLocation(layout, Gravity.TOP, 5, 170);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void datePickerPopup() {
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(TextIDClicked);
+            }
+
+        };
+
+        StartDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(AddAttractionActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                TextIDClicked = StartDate.getId();
+            }
+        });
+        EndDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(AddAttractionActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                TextIDClicked = EndDate.getId();
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void updateLabel(int TextViewID) {
+
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        if (TextViewID == StartDate.getId())
+            StartDate.setText(sdf.format(myCalendar.getTime()));
+        else
+            EndDate.setText(sdf.format(myCalendar.getTime()));
     }
 
     private Business getBusinessFromIntent() {
