@@ -109,7 +109,8 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:clickable="true"
-        android:showWeekNumber="false" />
+        android:showWeekNumber="false"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>

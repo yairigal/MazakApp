@@ -56,7 +56,7 @@ public class AddAttractionActivity extends AppCompatActivity {
     TextView Description;
     TextView Price;
     Spinner spinner;
-    TextView type;
+    String type;
     Attraction att;
     int TextIDClicked;
 
@@ -94,12 +94,12 @@ public class AddAttractionActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                type = (EditText) parent.getItemAtPosition(position);
+                type = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                type = (EditText) parent.getItemAtPosition(0);
+                type =  parent.getItemAtPosition(0).toString();
 
             }
         });
@@ -129,7 +129,7 @@ public class AddAttractionActivity extends AppCompatActivity {
 
                 if(datesAreOK() && restIsFilledOut()){
                     att = new Attraction(attractionID.toString(),
-                            Properties.AttractionType.valueOf(type.toString()),
+                            Properties.AttractionType.valueOf(type),
                             attractionName.toString(),
                             Country.toString(),
                             StartDate.toString(),
