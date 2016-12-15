@@ -43,6 +43,7 @@ public class service extends Service {
 
     public void onDestroy() {
         super.onDestroy();
+        stopCheck();
     }
 
     boolean toStop = false;

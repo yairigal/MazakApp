@@ -3,6 +3,7 @@ package project.android.com.android5777_9254_6826.controller;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -448,6 +449,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         };
         as.execute();
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        stopService(new Intent(this,service.class));
     }
 }
 
