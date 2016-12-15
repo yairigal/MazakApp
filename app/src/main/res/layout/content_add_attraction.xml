@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_add_attraction"
@@ -9,9 +9,115 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="60"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="project.android.com.android5777_9254_6826.controller.AddAttractionActivity"
     tools:showIn="@layout/activity_add_attraction">
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <AutoCompleteTextView
+            android:hint="Enter Attraction-Name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:text=""
+            android:ems="10"
+            android:id="@+id/AttractionName" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <AutoCompleteTextView
+            android:hint="Enter Country here"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPostalAddress"
+            android:ems="10"
+            android:id="@+id/AttractionCountry"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <AutoCompleteTextView
+            android:hint="StartDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPostalAddress"
+            android:ems="10"
+            android:id="@+id/AttStartDate"
+            android:focusable="false" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <AutoCompleteTextView
+            android:hint="End Date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:text=""
+            android:ems="10"
+            android:id="@+id/AttEndDate"
+            android:focusable="false" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <AutoCompleteTextView
+            android:hint="Enter Price here"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/AttPrice" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <MultiAutoCompleteTextView
+            android:hint="Write description here"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/AttDescription" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:spinnerMode="dialog"
+        android:theme="@style/Widget.AppCompat.TextView.SpinnerItem" />
 
     <Button
         android:text="Add"
@@ -20,103 +126,12 @@
         android:layout_marginRight="15dp"
         android:layout_marginEnd="15dp"
         android:id="@+id/AddAttButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:hint="Enter Price here"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/AttPrice"
-        android:layout_above="@+id/AddAttButton"
-        android:layout_alignLeft="@+id/AttDescription"
-        android:layout_alignStart="@+id/AttDescription"
-        android:layout_marginBottom="17dp" />
-
-    <EditText
-        android:hint="Put discreption here"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/AttDescription"
-        android:layout_above="@+id/AttPrice"
-        android:layout_alignLeft="@+id/AttractionName"
-        android:layout_alignStart="@+id/AttractionName" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/AttractionName"
-        android:layout_alignLeft="@+id/AttractionName"
-        android:layout_alignStart="@+id/AttractionName"
-        android:layout_alignRight="@+id/AttractionName"
-        android:layout_alignEnd="@+id/AttractionName" />
-
-    <EditText
-        android:hint="Enter Attraction-Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text=""
-        android:ems="10"
-        android:id="@+id/AttractionName"
-        android:layout_marginTop="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:hint="StartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/AttStartDate"
-        android:layout_below="@+id/AttractionCountry"
-        android:layout_alignLeft="@+id/AttractionCountry"
-        android:layout_alignStart="@+id/AttractionCountry"
-        android:layout_marginTop="29dp"
-        android:focusable="false" />
-
-    <EditText
-        android:hint="EndDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text=""
-        android:ems="10"
-        android:id="@+id/AttEndDate"
-        android:layout_above="@+id/AttDescription"
-        android:layout_alignLeft="@+id/AttDescription"
-        android:layout_alignStart="@+id/AttDescription"
-        android:layout_marginBottom="14dp"
-        android:focusable="false" />
-
-    <EditText
-        android:hint="Enter Country here"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/AttractionCountry"
-        android:layout_marginTop="36dp"
-        android:layout_below="@+id/spinner"
-        android:layout_alignLeft="@+id/AttractionName"
-        android:layout_alignStart="@+id/AttractionName" />
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:clickable="true"
-        android:showWeekNumber="false"
-        android:visibility="invisible" />
+        android:textAlignment="center"
+        android:layout_gravity="right"/>
 
 
 
-</RelativeLayout>
+
+
+</LinearLayout>
 

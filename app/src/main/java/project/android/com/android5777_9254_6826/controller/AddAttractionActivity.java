@@ -209,28 +209,6 @@ public class AddAttractionActivity extends AppCompatActivity {
         popupWindow.setOutsideTouchable(false);
         // Clear the default translucent background
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
-
-        CalendarView cv = (CalendarView) layout.findViewById(R.id.calendarView);
-        cv.setBackgroundColor(Color.BLUE);
-
-        cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month,
-                                            int dayOfMonth) {
-                // TODO Auto-generated method stub, i think i dit it
-
-                if (TextIDClicked == StartDate.getId()) {
-                    StartDate.setText(dayOfMonth + "/" + month + "/" + year);
-                }
-                if (TextIDClicked == EndDate.getId()) {
-                    EndDate.setText(dayOfMonth + "/" + month + "/" + year);
-                }
-                popupWindow.dismiss();
-                Log.d("date selected", "date selected " + year + " " + month + " " + dayOfMonth);
-
-            }
-        });
         popupWindow.showAtLocation(layout, Gravity.TOP, 5, 170);
     }
 
