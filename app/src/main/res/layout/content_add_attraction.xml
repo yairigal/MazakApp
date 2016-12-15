@@ -78,7 +78,8 @@
         android:layout_below="@+id/AttractionCountry"
         android:layout_alignLeft="@+id/AttractionCountry"
         android:layout_alignStart="@+id/AttractionCountry"
-        android:layout_marginTop="29dp" />
+        android:layout_marginTop="29dp"
+        android:focusable="false" />
 
     <EditText
         android:hint="EndDate"
@@ -91,7 +92,8 @@
         android:layout_above="@+id/AttDescription"
         android:layout_alignLeft="@+id/AttDescription"
         android:layout_alignStart="@+id/AttDescription"
-        android:layout_marginBottom="14dp" />
+        android:layout_marginBottom="14dp"
+        android:focusable="false" />
 
     <EditText
         android:hint="Enter Country here"
