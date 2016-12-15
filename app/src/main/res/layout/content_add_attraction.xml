@@ -104,6 +104,12 @@
         android:layout_below="@+id/spinner"
         android:layout_alignLeft="@+id/AttractionName"
         android:layout_alignStart="@+id/AttractionName" />
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:clickable="true"
+        android:showWeekNumber="false" />
 
 
 </RelativeLayout>
