@@ -159,7 +159,7 @@ public class AddAttractionActivity extends AppCompatActivity {
                         }
                     }.execute();
 
-                    Snackbar.make(v, "Business Added!", Snackbar.LENGTH_SHORT).isShown();
+                    Toast.makeText(getApplicationContext(), "Business Added!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(), BusinessesActivity.class);
                     intent.putExtra("business", currentbusiness);
                     startActivity(intent);
