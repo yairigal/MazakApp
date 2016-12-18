@@ -1,7 +1,6 @@
 <application>
   <component name="GithubSettings">
-    <option name="LOGIN" value="AlexDreyfuss" />
+    <option name="LOGIN" value="yigalyairn@gmail.com" />
     <option name="AUTH_TYPE" value="BASIC" />
-    <option name="VALID_GIT_AUTH" value="false" />
   </component>
 </application>
