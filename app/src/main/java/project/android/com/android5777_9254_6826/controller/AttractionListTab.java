@@ -1,6 +1,7 @@
 package project.android.com.android5777_9254_6826.controller;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import project.android.com.android5777_9254_6826.R;
+import project.android.com.android5777_9254_6826.model.backend.Backend;
+import project.android.com.android5777_9254_6826.model.backend.FactoryDatabase;
 import project.android.com.android5777_9254_6826.model.entities.Attraction;
 import project.android.com.android5777_9254_6826.model.entities.Business;
 import project.android.com.android5777_9254_6826.model.entities.Properties;
@@ -27,15 +31,25 @@ import project.android.com.android5777_9254_6826.model.entities.Properties;
 public class AttractionListTab extends Fragment {
 
     Business currentBusiness;
+    Backend db;
+    View rootView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //TODO get business object from BusinessActivity
-        View rootView = inflater.inflate(R.layout.content_attractions, container, false);
+        db = FactoryDatabase.getDatabase();
+        rootView = inflater.inflate(R.layout.content_attractions, container, false);
         initItemByListView(rootView);
         init(rootView);
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initItemByListView(rootView);
+    }
+
     public void setBusiness(Business toUpdate){
         currentBusiness = toUpdate;
     }
@@ -84,11 +98,29 @@ public class AttractionListTab extends Fragment {
 
     private Attraction[] getAttractionListAsyncTask() {
         //TODO need to change this to real AsyncTask and to get attractions by Business
-        Attraction[] lst = new Attraction[20];
-        for(int i = 0;i<20;i++){
-            lst[i] = new Attraction("12345", Properties.AttractionType.Airline,"cool stuff","israel",(new Date()).toString(),new Date().toString(),500,"Hello my name is Yair","12345");
+        AsyncTask<Void,Void,Attraction[]> asyncTask = new AsyncTask<Void, Void, Attraction[]>() {
+            @Override
+            protected Attraction[] doInBackground(Void... params) {
+                return getList(db.getAttractionList(currentBusiness.getBusinessID()));
+            }
+        };
+        asyncTask.execute();
+        try {
+            return asyncTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-        return lst;
+        return null;
+    }
+
+    private Attraction[] getList(ArrayList<Attraction> bs) {
+        Attraction[] toReturn = new Attraction[bs.size()];
+        for (int i = 0; i < bs.size(); i++) {
+            toReturn[i] = bs.get(i);
+        }
+        return toReturn;
     }
 
     private void init(View v){

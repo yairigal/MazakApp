@@ -41,6 +41,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.text.ParseException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -143,7 +144,7 @@ public class AddAttractionActivity extends AppCompatActivity {
         }
         });
          */
-        Button addatt = (Button) findViewById(R.id.AddAttButton);
+        final Button addatt = (Button) findViewById(R.id.AddAttButton);
         addatt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,19 +162,31 @@ public class AddAttractionActivity extends AppCompatActivity {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... params) {
+                            //this function disables the add button
+                            publishProgress();
                             db.addNewAttraction(ty,attname,country,Std,End,price,disc,id);
                             return null;
                         }
+
+                        @Override
+                        protected void onProgressUpdate(Void... values) {
+                            super.onProgressUpdate(values);
+                            addatt.setEnabled(false);
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            Toast.makeText(homeactivity, "Attraction Added!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
                     }.execute();
+                    //Intent intent = new Intent(getBaseContext(), BusinessesActivity.class);
+                   //intent.putExtra("business", currentbusiness);
+                    //intent.putExtra("account", currentacoount);
 
-                    Toast.makeText(homeactivity, "Business Added!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getBaseContext(), BusinessesActivity.class);
-                    intent.putExtra("business", currentbusiness);
-                    intent.putExtra("account", currentacoount);
-
-                    startActivity(intent);
                 } else {
-                    Snackbar.make(v, "Your input is not compatible, please check!", Snackbar.LENGTH_SHORT).isShown();
+                    Snackbar.make(v, "Your input is not compatible, please check!", Snackbar.LENGTH_SHORT).show();
                 }
             }
 
@@ -195,21 +208,27 @@ public class AddAttractionActivity extends AppCompatActivity {
     }
 
     private boolean datesAreOK() {
-        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
-        String startDate = StartDate.getText().toString();
-        String endDate = EndDate.getText().toString();
-
-        Date start = new Date();
-        Date ende= new Date();
+        String[] strt = StartDate.getText().toString().split("/");
+        String[] end = EndDate.getText().toString().split("/");
+        java.text.DateFormat format = new java.text.SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        Date start = null,ende = null;
         try {
-            start = df.parse(startDate);
-            ende = df.parse(endDate);
-
+            start = format.parse(StartDate.getText().toString());
+            ende = format.parse(EndDate.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //return true;
-        return (ende.after(start) || ende.equals(start));/* && start.after(new Date()*/
+        Date d = new Date();
+        try {
+            if(ende.after(start) || ende.equals(start))
+                if(start.after(d))
+                    return true;
+            return false;
+        }
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 
     private void showPopup(Activity context) {

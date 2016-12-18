@@ -170,6 +170,16 @@ public class ListDatabase implements Backend {
         return attractionsList;
     }
 
+    @Override
+    public ArrayList<Attraction> getAttractionList(String BusinessID) {
+        ArrayList<Attraction> nw = new ArrayList<>();
+        for(int i = 0;i<attractionsList.size();i++){
+            if(attractionsList.get(i).getBusinessID().equals(BusinessID))
+                nw.add(attractionsList.get(i));
+        }
+        return nw;
+    }
+
     public Cursor CgetAttractionList() {
         Attraction att;
 
