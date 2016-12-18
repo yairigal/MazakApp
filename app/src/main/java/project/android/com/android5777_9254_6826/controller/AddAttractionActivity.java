@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -39,6 +40,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -46,6 +48,7 @@ import project.android.com.android5777_9254_6826.R;
 import project.android.com.android5777_9254_6826.model.backend.Backend;
 import project.android.com.android5777_9254_6826.model.backend.FactoryDatabase;
 import project.android.com.android5777_9254_6826.model.backend.Provider;
+import project.android.com.android5777_9254_6826.model.entities.Account;
 import project.android.com.android5777_9254_6826.model.entities.Attraction;
 import project.android.com.android5777_9254_6826.model.entities.Business;
 import project.android.com.android5777_9254_6826.model.entities.Properties;
@@ -57,7 +60,7 @@ public class AddAttractionActivity extends AppCompatActivity {
 
 
     Backend db;
-    TextView attractionID;
+
     TextView attractionName;
     TextView Country;
     TextView StartDate;
@@ -69,7 +72,9 @@ public class AddAttractionActivity extends AppCompatActivity {
     Attraction att;
     int TextIDClicked;
     Calendar myCalendar = Calendar.getInstance();
+    Account currentacoount;
 
+    Context homeactivity;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -81,6 +86,7 @@ public class AddAttractionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FactoryDatabase.getDatabase();
+        homeactivity = this;
         setContentView(R.layout.activity_add_attraction);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -142,26 +148,29 @@ public class AddAttractionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (datesAreOK() && restIsFilledOut()) {
-                    att = new Attraction(attractionID.toString(),
-                            Properties.AttractionType.valueOf(type),
-                            attractionName.toString(),
-                            Country.toString(),
-                            StartDate.toString(),
-                            EndDate.toString(),
-                            Float.valueOf(Price.toString()),
-                            Description.toString(), currentbusiness.getBusinessID());
+                if ( restIsFilledOut() && datesAreOK() ) {
+                    final Properties.AttractionType ty =Properties.AttractionType.valueOf(type);
+                    final String attname =attractionName.getText().toString();
+                    final String country =Country.getText().toString();
+                    final String Std =StartDate.getText().toString();
+                    final String End =EndDate.getText().toString();
+                    final Float price =  Float.valueOf(Price.getText().toString());
+                    final String disc = Description.getText().toString();
+                    final String id = currentbusiness.getBusinessID();
+
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... params) {
-                            db.addNewAttraction(att);
+                            db.addNewAttraction(ty,attname,country,Std,End,price,disc,id);
                             return null;
                         }
                     }.execute();
 
-                    Toast.makeText(getApplicationContext(), "Business Added!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(homeactivity, "Business Added!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(), BusinessesActivity.class);
                     intent.putExtra("business", currentbusiness);
+                    intent.putExtra("account", currentacoount);
+
                     startActivity(intent);
                 } else {
                     Snackbar.make(v, "Your input is not compatible, please check!", Snackbar.LENGTH_SHORT).isShown();
@@ -174,23 +183,33 @@ public class AddAttractionActivity extends AppCompatActivity {
     }
 
     private boolean restIsFilledOut() {
-        return attractionID.toString().length() > 0 &&
-                (type.toString()).length() > 0 &&
-                attractionName.toString().length() > 0 &&
-                Country.toString().length() > 0 &&
-                StartDate.toString().length() > 0 &&
-                EndDate.toString().length() > 0 &&
-                (Price.toString()).length() > 0 &&
-                Description.toString().length() > 0;
+        return
+                type.length() > 0 &&
+                attractionName.getText().toString().length() > 0 &&
+                Country.getText().toString().length() > 0 &&
+                StartDate.getText().toString().length() > 0 &&
+                EndDate.getText().toString().length() > 0 &&
+                Price.getText().toString().length() > 0 &&
+                Description.getText().toString().length() > 0;
 
     }
 
     private boolean datesAreOK() {
-        String[] strt = StartDate.getText().toString().split("/");
-        String[] end = EndDate.getText().toString().split("/");
-        Date start = new Date(Integer.parseInt(strt[0]), Integer.parseInt(strt[1]), Integer.parseInt(strt[2]));
-        Date ende = new Date(Integer.parseInt(strt[0]), Integer.parseInt(strt[1]), Integer.parseInt(strt[1]));
-        return (ende.after(start) || ende.equals(start)) && start.after(new Date());
+        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        String startDate = StartDate.getText().toString();
+        String endDate = EndDate.getText().toString();
+
+        Date start = new Date();
+        Date ende= new Date();
+        try {
+            start = df.parse(startDate);
+            ende = df.parse(endDate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //return true;
+        return (ende.after(start) || ende.equals(start));/* && start.after(new Date()*/
     }
 
     private void showPopup(Activity context) {
@@ -266,6 +285,7 @@ public class AddAttractionActivity extends AppCompatActivity {
     private Business getBusinessFromIntent() {
         Intent intent = getIntent();
         Business toReturn = (Business) intent.getSerializableExtra("business");
+        currentacoount = (Account) intent.getSerializableExtra("account");
         return toReturn;
     }
 }

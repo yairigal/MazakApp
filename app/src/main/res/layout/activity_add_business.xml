@@ -10,167 +10,83 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="project.android.com.android5777_9254_6826.controller.AddBusinessActivity">
 
-    <TextView
-        android:text="Business ID:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/AttractionID"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:id="@+id/textView2" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberSigned"
-        android:ems="10"
-        android:layout_marginTop="34dp"
-        android:id="@+id/AttractionID"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:text="Business Name:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/AttractionID"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_marginTop="12dp" />
-
-    <TextView
-        android:text="Address:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_below="@+id/AttractionName"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:id="@+id/AttractionName"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:text="Country:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:layout_below="@+id/textView"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3"
-        android:layout_marginTop="17dp" />
-
-    <TextView
-        android:text="City:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/textView4"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4" />
-
-    <TextView
-        android:text="Street:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/textView5"
-        android:layout_alignStart="@+id/textView5" />
-
-    <TextView
-        android:text="Email:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView7"
-        android:layout_below="@+id/textView6"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="12dp" />
-
-    <TextView
-        android:text="Website:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView8"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/textView7"
-        android:layout_alignLeft="@+id/textView7"
-        android:layout_alignStart="@+id/textView7" />
-
-    <Button
-        android:text="Add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="26dp"
-        android:id="@+id/AddAttButton"
-        android:layout_below="@+id/textView8"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/AttractionName"
-        android:layout_alignStart="@+id/AttractionName"
-        android:id="@+id/AttStartDate" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:layout_below="@+id/textView6"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/AttDescription" />
+        android:id="@+id/EmailId"
+        android:layout_above="@+id/AddAttButton"
+        android:layout_centerHorizontal="true"
+        android:hint="Enter Business-Email" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/WebId"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/EmailId"
+        android:layout_alignLeft="@+id/EmailId"
+        android:layout_alignStart="@+id/EmailId"
+        android:hint="Enter Business-Website" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/CityId"
+        android:layout_above="@+id/CountryId"
+        android:layout_alignLeft="@+id/CountryId"
+        android:layout_alignStart="@+id/CountryId"
+        android:layout_marginBottom="22dp"
+        android:hint="Enter City" />
+
+    <Button
+        android:text="Add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AddAttButton"
+        android:layout_marginBottom="26dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:layout_alignTop="@+id/textView8"
-        android:layout_alignLeft="@+id/AttDescription"
-        android:layout_alignStart="@+id/AttDescription"
-        android:id="@+id/AttEndDate" />
+        android:id="@+id/BusinessNameId"
+        android:layout_marginBottom="21dp"
+        android:layout_above="@+id/StreetId"
+        android:layout_alignLeft="@+id/StreetId"
+        android:layout_alignStart="@+id/StreetId"
+        android:hint="Enter Business-Name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/StreetId"
+        android:layout_marginBottom="34dp"
+        android:layout_above="@+id/CityId"
+        android:layout_alignLeft="@+id/CityId"
+        android:layout_alignStart="@+id/CityId"
+        android:hint="Enter Street" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
-        android:id="@+id/editText7"
-        android:layout_below="@+id/AttStartDate"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/CountryId"
+        android:layout_marginBottom="17dp"
+        android:layout_above="@+id/WebId"
+        android:layout_alignLeft="@+id/WebId"
+        android:layout_alignStart="@+id/WebId"
+        android:hint="Enter Country" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/editText3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/editText7" />
 </RelativeLayout>

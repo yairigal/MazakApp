@@ -103,6 +103,7 @@ public class AttractionListTab extends Fragment {
 
     private void moveToAttractionActivity() {
         Intent intent = new Intent(getContext(),AddAttractionActivity.class);
+        intent.putExtra("business",currentBusiness);
         startActivity(intent);
     }
 }

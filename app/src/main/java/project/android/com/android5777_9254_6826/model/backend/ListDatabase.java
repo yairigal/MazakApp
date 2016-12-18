@@ -8,6 +8,7 @@ import android.net.Uri;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import project.android.com.android5777_9254_6826.model.datasource.IAccountDatabase;
 import project.android.com.android5777_9254_6826.model.datasource.IAttractionDatabase;
@@ -17,6 +18,8 @@ import project.android.com.android5777_9254_6826.model.entities.Address;
 import project.android.com.android5777_9254_6826.model.entities.Attraction;
 import project.android.com.android5777_9254_6826.model.entities.Business;
 import project.android.com.android5777_9254_6826.model.entities.Properties;
+
+import static android.os.Build.ID;
 
 /**
  * Created by Yair on 2016-11-27.
@@ -28,6 +31,9 @@ public class ListDatabase implements Backend {
     private static ArrayList<Business> businessList = new ArrayList<Business>();
     private static ArrayList<Attraction> attractionsList = new ArrayList<Attraction>();
     private static long AccountNumber = 0;
+    private static long BusinessNumber = 0;
+    private static long AttractionNumber = 0;
+
     private boolean latelyAddedNewAttraction;
     private boolean latelyAddedNewBusiness;
 
@@ -142,8 +148,9 @@ public class ListDatabase implements Backend {
      * @return returns true if succeeded , else false;
      */
     @Override
-    public int addNewAttraction(String ID, Properties.AttractionType Type, String AttractionName, String Country, String StartDate, String EndDate, float Price, String Description, String BusinessID) {
-        Attraction a = new Attraction(ID, Type,AttractionName, Country, StartDate, EndDate, Price, Description, BusinessID);
+    public int addNewAttraction(Properties.AttractionType Type, String AttractionName, String Country, String StartDate, String EndDate, float Price, String Description, String BusinessID) {
+        String id = Long.toString(++AccountNumber);
+        Attraction a = new Attraction(id, Type,AttractionName, Country, StartDate, EndDate, Price, Description, BusinessID);
         attractionsList.add(a);
         latelyAddedNewAttraction = true;
         return attractionsList.indexOf(a);
@@ -223,8 +230,8 @@ public class ListDatabase implements Backend {
     }
 
     @Override
-    public int addNewBusiness(String accountID, String ID, String Name, Address address, String Email, URL Website) {
-        Business a = new Business(accountID,ID, Name, address, Email, Website);
+    public int addNewBusiness(String accountID,  String Name, Address address, String Email, URL Website) {
+        Business a = new Business(accountID,Long.toString(++BusinessNumber), Name, address, Email, Website);
         businessList.add(a);
         latelyAddedNewBusiness = true;
         return businessList.indexOf(a);
