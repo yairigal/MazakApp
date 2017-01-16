@@ -55,4 +55,7 @@
     <option name="KEYWORD_SUBSTITUTION_WRAPPERS" value="" />
     <option name="MAKE_NEW_FILES_READ_ONLY" value="false" />
   </component>
+  <component name="RefactoringSettings">
+    <option name="MOVE_PREVIEW_USAGES" value="false" />
+  </component>
 </application>
