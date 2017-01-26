@@ -2,5 +2,6 @@
   <component name="CodeInsightSettings">
     <option name="AUTO_POPUP_JAVADOC_INFO" value="true" />
     <option name="COMPLETION_CASE_SENSITIVE" value="2" />
+    <EXCLUDED_PACKAGE NAME="java.util.Date" />
   </component>
 </application>
