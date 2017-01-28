@@ -1,7 +1,7 @@
 <application>
   <component name="FindSettings">
-    <option name="customScope" value="Selection" />
-    <option name="defaultScopeName" value="Selection" />
-    <option name="SEARCH_SCOPE" value="Selection" />
+    <option name="customScope" value="Directory 'C:\Users\Yair\AndroidStudioProjects\Android5777_9254_6826\second_app'" />
+    <option name="defaultScopeName" value="Directory 'C:\Users\Yair\AndroidStudioProjects\Android5777_9254_6826\second_app'" />
+    <option name="SEARCH_SCOPE" value="Directory 'C:\Users\Yair\AndroidStudioProjects\Android5777_9254_6826\second_app'" />
   </component>
 </application>
