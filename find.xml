@@ -1,7 +1,7 @@
 <application>
   <component name="FindSettings">
-    <option name="customScope" value="Project 'HttpsTest'" />
-    <option name="defaultScopeName" value="Project 'HttpsTest'" />
-    <option name="SEARCH_SCOPE" value="Project 'HttpsTest'" />
+    <option name="customScope" value="Directory 'C:\MazakApp-master\app'" />
+    <option name="defaultScopeName" value="Directory 'C:\MazakApp-master\app'" />
+    <option name="SEARCH_SCOPE" value="Directory 'C:\MazakApp-master\app'" />
   </component>
 </application>
