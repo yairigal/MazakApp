@@ -1,0 +1,11 @@
+#1 - How to determine with the list of courses the years of the courses
+    ans: algorithm , running on the courses , if the semster changed from high semster to low semster -> a new year.
+
+Alot of problems are solved (creating callback and more) by moving to https webViewConnection.
+
+#2 - show a dialog and wait for user input and return it from a function.
+    ans : from what i found , this is impossible , and you should put all of your code on the callback function.
+
+#3 - how to make the service check every 5 min the web?
+     ans: make an alarm manager and catch the intent when boot is complete or when the app is killed (in the onDestroy we throw a broadcast)
+     and set the alaram again for 5 min.
