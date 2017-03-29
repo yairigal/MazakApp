@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+        <LinearLayout
+            android:id="@+id/gradeCard"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layoutDirection="ltr"
+            android:layout_margin="1dp"
+            android:layout_weight="0.99">
+
+<!--                       <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:foregroundGravity="left"
+                android:id="@+id/statsBtn"
+                android:src="@mipmap/icon_chart_v3" />-->
+
+            <Button
+                android:id="@+id/statsBtn"
+                android:layout_width="68dp"
+                android:layout_height="38dp"
+                android:text="STATS"
+                android:textSize="14dp"
+                android:textColor="@color/colorPrimary"
+                android:textAllCaps="true"
+                android:foregroundGravity="left"
+                android:background="@android:color/transparent" />
+
+<!--            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STATS"
+                android:id="@+id/statsBtn"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="normal|bold" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 נ''ז"
+                android:id="@+id/NZTV"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:text="Course Name"
+                android:layout_margin="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/courseTv"
+                android:textStyle="normal|bold"
+                android:gravity="center_vertical|right"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+</LinearLayout>

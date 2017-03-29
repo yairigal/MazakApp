@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group1">
+        <item
+            android:id="@+id/allitem"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="All" />
+    </group>
+    <group
+        android:id="@+id/group2">
+        <item
+            android:id="@+id/irurs"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="Appeals" />
+    </group>
+    <group
+        android:id="@+id/group2.1">
+        <item
+            android:id="@+id/avgItem"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="Appeals" />
+    </group>
+    <group
+        android:id="@+id/group3">
+<!--        <item
+            android:id="@+id/menu_item_Schedule"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="Schedule" />-->
+    </group>
+    <group
+        android:id="@+id/group4">
+    </group>
+    <group
+        android:id="@+id/group5">
+        <item
+            android:id="@+id/feedback_menu_item"
+            android:title="Feedback" />
+    </group>
+
+    <!--    <item android:title="Communicate">
+            <menu>
+                <item
+                    android:id="@+id/nav_share"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="Share" />
+                <item
+                    android:id="@+id/nav_send"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Send" />
+            </menu>
+        </item>-->
+
+</menu>
