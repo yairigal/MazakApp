@@ -78,9 +78,7 @@ public class LoginDatabase {
         } catch (IOException e) {
             return false;
         }
-        if(username.equals("") || password.equals(""))
-            return false;
-        return true;
+        return !(username.equals("") || password.equals(""));
     }
 
     public HashMap<String,String> getLoginDataFromMemory() throws IOException {

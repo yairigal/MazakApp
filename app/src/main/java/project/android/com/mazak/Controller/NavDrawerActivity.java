@@ -1,5 +1,6 @@
 package project.android.com.mazak.Controller;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,15 +21,19 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
+import com.flurry.android.FlurryAgent;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import project.android.com.mazak.Controller.Appeals.IrurFragment;
+import project.android.com.mazak.Controller.Average.AverageFragment;
+import project.android.com.mazak.Controller.GradesView.FatherTab;
+import project.android.com.mazak.Controller.Login.LoginActivity;
+import project.android.com.mazak.Controller.Schedule.ScheduleHost;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
@@ -40,6 +46,7 @@ import project.android.com.mazak.R;
 
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String FLURRY_API_KEY = "F3Q9JV89QJSSB3YK27RY";
     int settingsId = 15;
     String username, password;
     String myEmailAdd = "yigalyairn@gmail.com";
@@ -51,7 +58,7 @@ public class NavDrawerActivity extends AppCompatActivity
     AdView adView;
     public static NavDrawerActivity current;
     private boolean fromSettings,
-            fromWeb;
+            fromWeb = false;
     private AsyncTask<Void, Void, Void> getGrades;
     ProgressBar pb;
 
@@ -61,14 +68,18 @@ public class NavDrawerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         current = this;
         setContentView(R.layout.activity_nav_drawer);
-        Intent toLogin = new Intent(NavDrawerActivity.this, LoginService.class);
-        toLogin.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startService(toLogin);
+
+        fromSettings = false;
+        pb = (ProgressBar) findViewById(R.id.spinner);
+        frame = (FrameLayout) findViewById(R.id.frameNav);
+
         //starting service and alarm
         //startService(new Intent(this, startAlarmService.class));
         //grades = getGradesFromIntent();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setupAnalytics();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -85,33 +96,8 @@ public class NavDrawerActivity extends AppCompatActivity
         menu = navigationView.getMenu();
         //menu.add();
 
-        setupNavigationDrawerItems(menu);
+        //setupNavigationDrawerItems(menu);
 
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        try {
-            adView = (AdView) findViewById(R.id.adView);
-            AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-            // Optionally populate the ad request builder.
-            adRequestBuilder.addKeyword("Cars");
-            adView.loadAd(adRequestBuilder.build());
-            fromSettings = false;
-            pb = (ProgressBar) findViewById(R.id.spinner);
-            frame = (FrameLayout) findViewById(R.id.frameNav);
-            fromWeb = getIntent().getBooleanExtra("refresh", false);
-            loginDatabase = LoginDatabase.getInstance(this);
-            HashMap<String, String> data = loginDatabase.getLoginDataFromMemory();
-            username = data.get("username");
-            password = data.get("password");
-            db = Factory.getInstance(username, password, current);
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
 
 
 
@@ -123,9 +109,57 @@ public class NavDrawerActivity extends AppCompatActivity
                 onNavigationItemSelected(menu.findItem(R.id.irurs));
                 //activity starts normally.
             else
-                onNavigationItemSelected(menu.findItem(R.id.allitem));
+                onNavigationItemSelected(menu.findItem(R.id.grades));
         } else
-            onNavigationItemSelected(menu.findItem(R.id.allitem));
+            onNavigationItemSelected(menu.findItem(R.id.grades));
+
+
+    }
+
+    private void setupAnalytics() {
+        new FlurryAgent.Builder()
+                .withLogEnabled(false)
+                .build(this, FLURRY_API_KEY);
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        fromWeb = intent.getBooleanExtra("refresh",false);
+        if (fromWeb)
+            currentFragment.Refresh();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            Intent toLogin = new Intent(NavDrawerActivity.this, LoginService.class);
+            toLogin.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startService(toLogin);
+
+            setupAd();
+            //fromWeb = getIntent().getExtras() == null ? false : getIntent().getExtras().getBoolean("refresh");
+            getDatabasesFactory();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void getDatabasesFactory() throws Exception {
+        loginDatabase = LoginDatabase.getInstance(this);
+        HashMap<String, String> data = loginDatabase.getLoginDataFromMemory();
+        username = data.get("username");
+        password = data.get("password");
+        db = Factory.getInstance(current);
+    }
+
+    private void setupAd() {
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+        // Optionally populate the ad request builder.
+        adRequestBuilder.addKeyword("Cars");
+        adView.loadAd(adRequestBuilder.build());
     }
 
     @Override
@@ -167,11 +201,8 @@ public class NavDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id){
-            case R.id.allitem: // grades
-                Bundle bundle = new Bundle();
-                bundle.putString("username",username);
-                bundle.putString("password",password);
-                navigateTo(new FatherTab(),"Grades",bundle);
+            case R.id.grades: // grades
+                navigateTo(new FatherTab(),"Grades",null);
                 break;
             case R.id.irurs: // appeals
                 navigateTo(new IrurFragment(),"Appeals",null);
@@ -182,9 +213,11 @@ public class NavDrawerActivity extends AppCompatActivity
             case R.id.avgItem: // average
                 navigateTo(new AverageFragment(),"Average",null);
                 break;
-            default: //settings
-                fromSettings = true;
-                startActivity(new Intent(NavDrawerActivity.this, SettingsActivity.class));
+            case R.id.ScheudleItem: // average
+                navigateTo(new ScheduleHost(),"Schedule",null);
+                break;
+            default: //logout
+                popUpLogoutDialog();
                 break;
         }
 
@@ -195,6 +228,29 @@ public class NavDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void popUpLogoutDialog() {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+
+        adb.setTitle("Are you sure you want to logout?");
+
+
+        adb.setIcon(android.R.drawable.ic_dialog_alert);
+
+
+        adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+            } });
+
+
+        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            } });
+        adb.show();
     }
 
     private void sendFeedbackWithLog() {
@@ -208,14 +264,18 @@ public class NavDrawerActivity extends AppCompatActivity
         }
 
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"+myEmailAdd));
+        startActivity(intent);
+
+/*        Intent intent = new Intent(Intent.ACTION_SEND);
         //intent.setType("text/plain");
         intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {myEmailAdd });
         intent.putExtra(Intent.EXTRA_SUBJECT, "MazakGrades");
         intent.putExtra(Intent.EXTRA_TEXT, " ");
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(outputFile));
-        startActivity(Intent.createChooser(intent , "Send Feedback :"));
+        startActivity(Intent.createChooser(intent , "Send Feedback :"));*/
 
 /*        Intent emailIntent = new Intent(Intent.ACTION_SEND, Uri.fromParts(
                 "mailto", myEmailAdd, null));
@@ -281,10 +341,10 @@ public class NavDrawerActivity extends AppCompatActivity
         //clear the nav drawer
         menu.clear();
         //add the All Tab
-        menu.add(R.id.group1,R.id.allitem,Menu.NONE,"Grades").setIcon(R.mipmap.nav_year_icons);
-/*        //Add all years tab
+/*        menu.add(R.id.group1,R.id.allitem,Menu.NONE,"Grades").setIcon(R.mipmap.nav_year_icons);
+*//*        //Add all years tab
         for (int i = 0; i < grades.size(); i++)
-            menu.add(R.id.group2, Menu.NONE, Menu.NONE, getYearTitle(i + 1)).setIcon(R.mipmap.all_tab_icon);*/
+            menu.add(R.id.group2, Menu.NONE, Menu.NONE, getYearTitle(i + 1)).setIcon(R.mipmap.all_tab_icon);*//*
         menu.add(R.id.group1,R.id.irurs,Menu.NONE,"Appeals").setIcon(R.mipmap.all_tab_icon);
 
         menu.add(R.id.group1, R.id.avgItem, Menu.NONE, "Average").setIcon(R.mipmap.icon_student);
@@ -297,7 +357,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
 
         //Feedback
-        menu.add(R.id.group5, R.id.feedback_menu_item, Menu.NONE, "Feedback").setIcon(R.mipmap.icon_email);
+        menu.add(R.id.group5, R.id.feedback_menu_item, Menu.NONE, "Feedback").setIcon(R.mipmap.icon_email);*/
 
     }
 
@@ -403,7 +463,7 @@ public class NavDrawerActivity extends AppCompatActivity
             //search.setEnabled(true);
             setupNavigationDrawerItems(menu);
             //select the all fragment first.
-            onNavigationItemSelected(menu.findItem(R.id.allitem));
+            onNavigationItemSelected(menu.findItem(R.id.grades));
         } catch (Exception ex) {
             showException(ex.getMessage());
         }

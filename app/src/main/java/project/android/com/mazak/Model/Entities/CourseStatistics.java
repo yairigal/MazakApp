@@ -1,12 +1,13 @@
 package project.android.com.mazak.Model.Entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Yair on 2017-03-17.
  */
 
-public class CourseStatistics {
+public class CourseStatistics implements Serializable{
     String courseName;
     ArrayList<Integer> freqs;
     int numOfStudentsWithGrade;

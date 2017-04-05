@@ -1,4 +1,4 @@
-package project.android.com.mazak.Controller;
+package project.android.com.mazak.Controller.GradesView;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
@@ -25,6 +25,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Locale;
 
+import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
@@ -38,15 +39,17 @@ import project.android.com.mazak.R;
 public class FatherTab extends Fragment implements ISearch {
 
     private ISearch currentFragmet;
+    View view;
     Database db;
     private String username;
     private String password;
-    GradesList grades;
+    GradesList grades = null;
     IrurList irurs;
-    HashMap<Integer, GradesList> gradesSorted;
-    int numOfYears;
+    HashMap<Integer, GradesList> gradesSorted = null;
+    int numOfYears = 0;
     ProgressBar spinner;
     LinearLayout mainLayout;
+    LoginDatabase loginDatabase;
 
     public FatherTab() {
         // Required empty public constructor
@@ -57,15 +60,20 @@ public class FatherTab extends Fragment implements ISearch {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_father_tab, container, false);
+        view = inflater.inflate(R.layout.fragment_father_tab, container, false);
 
         spinner = (ProgressBar) view.findViewById(R.id.FatherSpinner);
         mainLayout = (LinearLayout) view.findViewById(R.id.TabsFatherLayout);
+        loginDatabase = LoginDatabase.getInstance(getContext());
 
-        username = getArguments().getString("username");
-        password = getArguments().getString("password");
         try {
-            db = Factory.getInstance(username, password, getActivity());
+            username = loginDatabase.getLoginDataFromMemory().get("username");
+            password = loginDatabase.getLoginDataFromMemory().get("password");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            db = Factory.getInstance(getActivity());
             getGradesAsync(view,null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,7 +117,10 @@ public class FatherTab extends Fragment implements ISearch {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if (error) {
-                    showSnackbar(errorMsg);
+                    grades = null;
+                    gradesSorted = null;
+                    numOfYears = 0;
+                    //showSnackbar(errorMsg);
                     toggleSpinner(false, mainLayout, spinner);
                 } else {
                     toggleSpinner(false, mainLayout, spinner);
@@ -144,11 +155,12 @@ public class FatherTab extends Fragment implements ISearch {
 
             private void showSnackbar(String errorMsg) {
                 if (errorMsg.contains("password"))
-                    Snackbar.make(getView(), errorMsg, Snackbar.LENGTH_LONG).setAction("CHANGE", new View.OnClickListener() {
+                    Snackbar.make(view, errorMsg, Snackbar.LENGTH_LONG).setAction("CHANGE", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             try {
-                                LoginDatabase.getInstance(getContext()).clearLoginInformation();
+                                //clearing the username and password for when moving to navActivity it will start the service(searching for username and password will fail)
+                                loginDatabase.clearLoginInformation();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -162,27 +174,17 @@ public class FatherTab extends Fragment implements ISearch {
         }.execute();
     }
 
-    private String checkErrorTypeAndMessage(Exception e1) {
+    public static String checkErrorTypeAndMessage(Exception e1) {
         String errorMsg;
         if (e1 instanceof UnknownHostException)
             errorMsg = "'mazak.jct.ac.il' might be down";
         else if (e1 instanceof NullPointerException)
-            errorMsg = "Check your username or password";
+            errorMsg = "Wrong username or password";
         else if (e1 instanceof NetworkErrorException)
             errorMsg = "Check your internet connection";
         else
-            errorMsg = "Error acquiring grades";
+            errorMsg = "Database Error";
         return errorMsg;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     private void setupTabs(View v) {
@@ -256,7 +258,7 @@ public class FatherTab extends Fragment implements ISearch {
     }
 
 
-    boolean checkHebrew() {
+    public static boolean checkHebrew() {
         return Locale.getDefault().toString().equals("iw_IL") || Locale.getDefault().toString().equals("he_IL");
     }
 

@@ -1,4 +1,4 @@
-package project.android.com.mazak.Controller;
+package project.android.com.mazak.Controller.Old;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,10 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import java.util.HashMap;
 import java.util.Locale;
 
+import project.android.com.mazak.Controller.GradesView.gradesViewFragment;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.ISearch;
 import project.android.com.mazak.R;
@@ -137,9 +137,8 @@ public class TabsFragment extends Fragment implements ISearch {
             args.putSerializable("list",GradesList.get(i));
             // Our object is just an integer :-P
             //args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
-            Fragment fragment = new gradesViewFragment();
             //fragment.setArguments(args);
-            return fragment;
+            return new gradesViewFragment();
         }
 
         @Override

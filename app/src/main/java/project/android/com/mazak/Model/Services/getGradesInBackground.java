@@ -9,26 +9,27 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
-
+import android.util.Log;
 
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
+import project.android.com.mazak.Model.getOptions;
 import project.android.com.mazak.R;
 
 
-public class checkIrur extends Service {
+public class getGradesInBackground extends Service {
     Database db;
     LoginDatabase lgnDB;
 
-    public checkIrur() {
+    public getGradesInBackground() {
     }
 
     private void tryGetDatabases() {
         try {
             lgnDB = LoginDatabase.getInstance(this);
-            db = Factory.getInstance(lgnDB.getLoginDataFromMemory().get("username"), lgnDB.getLoginDataFromMemory().get("password"), this);
+            db = Factory.getInstance(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,13 +51,14 @@ public class checkIrur extends Service {
 
                 @Override
                 protected Void doInBackground(Void... params) {
-                    System.out.println("Alarm wakeup");
+                    Log.d("Alarm","Alarm wakeup");
                     boolean flag;
                     try {
                         tryGetDatabases();
-                        flag = db.ifNewIrurArrived();
+/*                        flag = db.ifNewIrurArrived();
                         if (flag) // new irurs arrived
-                            sendIrurNotification();
+                            sendIrurNotification();*/
+                        db.getGrades(getOptions.fromWeb);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

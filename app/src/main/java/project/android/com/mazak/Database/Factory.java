@@ -14,11 +14,9 @@ public class Factory {
         return ourInstance;
     }
 
-    public static Database getInstance(String username, String password, Context ctx) throws Exception {
+    public static Database getInstance(Context ctx){
         if(ourInstance == null)
-            ourInstance = new InternalDatabase(username,password,ctx);
-        else
-            ourInstance.changeUsernameAndPassword(username,password);
+            ourInstance = new InternalDatabase(ctx);
         return ourInstance;
     }
 

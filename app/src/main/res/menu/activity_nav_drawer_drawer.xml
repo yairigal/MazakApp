@@ -3,38 +3,34 @@
     <group
         android:id="@+id/group1">
         <item
-            android:id="@+id/allitem"
-            android:icon="?android:attr/actionModePasteDrawable"
-            android:title="All" />
+            android:id="@+id/grades"
+            android:icon="@mipmap/nav_year_icons"
+            android:title="Grades" />
+        <item
+            android:id="@+id/irurs"
+            android:icon="@mipmap/all_tab_icon"
+            android:title="Appeals" />
+        <item
+            android:id="@+id/avgItem"
+            android:icon="@mipmap/icon_student"
+            android:title="Average" />
+        <item
+            android:id="@+id/ScheudleItem"
+            android:icon="@mipmap/icon_student"
+            android:title="Schedule" />
     </group>
     <group
         android:id="@+id/group2">
         <item
-            android:id="@+id/irurs"
-            android:icon="?android:attr/actionModePasteDrawable"
-            android:title="Appeals" />
-    </group>
-    <group
-        android:id="@+id/group2.1">
-        <item
-            android:id="@+id/avgItem"
-            android:icon="?android:attr/actionModePasteDrawable"
-            android:title="Appeals" />
+            android:id="@+id/Logout"
+            android:icon="@mipmap/icon_settings"
+            android:title="Logout" />
     </group>
     <group
         android:id="@+id/group3">
-<!--        <item
-            android:id="@+id/menu_item_Schedule"
-            android:icon="?android:attr/actionModePasteDrawable"
-            android:title="Schedule" />-->
-    </group>
-    <group
-        android:id="@+id/group4">
-    </group>
-    <group
-        android:id="@+id/group5">
         <item
             android:id="@+id/feedback_menu_item"
+            android:icon="@mipmap/icon_email"
             android:title="Feedback" />
     </group>
 

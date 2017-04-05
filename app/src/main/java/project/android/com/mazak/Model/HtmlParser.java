@@ -8,10 +8,12 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import project.android.com.mazak.Model.Entities.ClassEvent;
 import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.Irur;
 import project.android.com.mazak.Model.Entities.IrurList;
+import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.gradeIngerdiants;
 import project.android.com.mazak.Model.Web.ConnectionData;
 
@@ -84,5 +86,15 @@ public class HtmlParser {
             statistics.getFreqs().add(frq);
         }
         return statistics;
+    }
+
+    public static ScheduleList ParseToClassEvents(String html) {
+        ScheduleList sched = new ScheduleList();
+        Document doc = Jsoup.parse(html);
+        Element elem = doc.getElementById(ConnectionData.ScheduleTableID);
+        Elements el = elem.children().get(2).children();
+        for(int i=1;i<el.size();i++)
+            sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
+        return sched;
     }
 }

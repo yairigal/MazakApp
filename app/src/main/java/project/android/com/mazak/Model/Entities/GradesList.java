@@ -4,16 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Yair on 2017-02-22.
  */
 
 public class GradesList implements Iterable<Grade>, Serializable {
-   ArrayList<Grade> list;
+   List<Grade> list;
     boolean reversed;
 
-    public GradesList(ArrayList<Grade> lst, boolean rev) {
+    public GradesList(List<Grade> lst, boolean rev) {
         this.list = lst;
         this.reversed = rev;
     }
@@ -22,6 +23,8 @@ public class GradesList implements Iterable<Grade>, Serializable {
         list = new ArrayList<>();
         reversed = false;
     }
+
+
 
     @Override
     public Iterator<Grade> iterator() {
@@ -56,7 +59,7 @@ public class GradesList implements Iterable<Grade>, Serializable {
             this.list.addAll(grades.list);
     }
 
-    public ArrayList<Grade> getList() {
+    public List<Grade> getList() {
         return list;
     }
 
@@ -65,6 +68,6 @@ public class GradesList implements Iterable<Grade>, Serializable {
     }
 
     public GradesList clone(){
-        return new GradesList(new ArrayList<Grade>(list),false);
+        return new GradesList(new ArrayList<>(list),false);
     }
 }

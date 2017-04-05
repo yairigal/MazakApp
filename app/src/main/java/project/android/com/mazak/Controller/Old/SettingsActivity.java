@@ -1,4 +1,4 @@
-package project.android.com.mazak.Controller;
+package project.android.com.mazak.Controller.Old;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Toast;
 
+import project.android.com.mazak.Controller.Login.LoginActivity;
+import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Database.LoginDatabase;
 import project.android.com.mazak.R;
 
@@ -37,6 +39,12 @@ public class SettingsActivity extends AppCompatActivity {
         if(getIntentInfomration())
             Toast.makeText(this, "Please Insert your username and password", Toast.LENGTH_LONG).show();
         //getSP();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this,NavDrawerActivity.class));
+        finish();
     }
 
     private boolean getIntentInfomration() {

@@ -1,6 +1,9 @@
 package project.android.com.mazak.Model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
@@ -75,11 +78,11 @@ public class GradesModel {
                         break;
                 }
             }
-            if (sem0.size() != 0)
+            //if (sem0.size() != 0)
                 year.put(0, sem0);
-            if (sem1.size() != 0)
+            //if (sem1.size() != 0)
                 year.put(1, sem1);
-            if (sem2.size() != 0)
+            //if (sem2.size() != 0)
                 year.put(2, sem2);
             toret.put(i + 1, year);
         }
@@ -146,6 +149,8 @@ public class GradesModel {
         float kodesh = 0;
         float numOfKodesh = 0;
         float Nz , grade;
+
+        grades = removeDuplicatesOfGrades(grades);
         for (Grade g:grades.getList()) {
             try {
                 Nz = Float.parseFloat(g.points);
@@ -165,5 +170,15 @@ public class GradesModel {
         map.put("avg",sumOfGrades/sumOfNz);
         map.put("nz",sumOfNz);
         return map;
+    }
+
+    private static GradesList removeDuplicatesOfGrades(GradesList grades) {
+        HashMap<String,Grade> map = new HashMap<>();
+        for (Grade g :grades.getList())
+                map.put(g.code, g);
+        GradesList toRet = new GradesList();
+        for (Grade g:map.values())
+            toRet.add(g);
+        return toRet;
     }
 }

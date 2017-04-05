@@ -28,9 +28,11 @@ public class ConnectionData {
     public static final String StatsNumOfStudntsID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_lSumOfStudents";
     public static final String StatsMeanID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_lTotalCourseAverage";
     public static final String StatsMedianID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_lPassedCourseMadian";
+    public static final String ScheduleTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_ScheduleView";
+    public static final String ScheduleURL = "https://mazak.jct.ac.il/Student/Schedule.aspx";
 
     public static ArrayList<NameValuePair> getMazakCredentials(final String username, final String pass){
-        ArrayList<NameValuePair> mazakCredentials = new ArrayList<NameValuePair>()
+        return new ArrayList<NameValuePair>()
         {
             {
                 add(new NameValuePair("__EVENTTARGET", ""));
@@ -44,10 +46,9 @@ public class ConnectionData {
                 add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$LoginControl$Password", pass));
                 add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$LoginControl$LoginButton", "כניסה"));
             }};
-        return mazakCredentials;
     }
     public static ArrayList<NameValuePair> getStatsPostArguments(){
-        ArrayList<NameValuePair> PostArguments = new ArrayList<NameValuePair>()
+        return new ArrayList<NameValuePair>()
         {
             {
                 add(new NameValuePair("__EVENTTARGET", ""));
@@ -57,7 +58,6 @@ public class ConnectionData {
                 add(new NameValuePair("__EVENTVALIDATION", "/wEdAAOLfCW1Trrz/9YmNs93KchGCW8vdzVzmzgmuoYuqTP+fq+VOWnHd5OHW92WOFnTCmQh+t43dMXHHAJdxTTU5onsAr54ug=="));
                 add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$btnShowStudentCourseStatistics", "הצג סטטיסטיקה של קורס זה"));
             }};
-        return PostArguments;
     }
 
 }

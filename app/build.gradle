@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "project.android.com.mazak"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 4
-        versionName "1.2.1"
+        versionCode 5
+        versionName "1.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,8 +29,8 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.github.alamkanak:android-week-view:1.2.6'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     compile 'com.google.android.gms:play-services-ads:9.6.0'
+    compile 'com.flurry.android:analytics:6.3.1'
     testCompile 'org.testng:testng:6.9.6'
 }

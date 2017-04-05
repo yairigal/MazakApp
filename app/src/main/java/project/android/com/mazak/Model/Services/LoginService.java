@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import project.android.com.mazak.Controller.LoginActivity;
+import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Database.LoginDatabase;
 
 public class LoginService extends Service {

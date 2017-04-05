@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <ListView
+    <TextView
+        android:text="Test"
+        android:textSize="24sp"
+        android:id="@+id/dialog1"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="1dp"
-        android:divider="@color/cardview_shadow_start_color"
-        android:id="@+id/DialogLV" />
+        android:layout_height="wrap_content"
+        android:textStyle="normal|bold" />
+    <TextView
+        android:text="Test"
+        android:textSize="24sp"
+        android:id="@+id/dialog2"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Test"
+        android:textSize="24sp"
+        android:id="@+id/dialog3"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Test"
+        android:textSize="24sp"
+        android:id="@+id/dialog4"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Test"
+        android:textSize="24sp"
+        android:id="@+id/dialog5"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="normal|bold" />
+
+
 </LinearLayout>

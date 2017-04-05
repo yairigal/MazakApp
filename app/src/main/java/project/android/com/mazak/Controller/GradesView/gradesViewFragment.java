@@ -1,31 +1,23 @@
-package project.android.com.mazak.Controller;
+package project.android.com.mazak.Controller.GradesView;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.utils.ColorTemplate;
-
-import java.text.DecimalFormat;
-import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import project.android.com.mazak.Controller.Statistics.CourseStatisticsActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Model.Entities.Grade;
@@ -117,20 +109,15 @@ public class gradesViewFragment extends Fragment implements ISearch {
         adapterList = new GradesList(grades.getList(), grades.isReversed());
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
     void showDialog(final Grade gd) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.dialog_list);
-        ListView listView = (ListView) dialog.findViewById(R.id.DialogLV);
+        ((TextView)dialog.findViewById(R.id.dialog1)).setText(gd.name);
+        ((TextView)dialog.findViewById(R.id.dialog2)).setText(gd.code);
+        ((TextView)dialog.findViewById(R.id.dialog3)).setText("נ''ז: " + gd.points);
+        ((TextView)dialog.findViewById(R.id.dialog4)).setText("סמסטר: " + gd.semester);
+        ((TextView)dialog.findViewById(R.id.dialog5)).setText("ציון סופי: " + gd.finalGrade);
+/*        ListView listView = (ListView) dialog.findViewById(R.id.DialogLV);
         final ArrayList<String> lst = new ArrayList<String>() {{
             add(gd.name);
             add(gd.code);
@@ -147,7 +134,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
                 }
                 TextView tv = (TextView) convertView.findViewById(R.id.detail);
                 tv.setText(lst.get(position));
-/*                switch (position){
+*//*                switch (position){
                     case 0:
                         tv.setText(gd.name);
                         break;
@@ -163,7 +150,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
                     case 4:
                         tv.setText(gd.finalGrade);
                         break;
-                }*/
+                }*//*
                 return convertView;
             }
         });
@@ -173,7 +160,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
                 if(position == 5)
                     openStatisticsActivity(gd, dialog);
             }
-        });
+        });*/
         dialog.show();
     }
 

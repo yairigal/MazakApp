@@ -1,4 +1,4 @@
-package project.android.com.mazak.Controller;
+package project.android.com.mazak.Controller.Average;
 
 
 import android.os.AsyncTask;
@@ -21,7 +21,6 @@ import java.util.HashMap;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Model.Entities.Delegate;
-import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.IRefresh;
@@ -31,7 +30,7 @@ import project.android.com.mazak.R;
 
 public class AverageFragment extends Fragment implements IRefresh {
 
-    View root;
+    private View root;
     Database db;
     GradesList grades;
     private LayoutInflater mainInflaytor;
@@ -50,14 +49,14 @@ public class AverageFragment extends Fragment implements IRefresh {
         // Inflate the layout for this fragment
         mainInflaytor = inflater;
         root = inflater.inflate(R.layout.fragment_average, container, false);
-        year = (Spinner) root.findViewById(R.id.avgSpinner);
+/*        year = (Spinner) root.findViewById(R.id.avgSpinner);
         sem = (Spinner) root.findViewById(R.id.semAvgSpinner);
-        calc = (Button) root.findViewById(R.id.calcAvgButton);
+        calc = (Button) root.findViewById(R.id.calcAvgButton);*/
         if (getDatabaseFactory()) {
             getGradesAsync(new Delegate() {
                 @Override
                 public void function(Object obj) {
-                    initSpinners();
+                    //initSpinners();
                     onFinisehd();
                 }
             });
@@ -65,7 +64,7 @@ public class AverageFragment extends Fragment implements IRefresh {
         return root;
     }
 
-    private void initSpinners() {
+   /* private void initSpinners() {
         sem.setEnabled(false);
         final HashMap<Integer, HashMap<Integer, GradesList>> map = GradesModel.sortBySemesterAndYear(grades);
         final ArrayList<String> yearArray = new ArrayList<>();
@@ -95,10 +94,12 @@ public class AverageFragment extends Fragment implements IRefresh {
                 calc.setText("ממוצע: "+ roundTo2OrLessAfterPoint(avgs.get("avg")));
             }
         });
-    }
+    }*/
 
     private void getGradesAsync(final Delegate delegate) {
         new AsyncTask<Void, Void, Void>() {
+            public boolean error;
+
             @Override
             protected Void doInBackground(Void... params) {
                 try {
@@ -107,6 +108,7 @@ public class AverageFragment extends Fragment implements IRefresh {
                     try {
                         grades = db.getGrades(getOptions.fromWeb);
                     } catch (Exception e1) {
+                        error = true;
                         Snackbar.make(root, "Error getting grades", Snackbar.LENGTH_LONG).show();
                         e1.printStackTrace();
                     }
@@ -117,6 +119,11 @@ public class AverageFragment extends Fragment implements IRefresh {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+                if(error) {
+                    root.findViewById(R.id.notfoundIDAvg).setVisibility(View.VISIBLE);
+                    root.findViewById(R.id.mainLayoutAvg).setVisibility(View.GONE);
+                    return;
+                }
                 delegate.function(null);
             }
         }.execute();
@@ -165,8 +172,24 @@ public class AverageFragment extends Fragment implements IRefresh {
             ((TextView)Mainview.findViewById(R.id.CardTitle_YearAverage)).setText("שנה "+ i);
             ((TextView)Mainview.findViewById(R.id.NZInput_averageYear)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(i)).get("nz")));
             ((TextView)Mainview.findViewById(R.id.averageInput_averageYear)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(i)).get("avg")));
+            setupSemesters(Mainview,map.get(i));
             ((LinearLayout)root.findViewById(R.id.mainLayoutAverage)).addView(Mainview);
         }
+    }
+
+    private void setupSemesters(View mainview, GradesList grades) {
+        HashMap<Integer, GradesList> map = GradesModel.sortBySemester(grades);
+        ((TextView)mainview.findViewById(R.id.CardTitle_Sem1Layout)).setText("סמסטר אלול");
+        ((TextView)mainview.findViewById(R.id.averageInput_averageSem1)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(0)).get("avg")));
+        ((TextView)mainview.findViewById(R.id.NZInput_averageSem1)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(0)).get("nz")));
+
+        ((TextView)mainview.findViewById(R.id.CardTitle_Sem2Layout)).setText("סמסטר א'");
+        ((TextView)mainview.findViewById(R.id.averageInput_averageSem2)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(1)).get("avg")));
+        ((TextView)mainview.findViewById(R.id.NZInput_averageSem2)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(1)).get("nz")));
+
+        ((TextView)mainview.findViewById(R.id.CardTitle_Sem3Layout)).setText("סמסטר ב'");
+        ((TextView)mainview.findViewById(R.id.averageInput_averageSem3)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(2)).get("avg")));
+        ((TextView)mainview.findViewById(R.id.NZInput_averageSem3)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(2)).get("nz")));
     }
 
     @Override

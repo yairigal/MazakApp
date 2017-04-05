@@ -5,13 +5,16 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Objects;
 
 import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
+import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.HtmlParser;
 import project.android.com.mazak.Model.Web.ConnectionData;
@@ -28,13 +31,15 @@ public class InternalDatabase implements Database {
     private static final String gradesKey = "grades";
     private static final String IrursKey = "irurs";
     private MazakConnection connection;
+    private String currentUsername = "",currentPassword="";
     private GradesList grades;
     private Context activity;
     private IrurList irurs;
+    private ScheduleList schedule;
+    private String ScheduleKey = "schedules";
 
-    public InternalDatabase(String username, String passw, Context ctx) throws UnsupportedEncodingException {
+    public InternalDatabase(Context ctx) {
         activity = ctx;
-        connection = new MazakConnection(username, passw);
     }
 
     private void loadGradesFromInternalMemory() {
@@ -97,19 +102,35 @@ public class InternalDatabase implements Database {
         return GradesModel.sortBySemesterAndYear(grades).get(year);
     }
 
+    /**
+     * Getting grades from the web, taking the username and password from the database.
+     * @throws Exception
+     */
     private void getGradesFromWeb() throws Exception {
         String html;
         deleteGrades();
+        refreshConnection();
         html = connection.connect(ConnectionData.GradesURL);
         //String res = WebViewConnection.RhinoTest(html);
         grades = HtmlParser.ParseToGrades(html);
         saveGrades(grades);
     }
 
+    private void refreshConnection() throws IOException {
+        String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
+        String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
+        if (connection == null || !username.equals(currentUsername) || !passw.equals(currentPassword)) {
+            currentUsername = username;
+            currentPassword = passw;
+            connection = new MazakConnection(currentUsername, currentPassword);
+        }
+    }
+
     @Override
     public void clearDatabase() {
         deleteGrades();
         deleteIrurs();
+        clearScheudle();
     }
 
     @Override
@@ -133,10 +154,9 @@ public class InternalDatabase implements Database {
 
     @Override
     public void changeUsernameAndPassword(String username, String password) throws Exception {
-        String newUN = username, newPass = password;
         if (username == null || password == null)
             throw new Exception("Argument is null");
-        connection = new MazakConnection(newUN, newPass);
+        connection = new MazakConnection(username, password);
     }
 
     @Override
@@ -196,6 +216,7 @@ public class InternalDatabase implements Database {
     private void getIrursFromWeb() throws Exception {
         String html;
         deleteIrurs();
+        refreshConnection();
         html = connection.connect(ConnectionData.IrurURL);
         //String res = WebViewConnection.RhinoTest(html);
         irurs = HtmlParser.ParseToIrurs(html);
@@ -217,8 +238,64 @@ public class InternalDatabase implements Database {
 
     @Override
     public CourseStatistics getStatsFromWeb(String link) throws Exception {
+        refreshConnection();
         String res = connection.getStatisticsPage(link);
-        CourseStatistics statistics = HtmlParser.ParseToStats(res);
-        return statistics;
+        return HtmlParser.ParseToStats(res);
+    }
+
+    @Override
+    public ScheduleList getScheudle(getOptions options) throws Exception {
+        switch (options) {
+            case fromMemory:
+                loadScheduleFromMemeory();
+                break;
+            case fromWeb:
+                getScheudleFromWeb();
+                break;
+        }
+        if (schedule == null)
+            throw new Exception(activity.getString(R.string.no_schedule_error));
+        return schedule;
+    }
+
+    private void getScheudleFromWeb() throws Exception {
+        String html;
+        clearScheudle();
+        refreshConnection();
+        html = connection.connect(ConnectionData.ScheduleURL);
+        schedule = HtmlParser.ParseToClassEvents(html);
+        saveScheudle(schedule);
+    }
+
+    private void loadScheduleFromMemeory() {
+        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        String list = sharedPref.getString(ScheduleKey, null);
+        //got nothing from database.
+        if (list == null)
+            schedule = null;
+        else {
+            ScheduleList lst;
+            lst = (new Gson()).fromJson(list, ScheduleList.class);
+            schedule = lst;
+        }
+    }
+
+    @Override
+    public void saveScheudle(ScheduleList schedule) {
+        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(schedule);
+        editor.putString(ScheduleKey, json);
+        editor.commit();
+    }
+
+    @Override
+    public void clearScheudle() {
+        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(ScheduleKey);
+        editor.commit();
+        schedule = null;
     }
 }
