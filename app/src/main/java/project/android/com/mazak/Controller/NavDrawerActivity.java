@@ -1,5 +1,6 @@
 package project.android.com.mazak.Controller;
 
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,6 +25,9 @@ import android.widget.Toast;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,9 +43,9 @@ import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
 import project.android.com.mazak.Model.Entities.Delegate;
 import project.android.com.mazak.Model.Entities.GradesList;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.Model.Services.LoginService;
-import project.android.com.mazak.Model.getOptions;
 import project.android.com.mazak.R;
 
 public class NavDrawerActivity extends AppCompatActivity
@@ -59,6 +63,7 @@ public class NavDrawerActivity extends AppCompatActivity
     public static NavDrawerActivity current;
     private boolean fromSettings,
             fromWeb = false;
+    Tracker mTracker;
     private AsyncTask<Void, Void, Void> getGrades;
     ProgressBar pb;
 
@@ -113,7 +118,14 @@ public class NavDrawerActivity extends AppCompatActivity
         } else
             onNavigationItemSelected(menu.findItem(R.id.grades));
 
+        setupGoogleAnalyticsTracker();
 
+    }
+
+    private void setupGoogleAnalyticsTracker() {
+        if(mTracker == null) {
+            mTracker = GoogleAnalytics.getInstance(this).newTracker("UA-96616811-1");
+        }
     }
 
     private void setupAnalytics() {
@@ -133,6 +145,9 @@ public class NavDrawerActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        sendGoogleAnalyticsData("Grades");
+
         try {
             Intent toLogin = new Intent(NavDrawerActivity.this, LoginService.class);
             toLogin.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -144,6 +159,12 @@ public class NavDrawerActivity extends AppCompatActivity
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void sendGoogleAnalyticsData(String ScreenName) {
+        setupGoogleAnalyticsTracker();
+        mTracker.setScreenName(ScreenName);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void getDatabasesFactory() throws Exception {
@@ -202,19 +223,19 @@ public class NavDrawerActivity extends AppCompatActivity
 
         switch (id){
             case R.id.grades: // grades
-                navigateTo(new FatherTab(),"Grades",null);
+                navigateTo(FatherTab.getInstance(),"Grades");
                 break;
             case R.id.irurs: // appeals
-                navigateTo(new IrurFragment(),"Appeals",null);
+                navigateTo(IrurFragment.getInstance(),"Appeals");
                 break;
             case R.id.feedback_menu_item: // feedback
                 sendFeedbackWithLog();
                 break;
             case R.id.avgItem: // average
-                navigateTo(new AverageFragment(),"Average",null);
+                navigateTo(AverageFragment.getInstance(),"Average");
                 break;
             case R.id.ScheudleItem: // average
-                navigateTo(new ScheduleHost(),"Schedule",null);
+                navigateTo(ScheduleHost.getInstance(),"Schedule");
                 break;
             default: //logout
                 popUpLogoutDialog();
@@ -234,9 +255,6 @@ public class NavDrawerActivity extends AppCompatActivity
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
         adb.setTitle("Are you sure you want to logout?");
-
-
-        adb.setIcon(android.R.drawable.ic_dialog_alert);
 
 
         adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -326,11 +344,12 @@ public class NavDrawerActivity extends AppCompatActivity
         });
     }*/
 
-    void navigateTo(Fragment fgmt, String title,Bundle bundle) {
-        fgmt.setArguments(bundle);
+    void navigateTo(Fragment fgmt, String title) {
+        //fgmt.setArguments(bundle);
         currentFragment = (IRefresh) fgmt;
         getSupportFragmentManager().beginTransaction().replace(R.id.frameNav, fgmt).commit();
         this.setTitle(title);
+        sendGoogleAnalyticsData(title);
     }
 
     /**

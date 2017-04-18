@@ -30,6 +30,9 @@ public class ConnectionData {
     public static final String StatsMedianID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_lPassedCourseMadian";
     public static final String ScheduleTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_ScheduleView";
     public static final String ScheduleURL = "https://mazak.jct.ac.il/Student/Schedule.aspx";
+    public static final String ScheduleYearCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbAcademicYears";
+    public static final String ScheduleSemesterCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbSemesters";
+    public static final String ScheduleListTableID="ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdCoursesList_itemPlaceholderContainer";
 
     public static ArrayList<NameValuePair> getMazakCredentials(final String username, final String pass){
         return new ArrayList<NameValuePair>()

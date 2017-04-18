@@ -6,20 +6,18 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.Objects;
 
 import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.HtmlParser;
 import project.android.com.mazak.Model.Web.ConnectionData;
 import project.android.com.mazak.Model.Web.MazakConnection;
-import project.android.com.mazak.Model.getOptions;
 import project.android.com.mazak.R;
 
 /**
@@ -151,7 +149,6 @@ public class InternalDatabase implements Database {
         grades = null;
     }
 
-
     @Override
     public void changeUsernameAndPassword(String username, String password) throws Exception {
         if (username == null || password == null)
@@ -263,9 +260,12 @@ public class InternalDatabase implements Database {
         clearScheudle();
         refreshConnection();
         html = connection.connect(ConnectionData.ScheduleURL);
+        String newURL = HtmlParser.getListScheudleURL(html);
+        html = connection.connect(newURL);
         schedule = HtmlParser.ParseToClassEvents(html);
         saveScheudle(schedule);
     }
+
 
     private void loadScheduleFromMemeory() {
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);

@@ -5,11 +5,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -18,13 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
-import project.android.com.mazak.Model.getOptions;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -163,8 +162,21 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         }catch (Exception ex){
             ex.printStackTrace();
-            errormsg = FatherTab.checkErrorTypeAndMessage(ex);
+            errormsg = checkErrorTypeAndMessage(ex);
             return false;
         }
+    }
+
+    public static String checkErrorTypeAndMessage(Exception e1) {
+        String errorMsg;
+        if (e1 instanceof UnknownHostException)
+            errorMsg = "'mazak.jct.ac.il' might be down";
+        else if (e1 instanceof NullPointerException)
+            errorMsg = "Wrong username or password";
+        else if (e1 instanceof NetworkErrorException)
+            errorMsg = "Check your internet connection";
+        else
+            errorMsg = "Database Error";
+        return errorMsg;
     }
 }

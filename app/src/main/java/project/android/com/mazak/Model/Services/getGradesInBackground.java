@@ -15,7 +15,7 @@ import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
-import project.android.com.mazak.Model.getOptions;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.R;
 
 

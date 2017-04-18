@@ -22,11 +22,11 @@ import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.Filter;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.ISearch;
 import project.android.com.mazak.Model.Utility;
-import project.android.com.mazak.Model.getOptions;
 import project.android.com.mazak.R;
 
 public class gradesViewFragment extends Fragment implements ISearch {

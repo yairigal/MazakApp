@@ -165,10 +165,12 @@ public class CourseStatisticsActivity extends AppCompatActivity{
         final ViewPager viewPager = (ViewPager) findViewById(R.id.Stats_ViewPager);
         tabLayout.setupWithViewPager(viewPager, true);
         viewPager.setAdapter(new SamplePageAdapter(getSupportFragmentManager()));
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.bar_chart_down);
+        tabLayout.getTabAt(1).setIcon(R.drawable.pieicon);
         //if(checkHebrew())
         tabLayout.getTabAt(0).select();
     }
-
 
     private class SamplePageAdapter extends FragmentStatePagerAdapter {
         @Override

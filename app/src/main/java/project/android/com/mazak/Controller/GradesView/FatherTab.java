@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -26,25 +27,24 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import project.android.com.mazak.Controller.Login.LoginActivity;
+import project.android.com.mazak.Controller.Old.TabsFragment;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.ISearch;
-import project.android.com.mazak.Model.getOptions;
 import project.android.com.mazak.R;
 
 public class FatherTab extends Fragment implements ISearch {
 
+    private static FatherTab instnace;
     private ISearch currentFragmet;
     View view;
     Database db;
-    private String username;
-    private String password;
     GradesList grades = null;
-    IrurList irurs;
     HashMap<Integer, GradesList> gradesSorted = null;
     int numOfYears = 0;
     ProgressBar spinner;
@@ -57,21 +57,19 @@ public class FatherTab extends Fragment implements ISearch {
 
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_father_tab, container, false);
-
         spinner = (ProgressBar) view.findViewById(R.id.FatherSpinner);
         mainLayout = (LinearLayout) view.findViewById(R.id.TabsFatherLayout);
-        loginDatabase = LoginDatabase.getInstance(getContext());
 
-        try {
-            username = loginDatabase.getLoginDataFromMemory().get("username");
-            password = loginDatabase.getLoginDataFromMemory().get("password");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         try {
             db = Factory.getInstance(getActivity());
             getGradesAsync(view,null);
@@ -179,7 +177,7 @@ public class FatherTab extends Fragment implements ISearch {
         if (e1 instanceof UnknownHostException)
             errorMsg = "'mazak.jct.ac.il' might be down";
         else if (e1 instanceof NullPointerException)
-            errorMsg = "Wrong username or password";
+            errorMsg = "An Error Occurred";
         else if (e1 instanceof NetworkErrorException)
             errorMsg = "Check your internet connection";
         else
@@ -192,11 +190,13 @@ public class FatherTab extends Fragment implements ISearch {
         if (numOfYears > 3)
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         for (int i = 0; i < numOfYears; i++)
-            tabLayout.addTab(tabLayout.newTab());
+            tabLayout.addTab(tabLayout.newTab(),false);
 
         final ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewPager);
         tabLayout.setupWithViewPager(viewPager, true);
-        viewPager.setAdapter(new SamplePageAdapter(getFragmentManager()));
+        SamplePageAdapter mAdapter = new SamplePageAdapter(getFragmentManager());
+        mAdapter.notifyDataSetChanged();
+        viewPager.setAdapter(mAdapter);
         //if(checkHebrew())
         tabLayout.getTabAt(numOfYears - 1).select();
     }
@@ -214,6 +214,12 @@ public class FatherTab extends Fragment implements ISearch {
     @Override
     public void Refresh() {
         getGradesAsync(getView(),getOptions.fromWeb);
+    }
+
+    public static Fragment getInstance() {
+        if(instnace == null)
+            instnace = new FatherTab();
+        return instnace;
     }
 
     private class SamplePageAdapter extends FragmentStatePagerAdapter {
@@ -256,7 +262,6 @@ public class FatherTab extends Fragment implements ISearch {
             lst.addAll(gradesSorted.get(i).get(j));
         return lst;
     }
-
 
     public static boolean checkHebrew() {
         return Locale.getDefault().toString().equals("iw_IL") || Locale.getDefault().toString().equals("he_IL");

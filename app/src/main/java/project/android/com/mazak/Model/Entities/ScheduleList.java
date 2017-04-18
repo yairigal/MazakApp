@@ -66,9 +66,13 @@ public class ScheduleList implements Iterable<ClassEvent>, Serializable {
         for (ClassEvent c:list)
             if(c.day == position)
                 lst.add(c);
+        lst.sort();
         return lst;
     }
 
+    public void sort(){
+        Collections.sort(list);
+    }
 
     public int getNumOfDays() {
         HashMap<Integer,Integer> map = new HashMap<>();

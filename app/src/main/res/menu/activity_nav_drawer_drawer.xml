@@ -4,11 +4,11 @@
         android:id="@+id/group1">
         <item
             android:id="@+id/grades"
-            android:icon="@mipmap/nav_year_icons"
+            android:icon="@mipmap/all_tab_icon"
             android:title="Grades" />
         <item
             android:id="@+id/irurs"
-            android:icon="@mipmap/all_tab_icon"
+            android:icon="@mipmap/nav_year_icons"
             android:title="Appeals" />
         <item
             android:id="@+id/avgItem"
@@ -16,14 +16,14 @@
             android:title="Average" />
         <item
             android:id="@+id/ScheudleItem"
-            android:icon="@mipmap/icon_student"
+            android:icon="@mipmap/icon_schedule"
             android:title="Schedule" />
     </group>
     <group
         android:id="@+id/group2">
         <item
             android:id="@+id/Logout"
-            android:icon="@mipmap/icon_settings"
+            android:icon="@mipmap/icon_logout"
             android:title="Logout" />
     </group>
     <group

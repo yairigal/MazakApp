@@ -48,6 +48,7 @@
                                 android:textStyle="normal|bold" />
 
                             <TextView
+                                android:textSize="12sp"
                                 android:id="@+id/averageInput_averageYear"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
@@ -218,6 +219,7 @@
                             android:textStyle="normal|bold" />
 
                         <TextView
+                            android:textSize="12sp"
                             android:id="@+id/NZInput_averageSem2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -293,7 +295,7 @@
                             android:id="@+id/NZInput_averageSem3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
 
                     </LinearLayout>

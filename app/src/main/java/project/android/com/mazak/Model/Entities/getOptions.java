@@ -1,4 +1,4 @@
-package project.android.com.mazak.Model;
+package project.android.com.mazak.Model.Entities;
 
 /**
  * Created by Yair on 2017-02-21.

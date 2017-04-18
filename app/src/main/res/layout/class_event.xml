@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardLayout_ClassEvent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp">
@@ -19,7 +21,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="CourseName"
-                android:textSize="24sp" />
+                android:textColor="@color/common_google_signin_btn_text_dark_pressed"
+                android:layout_gravity="right"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ClassEvent_ClassRoomPlace"
@@ -27,11 +32,15 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="ClassRoomPlace"
+                android:textColor="@color/common_google_signin_btn_text_dark_pressed"
+                android:layout_gravity="right"
                 android:textSize="14sp" />
 
             <View
                 style="@style/Seperator"
-                android:layout_margin="10dp"
+                tools:mockup_opacity="20"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:background="@android:color/darker_gray" />
 
             <TextView
@@ -40,17 +49,23 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="StartDate - EndDate"
+                android:textColor="@color/common_google_signin_btn_text_dark_pressed"
+                android:layout_gravity="right"
                 android:textSize="14sp" />
 
             <View
                 style="@style/Seperator"
-                android:layout_margin="10dp"
+                tools:mockup_opacity="20"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/ClassEvent_Lecturer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/common_google_signin_btn_text_dark_pressed"
+                android:layout_gravity="right"
                 android:layout_margin="10dp"
                 android:text="Lecturer"
                 android:textSize="14sp" />

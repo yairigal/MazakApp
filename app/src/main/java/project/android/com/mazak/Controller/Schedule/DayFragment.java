@@ -7,16 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.util.zip.Inflater;
-
 import project.android.com.mazak.Model.Entities.ClassEvent;
 import project.android.com.mazak.Model.Entities.ScheduleList;
-import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.R;
 
 /**
@@ -50,6 +46,7 @@ public class DayFragment extends Fragment {
     }
 
     private void addEventsToView(ScheduleList lst){
+        addDetails();
         for (ClassEvent e:lst) {
             addEvent(e);
         }
@@ -66,7 +63,44 @@ public class DayFragment extends Fragment {
         main.addView(Mainview);
     }
 
-    private void colorByType(View mainview, String type) {
+    public void addDetails(){
+        //LinearLayout main = (LinearLayout) root.findViewById(R.id.DayMainLayout);
+        //View Mainview = mainInflater.inflate(R.layout.day_details,null);
+        String start="",end="",total="";
+        if(events.size()!=0)
+             start = events.get(0).startTime;
+        if(events.size()!=0)
+            end = events.get(events.size()-1).endTime;
+
+        total = getTotalHours(events);
+
+        ((TextView)root.findViewById(R.id.dayDetails_StartTimeInput)).setText(start);
+        ((TextView)root.findViewById(R.id.dayDetails_EndTimeInput)).setText(end);
+        ((TextView)root.findViewById(R.id.dayDetails_StudyTotalInput)).setText(total);
+        //main.addView(Mainview);
+    }
+
+    private String getTotalHours(ScheduleList events) {
+        float sum = 0;
+        for (ClassEvent e: events)
+            sum+=getHours(e);
+        return String.valueOf(sum);
+    }
+
+    private float getHours(ClassEvent ac){
+        String start = ac.startTime;
+        String end = ac.endTime;
+        float startHour = Float.parseFloat(start.split(":")[0]);
+        float startMin = Float.parseFloat(start.split(":")[1]);
+        float EndHour = Float.parseFloat(end.split(":")[0]);
+        float EndMin = Float.parseFloat(end.split(":")[1]);
+        float st = (startHour > 12 ? startHour - 12:startHour) + (startMin/60f);
+        float ed = (EndHour > 12 ? EndHour - 12:EndHour) + (EndMin/60f);
+        return ed - st;
+    }
+
+    private void colorByType(View Mainview, String type) {
+        View mainview = Mainview.findViewById(R.id.cardLayout_ClassEvent);
         switch (type){
             case "מעבדה":
                 mainview.setBackgroundColor(ColorTemplate.rgb("FFA500"));
@@ -76,11 +110,19 @@ public class DayFragment extends Fragment {
                 break;
             case "תרגיל":
                 mainview.setBackgroundColor(ColorTemplate.rgb("FFFF80"));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ColorTemplate.rgb("000000"));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ColorTemplate.rgb("000000"));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ColorTemplate.rgb("000000"));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ColorTemplate.rgb("000000"));
                 break;
             case "פרויקט":
                 mainview.setBackgroundColor(ColorTemplate.rgb("00C0C0"));
                 break;
             default:
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ColorTemplate.rgb("000000"));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ColorTemplate.rgb("000000"));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ColorTemplate.rgb("000000"));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ColorTemplate.rgb("000000"));
                 break;
         }
     }

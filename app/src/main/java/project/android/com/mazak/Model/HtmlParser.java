@@ -88,13 +88,50 @@ public class HtmlParser {
         return statistics;
     }
 
-    public static ScheduleList ParseToClassEvents(String html) {
+    public static ScheduleList ParseToClassEvents1(String html) {
         ScheduleList sched = new ScheduleList();
         Document doc = Jsoup.parse(html);
         Element elem = doc.getElementById(ConnectionData.ScheduleTableID);
         Elements el = elem.children().get(2).children();
         for(int i=1;i<el.size();i++)
-            sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
+            sched.add(ClassEvent.ParseToClassEvent1(el.get(i).getElementsByAttribute("title")));
         return sched;
+    }
+
+    public static ScheduleList ParseToClassEvents(String html) {
+        ScheduleList sched = new ScheduleList();
+        Document doc = Jsoup.parse(html);
+        Element elem = doc.getElementById(ConnectionData.ScheduleListTableID);
+        Elements el = elem.children().get(0).children();
+        for(int i=2;i<el.size();i++)
+            //sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
+            sched.add(ClassEvent.ParseToClassEvent(el.get(i)));
+        return sched;
+    }
+
+    public static String getListScheudleURL(String html) {
+        String year=null,sem=null;
+        Document doc = Jsoup.parse(html);
+        Element root = doc.getElementById(ConnectionData.ScheduleYearCBID);
+        Elements childs = root.children();
+        for (Element e:childs) {
+            String Selected = "";
+            Selected = e.getElementsByAttribute("selected").val();
+            if(!Selected.equals("")){
+                year = Selected;
+                break;
+            }
+        }
+        root = doc.getElementById(ConnectionData.ScheduleSemesterCBID);
+        childs = root.children();
+        for (Element e:childs) {
+            String Selected = "";
+            Selected = e.getElementsByAttribute("selected").val();
+            if(!Selected.equals("")){
+                sem = Selected;
+                break;
+            }
+        }
+        return String.format("https://mazak.jct.ac.il/Student/ScheduleList.aspx?AcademicYearID=%s&SemesterID=%s",year,sem);
     }
 }

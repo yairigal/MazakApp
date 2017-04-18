@@ -8,28 +8,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Model.Entities.Delegate;
 import project.android.com.mazak.Model.Entities.GradesList;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.IRefresh;
-import project.android.com.mazak.Model.getOptions;
 import project.android.com.mazak.R;
 
 
 public class AverageFragment extends Fragment implements IRefresh {
 
+    private static AverageFragment instance;
     private View root;
     Database db;
     GradesList grades;
@@ -42,6 +40,11 @@ public class AverageFragment extends Fragment implements IRefresh {
         // Required empty public constructor
     }
 
+    public static Fragment getInstance() {
+        if(instance == null)
+            instance = new AverageFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,

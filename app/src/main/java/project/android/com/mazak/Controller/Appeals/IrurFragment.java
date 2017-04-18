@@ -27,13 +27,14 @@ import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Model.Entities.Irur;
 import project.android.com.mazak.Model.Entities.IrurList;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.ISearch;
 import project.android.com.mazak.Model.Utility;
-import project.android.com.mazak.Model.getOptions;
 import project.android.com.mazak.R;
 
 
 public class IrurFragment extends Fragment implements ISearch {
+    private static IrurFragment instance;
     IrurList irurs;
     IrurList acceptedList,failedList,halfList,progList;
     Database db;
@@ -52,6 +53,12 @@ public class IrurFragment extends Fragment implements ISearch {
      * fragment (e.g. upon screen orientation changes).
      */
     public IrurFragment() {
+    }
+
+    public static Fragment getInstance() {
+        if(instance == null)
+            instance = new IrurFragment();
+        return instance;
     }
 
     @Override

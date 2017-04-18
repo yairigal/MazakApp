@@ -43,7 +43,7 @@
             android:name=".Model.Services.startAlarmService"
             android:enabled="true"
             android:exported="true"/>
-        <receiver
+<!--        <receiver
             android:name=".Model.Services.BootReceiver"
             android:enabled="true"
             android:exported="true">
@@ -51,7 +51,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="action.APP_KILLED"/>
             </intent-filter>
-        </receiver>
+        </receiver>-->
         <receiver
             android:name=".Model.Services.Alarm"
             android:enabled="true"

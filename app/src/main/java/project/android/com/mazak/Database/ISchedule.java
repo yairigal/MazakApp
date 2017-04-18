@@ -1,7 +1,7 @@
 package project.android.com.mazak.Database;
 
 import project.android.com.mazak.Model.Entities.ScheduleList;
-import project.android.com.mazak.Model.getOptions;
+import project.android.com.mazak.Model.Entities.getOptions;
 
 /**
  * Created by Yair on 2017-04-05.

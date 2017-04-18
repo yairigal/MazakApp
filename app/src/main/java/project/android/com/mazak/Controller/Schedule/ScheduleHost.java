@@ -2,11 +2,9 @@ package project.android.com.mazak.Controller.Schedule;
 
 
 import android.accounts.NetworkErrorException;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,20 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 import project.android.com.mazak.Controller.GradesView.FatherTab;
-import project.android.com.mazak.Controller.GradesView.gradesViewFragment;
-import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
-import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
-import project.android.com.mazak.Model.GradesModel;
+import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.IRefresh;
-import project.android.com.mazak.Model.ISearch;
-import project.android.com.mazak.Model.getOptions;
 import project.android.com.mazak.R;
 
 import static project.android.com.mazak.Controller.GradesView.FatherTab.toggleSpinner;
@@ -42,6 +34,7 @@ import static project.android.com.mazak.Controller.GradesView.FatherTab.toggleSp
  */
 public class ScheduleHost extends Fragment implements IRefresh {
 
+    private static ScheduleHost instance;
     View root;
     int NumOfDays;
     Database db;
@@ -55,6 +48,12 @@ public class ScheduleHost extends Fragment implements IRefresh {
         // Required empty public constructor
     }
 
+
+    public static Fragment getInstance() {
+        if(instance == null)
+            instance = new ScheduleHost();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,7 +83,12 @@ public class ScheduleHost extends Fragment implements IRefresh {
 
         int day = getDayOfWeek();
 
-        tabLayout.getTabAt(day).select();
+        //solution for crashing on fridays when your schedule is only till wednesday.
+        try {
+            tabLayout.getTabAt(day).select();
+        }catch (Exception ex){
+            tabLayout.getTabAt(0).select();
+        }
     }
 
     private void getScheduleAsync(final View view, final getOptions options) {
@@ -199,6 +203,7 @@ public class ScheduleHost extends Fragment implements IRefresh {
             case Calendar.WEDNESDAY:day = 3;break;
             case Calendar.THURSDAY:day = 4;break;
             case Calendar.FRIDAY:day = 5;break;
+            default: day=0;break;
         }
         return day;
     }

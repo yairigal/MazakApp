@@ -1,13 +1,22 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/DayMainLayout"
+    <include android:layout_height="wrap_content" android:layout_width="match_parent" layout="@layout/day_details"/>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/DayMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>
