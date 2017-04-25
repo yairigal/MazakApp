@@ -33,6 +33,7 @@ public class ConnectionData {
     public static final String ScheduleYearCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbAcademicYears";
     public static final String ScheduleSemesterCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbSemesters";
     public static final String ScheduleListTableID="ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdCoursesList_itemPlaceholderContainer";
+    public static final String TfilaTimesURL = "http://midrash.jct.ac.il/v2/";
 
     public static ArrayList<NameValuePair> getMazakCredentials(final String username, final String pass){
         return new ArrayList<NameValuePair>()

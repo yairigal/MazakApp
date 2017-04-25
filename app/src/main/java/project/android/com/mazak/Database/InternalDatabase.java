@@ -266,7 +266,6 @@ public class InternalDatabase implements Database {
         saveScheudle(schedule);
     }
 
-
     private void loadScheduleFromMemeory() {
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         String list = sharedPref.getString(ScheduleKey, null);

@@ -74,6 +74,8 @@ public class NavDrawerActivity extends AppCompatActivity
         current = this;
         setContentView(R.layout.activity_nav_drawer);
 
+        //startActivity(new Intent(this,MinyanTimesActivity.class));
+
         fromSettings = false;
         pb = (ProgressBar) findViewById(R.id.spinner);
         frame = (FrameLayout) findViewById(R.id.frameNav);
