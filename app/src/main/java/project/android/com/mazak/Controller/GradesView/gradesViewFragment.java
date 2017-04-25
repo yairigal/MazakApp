@@ -201,6 +201,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
 
     @Override
     public void Refresh() {
+
     }
 
     class GradeAdapter extends ArrayAdapter<Grade> {

@@ -14,6 +14,7 @@ import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.Irur;
 import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
+import project.android.com.mazak.Model.Entities.TfilaTime;
 import project.android.com.mazak.Model.Entities.gradeIngerdiants;
 import project.android.com.mazak.Model.Web.ConnectionData;
 
@@ -133,5 +134,21 @@ public class HtmlParser {
             }
         }
         return String.format("https://mazak.jct.ac.il/Student/ScheduleList.aspx?AcademicYearID=%s&SemesterID=%s",year,sem);
+    }
+
+    public static ArrayList<TfilaTime> ParseToTfilaTime(String html){
+        ArrayList<TfilaTime> times = new ArrayList<>();
+        Document doc = Jsoup.parse(html);
+        Element elem = doc.getElementById("times");
+        Elements el = elem.children().get(0).children().get(0).children();
+        for(int i=1;i<el.size()-1;i++) {
+            Elements childs = el.get(i).children();
+            //sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
+            boolean value = false;
+            if(!childs.get(0).text().equals(""))
+                value = true;
+            times.add(new TfilaTime(childs.get(1).text(),childs.get(2).text(),value));
+        }
+        return times;
     }
 }

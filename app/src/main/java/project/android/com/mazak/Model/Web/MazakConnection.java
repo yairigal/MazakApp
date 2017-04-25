@@ -20,7 +20,7 @@ import project.android.com.mazak.Model.Entities.NameValuePair;
 
 public class MazakConnection {
 
-    private List<String> cookies;
+    public List<String> cookies;
     private HttpsURLConnection conn;
     private final String USER_AGENT = "Mozilla/5.0";
     String loginUrl = ConnectionData.LoginUrl;
