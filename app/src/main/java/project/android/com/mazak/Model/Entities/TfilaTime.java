@@ -7,11 +7,13 @@ package project.android.com.mazak.Model.Entities;
 public class TfilaTime {
     public String name;
     public String time;
+    public boolean isSelected;
 
 
-    public TfilaTime(String name, String time) {
+    public TfilaTime(String name, String time,boolean isSelected) {
         this.name = name;
         this.time = time;
+        this.isSelected = isSelected;
     }
 
 

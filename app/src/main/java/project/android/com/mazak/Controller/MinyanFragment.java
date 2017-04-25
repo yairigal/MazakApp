@@ -1,47 +1,87 @@
 package project.android.com.mazak.Controller;
 
+
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
-
+import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Model.Entities.TfilaTime;
 import project.android.com.mazak.Model.HtmlParser;
+import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.Model.Web.ConnectionData;
-import project.android.com.mazak.Model.Web.MazakConnection;
 import project.android.com.mazak.R;
 
-public class MinyanTimesActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MinyanFragment extends Fragment implements IRefresh {
 
-    private ArrayList<TfilaTime> times;
-    ListView listView;
+
+    private View view;
+    private ListView listView;
+    private ArrayList<TfilaTime> times = new ArrayList<>();
+    ProgressBar pb;
+    ArrayAdapter<TfilaTime> Adapter;
+
+    public MinyanFragment() {
+        // Required empty public constructor
+    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_minyan_times);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_minyan_times, container, false);
+        listView = (ListView) view.findViewById(R.id.tfilaListView);
+        pb = (ProgressBar) view.findViewById(R.id.progressBarTfila);
         getTimes();
-        listView = (ListView) findViewById(R.id.tfilaListView);
+        Adapter = new ArrayAdapter<TfilaTime>(getContext(),R.layout.activity_minyan_times,times) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                if (convertView == null)
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.tfila_time, parent, false);
+
+                TfilaTime current = times.get(position);
+                TextView name =((TextView)convertView.findViewById(R.id.tfileName));
+                TextView time =((TextView)convertView.findViewById(R.id.tfileTime));
+                if(current.isSelected){
+                    (convertView.findViewById(R.id.mainLayoutTfilaTime)).setBackgroundColor(ColorTemplate.rgb("CC4566"));
+                    name.setTextColor(ColorTemplate.rgb("ffffff"));
+                    time.setTextColor(ColorTemplate.rgb("ffffff"));
+                }
+                name.setText(current.name);
+                time.setText(current.time);
+                return convertView;
+            }
+
+            @Override
+            public int getCount() {
+                return times.size();
+            }
+        };
+        listView.setAdapter(Adapter);
+        return view;
     }
+
 
     private String GetPageContent(String url) throws Exception {
 
@@ -82,6 +122,7 @@ public class MinyanTimesActivity extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                FatherTab.toggleSpinner(true,listView,pb);
             }
 
             @Override
@@ -98,20 +139,15 @@ public class MinyanTimesActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                listView.setAdapter(new ArrayAdapter<TfilaTime>(getApplicationContext(),R.layout.activity_minyan_times,times) {
-                    @NonNull
-                    @Override
-                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                        if (convertView == null)
-                            convertView = LayoutInflater.from(getContext()).inflate(R.layout.tfila_time, parent, false);
-
-                        TfilaTime current = times.get(position);
-                        ((TextView)convertView.findViewById(R.id.tfileName)).setText(current.name);
-                        ((TextView)convertView.findViewById(R.id.tfileTime)).setText(current.time);
-                        return convertView;
-                    }
-                });
+                FatherTab.toggleSpinner(false,listView,pb);
+                times = (ArrayList<TfilaTime>) times.clone();
+                Adapter.notifyDataSetChanged();
             }
         }.execute();
+    }
+
+    @Override
+    public void Refresh() {
+        getTimes();
     }
 }

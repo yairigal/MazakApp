@@ -124,7 +124,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     }
 
-    private void setupGoogleAnalyticsTracker() {
+    private void setupGoogleAnalyticsTracker(){
         if(mTracker == null) {
             mTracker = GoogleAnalytics.getInstance(this).newTracker("UA-96616811-1");
         }
@@ -135,7 +135,6 @@ public class NavDrawerActivity extends AppCompatActivity
                 .withLogEnabled(false)
                 .build(this, FLURRY_API_KEY);
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -238,6 +237,9 @@ public class NavDrawerActivity extends AppCompatActivity
                 break;
             case R.id.ScheudleItem: // average
                 navigateTo(ScheduleHost.getInstance(),"Schedule");
+                break;
+            case R.id.TfilaTimesItem: // Tfila times
+                navigateTo(new MinyanFragment(),"Prayer Times");
                 break;
             default: //logout
                 popUpLogoutDialog();

@@ -144,7 +144,10 @@ public class HtmlParser {
         for(int i=1;i<el.size()-1;i++) {
             Elements childs = el.get(i).children();
             //sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
-            times.add(new TfilaTime(childs.get(1).text(),childs.get(2).text()));
+            boolean value = false;
+            if(!childs.get(0).text().equals(""))
+                value = true;
+            times.add(new TfilaTime(childs.get(1).text(),childs.get(2).text(),value));
         }
         return times;
     }
