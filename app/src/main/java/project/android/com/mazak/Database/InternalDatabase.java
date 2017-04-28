@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 import project.android.com.mazak.Model.Entities.CourseStatistics;
@@ -13,6 +14,7 @@ import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
+import project.android.com.mazak.Model.Entities.TestList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.HtmlParser;
@@ -26,15 +28,19 @@ import project.android.com.mazak.R;
 
 public class InternalDatabase implements Database {
     private static final String filename = "Database.dat";
-    private static final String gradesKey = "grades";
-    private static final String IrursKey = "irurs";
+    public static final String gradesKey = "grades";
+    public static final String IrursKey = "irurs";
+    public static final String ScheduleKey = "schedules";
+    public static final String TestKey = "tests";
     private MazakConnection connection;
     private String currentUsername = "",currentPassword="";
     private GradesList grades;
     private Context activity;
     private IrurList irurs;
     private ScheduleList schedule;
-    private String ScheduleKey = "schedules";
+
+    private TestList tests;
+
 
     public InternalDatabase(Context ctx) {
         activity = ctx;
@@ -69,14 +75,61 @@ public class InternalDatabase implements Database {
         return lst;
     }
 
-    @Override
-    public void saveGrades(GradesList grades) {
+    public void save(Object toSave,String key){
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(grades);
-        editor.putString(gradesKey, json);
+        String json = gson.toJson(toSave);
+        editor.putString(key, json);
         editor.commit();
+    }
+
+    public void clear(String key,Object listOfItems){
+        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(key);
+        editor.commit();
+        listOfItems = null;
+    }
+
+    public void loadFromWeb(String key,String URL,Object list) throws Exception {
+        String html;
+        clear(key,list);
+        refreshConnection();
+        html = connection.connect(URL);
+        list = HtmlParser.Parse(html,key);
+        save(list,key);
+    }
+
+    public void loadFromMemory(String key,Object listOfObj,Type typeOfList){
+        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        String list = sharedPref.getString(key, null);
+        //got nothing from database.
+        if (list == null)
+            listOfObj = null;
+        else {
+            Object lst;
+            lst = (new Gson()).fromJson(list,typeOfList);
+            listOfObj = lst;
+        }
+    }
+
+    public Object get(getOptions option,String key,Object listOfObjects,Type typeOfList,String URL) throws Exception {
+        switch (option) {
+            case fromMemory:
+                loadFromMemory(key,listOfObjects,typeOfList);
+            case fromWeb:
+                loadFromWeb(key,URL,listOfObjects);
+                break;
+        }
+        if (listOfObjects == null)
+            throw new Exception(activity.getString(R.string.web_error));
+        return listOfObjects;
+    }
+
+    @Override
+    public void saveGrades(GradesList grades) {
+        save(grades,gradesKey);
     }
 
     @Override
@@ -129,6 +182,7 @@ public class InternalDatabase implements Database {
         deleteGrades();
         deleteIrurs();
         clearScheudle();
+        clearTests();
     }
 
     @Override
@@ -168,7 +222,7 @@ public class InternalDatabase implements Database {
         }
         if (irurs == null)
             throw new Exception(activity.getString(R.string.no_appeals_found));
-        return irurs.clone();
+        return (IrurList) irurs.clone();
     }
 
     @Override
@@ -182,12 +236,7 @@ public class InternalDatabase implements Database {
 
     @Override
     public void saveIrurs(IrurList irurs) {
-        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(irurs);
-        editor.putString(IrursKey, json);
-        editor.commit();
+        save(irurs,IrursKey);
     }
 
     @Override
@@ -281,12 +330,7 @@ public class InternalDatabase implements Database {
 
     @Override
     public void saveScheudle(ScheduleList schedule) {
-        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(schedule);
-        editor.putString(ScheduleKey, json);
-        editor.commit();
+        save(schedule,ScheduleKey);
     }
 
     @Override
@@ -296,5 +340,31 @@ public class InternalDatabase implements Database {
         editor.remove(ScheduleKey);
         editor.commit();
         schedule = null;
+    }
+
+    @Override
+    public TestList getTests(getOptions option) throws Exception {
+        switch (option) {
+            case fromMemory:
+                loadFromMemory(TestKey,tests,TestList.class);
+            case fromWeb:
+                loadTestsFromWeb();
+                break;
+        }
+        if (tests == null)
+            throw new Exception(activity.getString(R.string.no_tests_error));
+        return tests;
+    }
+
+    private void loadTestsFromWeb() throws Exception {
+        loadFromWeb(TestKey,ConnectionData.TestsURL,tests);
+    }
+
+    private void saveTests(TestList tests) {
+        save(tests,TestKey);
+    }
+
+    private void clearTests() {
+        clear(TestKey,tests);
     }
 }

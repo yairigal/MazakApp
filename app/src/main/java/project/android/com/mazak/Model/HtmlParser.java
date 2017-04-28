@@ -8,12 +8,15 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Model.Entities.ClassEvent;
 import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.Irur;
 import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
+import project.android.com.mazak.Model.Entities.Test;
+import project.android.com.mazak.Model.Entities.TestList;
 import project.android.com.mazak.Model.Entities.TfilaTime;
 import project.android.com.mazak.Model.Entities.gradeIngerdiants;
 import project.android.com.mazak.Model.Web.ConnectionData;
@@ -150,5 +153,31 @@ public class HtmlParser {
             times.add(new TfilaTime(childs.get(1).text(),childs.get(2).text(),value));
         }
         return times;
+    }
+
+    public static TestList ParseToTests(String html) {
+        TestList times = new TestList();
+        Document doc = Jsoup.parse(html);
+        Element elem = doc.getElementById(ConnectionData.TestsTableID);
+        Elements el = elem.children().get(0).children();
+        for(int i=1;i<el.size();i++) {
+            times.add(Test.ParseToTest(el.get(i)));
+        }
+        return times;
+    }
+
+    public static Object Parse(String html,String key) throws Exception {
+        switch (key){
+            case InternalDatabase.gradesKey:
+                return ParseToGrades(html);
+            case InternalDatabase.IrursKey:
+                return ParseToIrurs(html);
+            case InternalDatabase.ScheduleKey:
+                return ParseToClassEvents(html);
+            case InternalDatabase.TestKey:
+                return ParseToTests(html);
+            default:
+                return null;
+        }
     }
 }

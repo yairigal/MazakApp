@@ -21,4 +21,6 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_schedule_error">No Luz Found</string>
+    <string name="no_tests_error">Error geting tests</string>
+    <string name="web_error">web error</string>
 </resources>

@@ -4,51 +4,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Yair on 2017-03-11.
  */
 
-public class IrurList implements Iterable<Irur>, Serializable {
+public class IrurList extends ObjectList<Irur> {
 
-    ArrayList<Irur> list;
-    boolean reversed;
-
-
-    public IrurList(ArrayList<Irur> lst, boolean isreversed) {
-        this.list = lst;
-        this.reversed = isreversed;
+    public IrurList(ArrayList<Irur> objects, boolean b) {
+        super(objects,b);
     }
 
     public IrurList() {
-        list = new ArrayList<>();
-        reversed = false;
-    }
-
-    public boolean isReversed() {
-        return reversed;
-    }
-
-    public void reverse() {
-        Collections.reverse(list);
-        reversed = !reversed;
-    }
-
-    public void add(Irur i){
-        list.add(i);
-    }
-
-    public ArrayList<Irur> getList() {
-        return list;
+        super();
     }
 
     @Override
-    public Iterator<Irur> iterator() {
-        return list.iterator();
+    public ArrayList<Irur> getList(){
+        return (ArrayList<Irur>) list;
     }
 
-    public Irur get(int index){
-        return list.get(index);
+    @Override
+    public IrurList clone() {
+        return new IrurList((ArrayList<Irur>)((ArrayList<Irur>)list).clone(),reversed);
     }
 
     public boolean equal(IrurList lst2){
@@ -66,14 +45,4 @@ public class IrurList implements Iterable<Irur>, Serializable {
         }
         return true;
     }
-    public int size(){
-        return list.size();
-    }
-
-    @Override
-    public IrurList clone(){
-        return new IrurList((ArrayList<Irur>) list.clone(),reversed);
-    }
-
-
 }
