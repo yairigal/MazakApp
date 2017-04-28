@@ -77,7 +77,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".Controller.MinyanTimesActivity"></activity>
     </application>
 
 </manifest>

@@ -171,9 +171,13 @@ public class GradesModel {
 
     private static GradesList removeDuplicatesOfGrades(GradesList grades) {
         HashMap<String,Grade> map = new HashMap<>();
-        for (Grade g :grades.getList())
-                map.put(g.name, g);
         GradesList toRet = new GradesList();
+        for (Grade g :grades.getList()) {
+            if (g.name.equals(LimodeyKodesh))
+                toRet.add(g);
+            else
+                map.put(g.name, g);
+        }
         for (Grade g:map.values())
             toRet.add(g);
         return toRet;

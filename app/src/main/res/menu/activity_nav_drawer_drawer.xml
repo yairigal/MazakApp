@@ -24,7 +24,7 @@
         <item
             android:id="@+id/TfilaTimesItem"
             android:icon="@mipmap/icon_tfila"
-            android:title="Prayer times" />
+            android:title="Tfila times" />
     </group>
     <group
         android:id="@+id/group2">

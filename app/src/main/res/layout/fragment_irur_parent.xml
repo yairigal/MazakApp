@@ -74,7 +74,7 @@
                             android:layout_gravity="right"
                             android:layout_margin="10dp"
                             android:text="התקבלו"
-                            android:textColor="@android:color/holo_green_light"
+                            android:textColor="#388E3C"
                             android:textStyle="normal|bold" />
 
                         <ListView

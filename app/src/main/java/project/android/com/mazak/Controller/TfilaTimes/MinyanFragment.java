@@ -1,4 +1,4 @@
-package project.android.com.mazak.Controller;
+package project.android.com.mazak.Controller.TfilaTimes;
 
 
 import android.content.Context;

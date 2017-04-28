@@ -2,9 +2,25 @@ package project.android.com.mazak.Database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.InvalidParameterSpecException;
 import java.util.HashMap;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by Yair on 2017-02-20.
@@ -31,9 +47,18 @@ public class LoginDatabase {
         SharedPreferences sharedPref = ctx.getSharedPreferences("pw", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         username = us; password = pw;
-        editor.putString("username", username);
-        editor.putString("password", password);
+        editor.putString("username", encrypt(username));
+        editor.putString("password", encrypt(password));
         editor.commit();
+    }
+
+    private String encrypt(String toEnc) {
+        byte[] UN = StringToByte(toEnc);
+        return ByteToString(Base64.encode(UN, Base64.DEFAULT));
+    }
+    private String decrypt(String toDec) {
+        byte[] UN = StringToByte(toDec);
+        return ByteToString(Base64.decode(UN, Base64.DEFAULT));
     }
 
     public void clearLoginInformation() throws IOException {
@@ -86,8 +111,23 @@ public class LoginDatabase {
         SharedPreferences sharedPref = ctx.getSharedPreferences("pw", Context.MODE_PRIVATE);
         username = sharedPref.getString("username", "");
         password = sharedPref.getString("password", "");
-        map.put("username",username);
-        map.put("password",password);
+        map.put("username", decrypt(username));
+        map.put("password", decrypt(password));
         return map;
+    }
+    public static byte[] StringToByte(String str){
+        byte[] toRet = new byte[str.length()];
+        char[] arr = str.toCharArray();
+        for(int i=0;i<arr.length;i++) {
+            toRet[i] = (byte) arr[i];
+        }
+        return toRet;
+    }
+    public static String ByteToString(byte[] arg){
+        char[] arr = new char[arg.length];
+        for(int i = 0;i<arg.length;i++){
+            arr[i] = (char) arg[i];
+        }
+        return String.valueOf(arr);
     }
 }
