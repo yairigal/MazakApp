@@ -20,6 +20,68 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
     public String name;
     public String lecturer;
     public String Class;
+
+
+    public String getclass(){
+        return Class;
+    }
+    public void setclass(String Class){
+        this.Class = Class;
+    }
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        if (startTime != null)
+            this.startTime = startTime;
+        else
+            this.startTime = "12:00";
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        if (endTime != null)
+            this.endTime = endTime;
+        else
+            this.endTime = "12:00";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(String lecturer) {
+        this.lecturer = lecturer;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
     public String Type;
     public int day;
 
@@ -73,10 +135,20 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
         Pattern p = Pattern.compile("([\\p{InHebrew}\\s]+):\\s*([\\d:]+)\\s*-\\s*([\\d:]+),\\s*([\\d\\-'\\s\\p{InHebrew}]+)");
         Matcher m = p.matcher(TimeAndPlace.trim());
         if(m.find()) {
-            toRet.day = getDay(m.group(1));
-            toRet.startTime = m.group(2);
-            toRet.endTime = m.group(3);
-            toRet.Class = m.group(4);
+            toRet.setDay(getDay(m.group(1)));
+            toRet.setStartTime(m.group(2));
+            toRet.setStartTime(m.group(2));
+            toRet.setEndTime(m.group(3));
+            toRet.setclass(m.group(4));
+        }else { // in case there is no class in the input
+            p = Pattern.compile("([\\p{InHebrew}\\s]+):\\s*([\\d:]+)\\s*-\\s*([\\d:]+),\\s*");
+            m = p.matcher(TimeAndPlace.trim());
+            if(m.find()) {
+                toRet.setDay(getDay(m.group(1)));
+                toRet.setStartTime(m.group(2));
+                toRet.setStartTime(m.group(2));
+                toRet.setEndTime(m.group(3));
+            }
         }
         return toRet;
     }
@@ -103,13 +175,13 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
         String actual = startTime;
         String limit = o.startTime;
 
-        String[] parts = actual.split(":");
         Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+
+        String[] parts = actual.split(":");
         cal1.set(Calendar.HOUR_OF_DAY, Integer.parseInt(parts[0]));
         cal1.set(Calendar.MINUTE, Integer.parseInt(parts[1]));
-
         parts = limit.split(":");
-        Calendar cal2 = Calendar.getInstance();
         cal2.set(Calendar.HOUR_OF_DAY, Integer.parseInt(parts[0]));
         cal2.set(Calendar.MINUTE, Integer.parseInt(parts[1]));
 

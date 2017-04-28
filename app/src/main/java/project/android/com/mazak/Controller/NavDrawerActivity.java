@@ -1,6 +1,5 @@
 package project.android.com.mazak.Controller;
 
-import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -38,6 +37,7 @@ import project.android.com.mazak.Controller.Average.AverageFragment;
 import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Controller.Schedule.ScheduleHost;
+import project.android.com.mazak.Controller.TfilaTimes.MinyanFragment;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
@@ -239,7 +239,7 @@ public class NavDrawerActivity extends AppCompatActivity
                 navigateTo(ScheduleHost.getInstance(),"Schedule");
                 break;
             case R.id.TfilaTimesItem: // Tfila times
-                navigateTo(new MinyanFragment(),"Prayer Times");
+                navigateTo(new MinyanFragment(),"Tfila Times");
                 break;
             default: //logout
                 popUpLogoutDialog();
