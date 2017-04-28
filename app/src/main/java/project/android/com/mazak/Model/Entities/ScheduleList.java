@@ -8,57 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class ScheduleList implements Iterable<ClassEvent>, Serializable {
-    List<ClassEvent> list;
+public class ScheduleList extends ObjectList<ClassEvent>{
 
-    public ScheduleList(List<ClassEvent> lst) {
-        this.list = lst;
+    public ScheduleList(List<ClassEvent> clone, boolean reversed) {
+        super(clone,reversed);
     }
 
     public ScheduleList() {
-        list = new ArrayList<>();
-    }
-
-
-
-    @Override
-    public Iterator<ClassEvent> iterator() {
-        return list.iterator();
-    }
-
-    public void reverse() {
-        if(list != null && list.size() != 0) {
-            Collections.reverse(list);
-        }
-    }
-
-    public ClassEvent get(int i) {
-        return list.get(i);
-    }
-
-    public int size() {
-        return list.size();
-    }
-
-    public void clear() {
-        list.clear();
-    }
-
-    public void addAll(ScheduleList grades) {
-        if(grades != null)
-            this.list.addAll(grades.list);
-    }
-
-    public List<ClassEvent> getList() {
-        return list;
-    }
-
-    public void add(ClassEvent g){
-        this.list.add(g);
-    }
-
-    public ScheduleList clone(){
-        return new ScheduleList(new ArrayList<>(list));
+        super();
     }
 
     public ScheduleList getEventsByDay(int position) {
@@ -81,5 +38,10 @@ public class ScheduleList implements Iterable<ClassEvent>, Serializable {
             map.put(c.day,0);
         }
         return map.size();
+    }
+
+    @Override
+    public ScheduleList clone() {
+        return new ScheduleList((List<ClassEvent>)((ArrayList<ClassEvent>)list).clone(),reversed);
     }
 }

@@ -98,7 +98,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
     private void getDataAndGradesFromBundle() {
         year = getArguments().getInt("year");
         grades = (GradesList) getArguments().getSerializable("list");
-        adapterList = grades.clone();
+        adapterList = (GradesList) grades.clone();
     }
 
     private void getGradesList() throws Exception {

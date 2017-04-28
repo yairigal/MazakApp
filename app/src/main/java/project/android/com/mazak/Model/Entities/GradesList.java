@@ -10,64 +10,17 @@ import java.util.List;
  * Created by Yair on 2017-02-22.
  */
 
-public class GradesList implements Iterable<Grade>, Serializable {
-   List<Grade> list;
-    boolean reversed;
-
-    public GradesList(List<Grade> lst, boolean rev) {
-        this.list = lst;
-        this.reversed = rev;
+public class GradesList extends ObjectList<Grade> {
+    public GradesList(List<Grade> list, boolean reversed) {
+        super(list,reversed);
     }
 
     public GradesList() {
-        list = new ArrayList<>();
-        reversed = false;
+        super();
     }
-
-
 
     @Override
-    public Iterator<Grade> iterator() {
-        return list.iterator();
-    }
-
-    public void reverse() {
-        if(list != null && list.size() != 0) {
-            Collections.reverse(list);
-            reversed = !reversed;
-        }
-    }
-
-    public boolean isReversed() {
-        return reversed;
-    }
-
-    public Grade get(int i) {
-        return list.get(i);
-    }
-
-    public int size() {
-        return list.size();
-    }
-
-    public void clear() {
-        list.clear();
-    }
-
-    public void addAll(GradesList grades) {
-        if(grades != null)
-            this.list.addAll(grades.list);
-    }
-
-    public List<Grade> getList() {
-        return list;
-    }
-
-    public void add(Grade g){
-        this.list.add(g);
-    }
-
-    public GradesList clone(){
-        return new GradesList(new ArrayList<>(list),false);
+    public GradesList clone() {
+        return new GradesList((List<Grade>)((ArrayList<Grade>)list).clone(),reversed);
     }
 }
