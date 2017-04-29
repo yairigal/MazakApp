@@ -241,6 +241,9 @@ public class NavDrawerActivity extends AppCompatActivity
             case R.id.TfilaTimesItem: // Tfila times
                 navigateTo(new MinyanFragment(),"Tfila Times");
                 break;
+            case R.id.TestsItem: // Tests
+                navigateTo(new TestsFragment(),"Tests");
+                break;
             default: //logout
                 popUpLogoutDialog();
                 break;

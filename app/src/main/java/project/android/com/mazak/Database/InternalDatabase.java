@@ -13,8 +13,10 @@ import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
+import project.android.com.mazak.Model.Entities.ObjectList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.TestList;
+import project.android.com.mazak.Model.Entities.Wrapper;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.HtmlParser;
@@ -27,6 +29,7 @@ import project.android.com.mazak.R;
  */
 
 public class InternalDatabase implements Database {
+    private Context activity;
     private static final String filename = "Database.dat";
     public static final String gradesKey = "grades";
     public static final String IrursKey = "irurs";
@@ -35,10 +38,8 @@ public class InternalDatabase implements Database {
     private MazakConnection connection;
     private String currentUsername = "",currentPassword="";
     private GradesList grades;
-    private Context activity;
     private IrurList irurs;
     private ScheduleList schedule;
-
     private TestList tests;
 
 
@@ -92,39 +93,43 @@ public class InternalDatabase implements Database {
         listOfItems = null;
     }
 
-    public void loadFromWeb(String key,String URL,Object list) throws Exception {
+    public Object loadFromWeb(String key,String URL,Object list) throws Exception {
         String html;
+        Object listParsed;
         clear(key,list);
         refreshConnection();
         html = connection.connect(URL);
-        list = HtmlParser.Parse(html,key);
-        save(list,key);
+        listParsed = HtmlParser.Parse(html,key);
+        save(listParsed,key);
+        return listParsed;
     }
 
-    public void loadFromMemory(String key,Object listOfObj,Type typeOfList){
+    public Object loadFromMemory(String key, Type typeOfList){
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         String list = sharedPref.getString(key, null);
         //got nothing from database.
         if (list == null)
-            listOfObj = null;
+            return null;
         else {
             Object lst;
             lst = (new Gson()).fromJson(list,typeOfList);
-            listOfObj = lst;
+            return lst;
         }
     }
 
     public Object get(getOptions option,String key,Object listOfObjects,Type typeOfList,String URL) throws Exception {
+        Object returnedList = null;
         switch (option) {
             case fromMemory:
-                loadFromMemory(key,listOfObjects,typeOfList);
+                returnedList =  loadFromMemory(key,typeOfList);
+                break;
             case fromWeb:
-                loadFromWeb(key,URL,listOfObjects);
+                returnedList =  loadFromWeb(key,URL,listOfObjects);
                 break;
         }
-        if (listOfObjects == null)
+        if (returnedList == null)
             throw new Exception(activity.getString(R.string.web_error));
-        return listOfObjects;
+        return returnedList;
     }
 
     @Override
@@ -236,7 +241,7 @@ public class InternalDatabase implements Database {
 
     @Override
     public void saveIrurs(IrurList irurs) {
-        save(irurs,IrursKey);
+        save(new Wrapper(irurs),IrursKey);
     }
 
     @Override
@@ -330,7 +335,7 @@ public class InternalDatabase implements Database {
 
     @Override
     public void saveScheudle(ScheduleList schedule) {
-        save(schedule,ScheduleKey);
+        save(new Wrapper(schedule),ScheduleKey);
     }
 
     @Override
@@ -346,7 +351,8 @@ public class InternalDatabase implements Database {
     public TestList getTests(getOptions option) throws Exception {
         switch (option) {
             case fromMemory:
-                loadFromMemory(TestKey,tests,TestList.class);
+                tests = (TestList) loadFromMemory(TestKey,TestList.class);
+                break;
             case fromWeb:
                 loadTestsFromWeb();
                 break;
@@ -357,14 +363,14 @@ public class InternalDatabase implements Database {
     }
 
     private void loadTestsFromWeb() throws Exception {
-        loadFromWeb(TestKey,ConnectionData.TestsURL,tests);
+        tests = (TestList) loadFromWeb(TestKey,ConnectionData.TestsURL,new Wrapper(tests));
     }
 
     private void saveTests(TestList tests) {
-        save(tests,TestKey);
+        save(new Wrapper(tests),TestKey);
     }
 
     private void clearTests() {
-        clear(TestKey,tests);
+        clear(TestKey,new Wrapper(tests));
     }
 }
