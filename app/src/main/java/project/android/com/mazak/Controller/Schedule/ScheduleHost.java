@@ -5,6 +5,7 @@ import android.accounts.NetworkErrorException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import java.util.Calendar;
 import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
+import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.IRefresh;
@@ -126,6 +128,8 @@ public class ScheduleHost extends Fragment implements IRefresh {
                 } else {
                     toggleSpinner(false, MainLayouit, pb);
                     setupTabs(view);
+                    String cal1 = db.getUpdateTime(InternalDatabase.ScheduleKey);
+                    Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
                 }
             }
 

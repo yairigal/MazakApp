@@ -37,6 +37,7 @@ import project.android.com.mazak.Controller.Average.AverageFragment;
 import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Controller.Schedule.ScheduleHost;
+import project.android.com.mazak.Controller.Tests.TestsFragment;
 import project.android.com.mazak.Controller.TfilaTimes.MinyanFragment;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;

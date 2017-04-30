@@ -7,16 +7,16 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
-import project.android.com.mazak.Model.Entities.ObjectList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.TestList;
-import project.android.com.mazak.Model.Entities.Wrapper;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.HtmlParser;
@@ -31,6 +31,7 @@ import project.android.com.mazak.R;
 public class InternalDatabase implements Database {
     private Context activity;
     private static final String filename = "Database.dat";
+    private static final String updatesFileName = "updates.dat";
     public static final String gradesKey = "grades";
     public static final String IrursKey = "irurs";
     public static final String ScheduleKey = "schedules";
@@ -47,33 +48,62 @@ public class InternalDatabase implements Database {
         activity = ctx;
     }
 
-    private void loadGradesFromInternalMemory() {
-        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
-        String list = sharedPref.getString(gradesKey, null);
-        //got nothing from database.
-        if (list == null)
-            grades = null;
-        else {
-            GradesList lst;
-            lst = (new Gson()).fromJson(list, GradesList.class);
-            grades = lst;
+    private void refreshConnection() throws IOException {
+        String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
+        String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
+        if (connection == null || !username.equals(currentUsername) || !passw.equals(currentPassword)) {
+            currentUsername = username;
+            currentPassword = passw;
+            connection = new MazakConnection(currentUsername, currentPassword);
         }
     }
 
-    private GradesList castToArray(GradesList arr) {
-        GradesList lst = new GradesList();
-        for (Grade map : arr) {
-            Grade gr = new Grade();
-/*            gr.code = map.get("code").toString();
-            gr.finalGrade = map.get("finalGrade").toString();
-            gr.minGrade = map.get("minGrade").toString();
-            gr.name = map.get("name").toString();
-            gr.points = map.get("points").toString();
-            gr.semester = map.get("semester").toString();
-            gr.subDetailsID = map.get("subDetailsID").toString();*/
-            lst.add(gr);
+    @Override
+    public void clearDatabase() {
+        deleteGrades();
+        deleteIrurs();
+        clearScheudle();
+        clearTests();
+    }
+
+    @Override
+    public GradesList FilterByName(String name) {
+        GradesList toRet = new GradesList();
+        for (Grade g : grades)
+            if (g.name.contains(name))
+                toRet.add(g);
+        return toRet;
+    }
+
+    @Override
+    public void changeUsernameAndPassword(String username, String password) throws Exception {
+        if (username == null || password == null)
+            throw new Exception("Argument is null");
+        connection = new MazakConnection(username, password);
+    }
+
+    private void updateTime(String key){
+        Date cal1 = getCurrentTime();
+        SharedPreferences sharedPref = activity.getSharedPreferences(updatesFileName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(cal1);
+        editor.putString(key, json);
+        editor.commit();
+    }
+
+    @Override
+    public String getUpdateTime(String key){
+        SharedPreferences sharedPref = activity.getSharedPreferences(updatesFileName, Context.MODE_PRIVATE);
+        String list = sharedPref.getString(key, null);
+        //got nothing from database.
+        if (list == null)
+            return null;
+        else {
+            Object lst;
+            lst = (new Gson()).fromJson(list,Date.class);
+            return new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(lst).toString();
         }
-        return lst;
     }
 
     public void save(Object toSave,String key){
@@ -101,6 +131,7 @@ public class InternalDatabase implements Database {
         html = connection.connect(URL);
         listParsed = HtmlParser.Parse(html,key);
         save(listParsed,key);
+        updateTime(key);
         return listParsed;
     }
 
@@ -130,6 +161,20 @@ public class InternalDatabase implements Database {
         if (returnedList == null)
             throw new Exception(activity.getString(R.string.web_error));
         return returnedList;
+    }
+
+    //region grades
+    private void loadGradesFromInternalMemory() {
+        SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        String list = sharedPref.getString(gradesKey, null);
+        //got nothing from database.
+        if (list == null)
+            grades = null;
+        else {
+            GradesList lst;
+            lst = (new Gson()).fromJson(list, GradesList.class);
+            grades = lst;
+        }
     }
 
     @Override
@@ -170,33 +215,11 @@ public class InternalDatabase implements Database {
         //String res = WebViewConnection.RhinoTest(html);
         grades = HtmlParser.ParseToGrades(html);
         saveGrades(grades);
+        updateTime(gradesKey);
     }
 
-    private void refreshConnection() throws IOException {
-        String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
-        String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
-        if (connection == null || !username.equals(currentUsername) || !passw.equals(currentPassword)) {
-            currentUsername = username;
-            currentPassword = passw;
-            connection = new MazakConnection(currentUsername, currentPassword);
-        }
-    }
-
-    @Override
-    public void clearDatabase() {
-        deleteGrades();
-        deleteIrurs();
-        clearScheudle();
-        clearTests();
-    }
-
-    @Override
-    public GradesList FilterByName(String name) {
-        GradesList toRet = new GradesList();
-        for (Grade g : grades)
-            if (g.name.contains(name))
-                toRet.add(g);
-        return toRet;
+    private Date getCurrentTime() {
+        return new Date();
     }
 
     @Override
@@ -207,14 +230,9 @@ public class InternalDatabase implements Database {
         editor.commit();
         grades = null;
     }
+    //endregion
 
-    @Override
-    public void changeUsernameAndPassword(String username, String password) throws Exception {
-        if (username == null || password == null)
-            throw new Exception("Argument is null");
-        connection = new MazakConnection(username, password);
-    }
-
+    //region irurs
     @Override
     public IrurList getIrurs(getOptions options) throws Exception {
         switch (options) {
@@ -241,7 +259,7 @@ public class InternalDatabase implements Database {
 
     @Override
     public void saveIrurs(IrurList irurs) {
-        save(new Wrapper(irurs),IrursKey);
+        save(irurs,IrursKey);
     }
 
     @Override
@@ -272,6 +290,7 @@ public class InternalDatabase implements Database {
         //String res = WebViewConnection.RhinoTest(html);
         irurs = HtmlParser.ParseToIrurs(html);
         saveIrurs(irurs);
+        updateTime(IrursKey);
     }
 
     private void getIrursFromMemory() {
@@ -286,7 +305,9 @@ public class InternalDatabase implements Database {
             irurs = lst;
         }
     }
+    //endregion
 
+    //region stats
     @Override
     public CourseStatistics getStatsFromWeb(String link) throws Exception {
         refreshConnection();
@@ -294,6 +315,9 @@ public class InternalDatabase implements Database {
         return HtmlParser.ParseToStats(res);
     }
 
+    //endregion
+
+    //region schedule
     @Override
     public ScheduleList getScheudle(getOptions options) throws Exception {
         switch (options) {
@@ -318,6 +342,7 @@ public class InternalDatabase implements Database {
         html = connection.connect(newURL);
         schedule = HtmlParser.ParseToClassEvents(html);
         saveScheudle(schedule);
+        updateTime(ScheduleKey);
     }
 
     private void loadScheduleFromMemeory() {
@@ -335,7 +360,7 @@ public class InternalDatabase implements Database {
 
     @Override
     public void saveScheudle(ScheduleList schedule) {
-        save(new Wrapper(schedule),ScheduleKey);
+        save(schedule,ScheduleKey);
     }
 
     @Override
@@ -347,6 +372,9 @@ public class InternalDatabase implements Database {
         schedule = null;
     }
 
+    //endregion
+
+    //region tests
     @Override
     public TestList getTests(getOptions option) throws Exception {
         switch (option) {
@@ -363,14 +391,16 @@ public class InternalDatabase implements Database {
     }
 
     private void loadTestsFromWeb() throws Exception {
-        tests = (TestList) loadFromWeb(TestKey,ConnectionData.TestsURL,new Wrapper(tests));
+        tests = (TestList) loadFromWeb(TestKey,ConnectionData.TestsURL,tests);
     }
 
     private void saveTests(TestList tests) {
-        save(new Wrapper(tests),TestKey);
+        save(tests,TestKey);
     }
 
     private void clearTests() {
-        clear(TestKey,new Wrapper(tests));
+        clear(TestKey,tests);
     }
+
+    //endregion
 }

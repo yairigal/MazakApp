@@ -1,4 +1,4 @@
-package project.android.com.mazak.Controller;
+package project.android.com.mazak.Controller.Tests;
 
 
 import android.accounts.NetworkErrorException;
@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Controller.Statistics.CourseStatisticsActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
+import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.Test;
@@ -64,7 +66,7 @@ public class TestsFragment extends Fragment implements IRefresh {
     private ProgressBar spinner;
 
 
-    TestsFragment(){}
+    public TestsFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +133,8 @@ public class TestsFragment extends Fragment implements IRefresh {
                     FatherTab.toggleSpinner(false, mainLayout, spinner);
                     adp.changeList((ArrayList<Test>) grades.clone().getList());
                     adp.notifyDataSetChanged();
+                    String cal1 = database.getUpdateTime(InternalDatabase.TestKey);
+                    Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
                     //setupTabs(view);
                 }
             }
@@ -201,7 +205,7 @@ public class TestsFragment extends Fragment implements IRefresh {
                     convertView = inflater.inflate(R.layout.test, parent, false);
                 }
 
-                Test current = list.get(position);
+                final Test current = list.get(position);
                 //do stuff
                 TextView name = (TextView) convertView.findViewById(R.id.TestName);
                 TextView moed = (TextView) convertView.findViewById(R.id.TestMoed);
@@ -209,8 +213,70 @@ public class TestsFragment extends Fragment implements IRefresh {
                 name.setText(current.getName());
                 moed.setText(current.getMoed());
                 time.setText(current.getTime()+"\n"+current.getDate());
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDialog(current);
+                    }
+                });
+
 
             return convertView;
+        }
+
+        void showDialog(final Test gd) {
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.dialog_list);
+            ((TextView)dialog.findViewById(R.id.dialog1)).setText(gd.getName());
+            ((TextView)dialog.findViewById(R.id.dialog2)).setText(gd.getMoed());
+            ((TextView)dialog.findViewById(R.id.dialog3)).setText("מועד המבחן:\n"+gd.getDate()+"\n"+gd.getTime());
+            ((TextView)dialog.findViewById(R.id.dialog4)).setText("תאריך אחרון להרשמה:"+gd.getLastRegtime());
+            ((TextView)dialog.findViewById(R.id.dialog5)).setText("תאריך אחרון לביטול:"+gd.getLastCancelTime());
+/*        ListView listView = (ListView) dialog.findViewById(R.id.DialogLV);
+        final ArrayList<String> lst = new ArrayList<String>() {{
+            add(gd.name);
+            add(gd.code);
+            add("נ''ז: " + gd.points);
+            add("סמסטר: " + gd.semester);
+            add("ציון סופי: " + gd.finalGrade);
+        }};
+        listView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.dialog_list, lst) {
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.detail, parent, false);
+                }
+                TextView tv = (TextView) convertView.findViewById(R.id.detail);
+                tv.setText(lst.get(position));
+*//*                switch (position){
+                    case 0:
+                        tv.setText(gd.name);
+                        break;
+                    case 1:
+                        tv.setText(gd.code);
+                        break;
+                    case 2:
+                        tv.setText(gd.points);
+                        break;
+                    case 3:
+                        tv.setText(gd.semester);
+                        break;
+                    case 4:
+                        tv.setText(gd.finalGrade);
+                        break;
+                }*//*
+                return convertView;
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 5)
+                    openStatisticsActivity(gd, dialog);
+            }
+        });*/
+            dialog.show();
         }
 
         @Override

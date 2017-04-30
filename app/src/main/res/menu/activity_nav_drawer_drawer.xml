@@ -20,7 +20,7 @@
             android:title="Schedule" />
         <item
             android:id="@+id/TestsItem"
-            android:icon="@mipmap/icon_schedule"
+            android:icon="@mipmap/icon_test"
             android:title="Tests" />
     </group>
     <group

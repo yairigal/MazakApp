@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    tools:context="project.android.com.mazak.Controller.TestsFragment">
+    tools:context="project.android.com.mazak.Controller.Tests.TestsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <LinearLayout
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -34,7 +34,6 @@
                             android:layout_gravity="right"
                             android:text="שם קורס"
                             android:textColor="@color/colorPrimary"
-                            android:elevation="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:textStyle="normal|bold" />
@@ -58,7 +57,8 @@
                             android:textColor="@color/colorPrimary"
                             android:elevation="0dp"
                             android:textStyle="normal|bold" />
-                    </LinearLayout>
+                    </LinearLayout
+>
 
 
                     <ListView

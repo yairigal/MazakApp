@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -25,6 +27,7 @@ import java.util.List;
 import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
+import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Model.Entities.Irur;
 import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.getOptions;
@@ -40,9 +43,10 @@ public class IrurFragment extends Fragment implements ISearch {
     Database db;
     ProgressBar spinner;
     View view;
-    RelativeLayout mainLayout;
+    LinearLayout mainLayout;
     myAdapter acceptedad,failedad,halfad,progad;
-    String ACCEPTED = "התקבל",FAILED = "נדחה",HALF = "התקבל חלקית",PROG = "בטיפול";
+    String ACCEPTED = "התקבל",HALF = "התקבל חלקית",PROG = "בטיפול";
+    String[] FAILED = {"נדחה","ציון הורד"};
     ListView inProg;
     ListView accpeted;
     ListView half;
@@ -90,7 +94,8 @@ public class IrurFragment extends Fragment implements ISearch {
                     try {
                         newList = db.getIrurs(getOptions.fromWeb);
                     } catch (Exception e1) {
-                        showSnackException("Error getting Irurs");
+                        //showSnackException("Error getting Irurs");
+                        e1.printStackTrace();
                     }
                 }
                 return null;
@@ -101,7 +106,7 @@ public class IrurFragment extends Fragment implements ISearch {
                 super.onPostExecute(x);
                 FatherTab.toggleSpinner(false, mainLayout, spinner);
                 refreshAdapter(acceptedad, acceptedList.getList(), getIrurWithStatus(newList,ACCEPTED).getList());
-                refreshAdapter(failedad, failedList.getList(), getIrurWithStatus(newList,FAILED).getList());
+                refreshAdapter(failedad, failedList.getList(), getFailedIrurs(newList,FAILED).getList());
                 refreshAdapter(halfad, halfList.getList(), getIrurWithStatus(newList,HALF).getList());
                 refreshAdapter(progad, progList.getList(), getIrurWithStatus(newList,PROG).getList());
 
@@ -115,9 +120,19 @@ public class IrurFragment extends Fragment implements ISearch {
                 else
                     hideEmptyMessage();
                 //progressBar.setVisibility(VISIBLE);
+                String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
+                Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
             }
         };
         task.execute();
+    }
+
+    private IrurList getFailedIrurs(IrurList irurs, String[] status){
+        IrurList toret = new IrurList();
+        for(int i=0;i<status.length;i++){
+            toret.addAll(getIrurWithStatus(irurs,status[i]));
+        }
+        return toret;
     }
 
     private void getIrursAsync(final getOptions op) {
@@ -140,8 +155,8 @@ public class IrurFragment extends Fragment implements ISearch {
                 try {
                     newList = db.getIrurs(op);
                 } catch (Exception e) {
-
-                    showSnackException("Error getting Irurs");
+                    //showSnackException("Error getting Irurs");
+                    e.printStackTrace();
                 }
                 return null;
             }
@@ -151,7 +166,7 @@ public class IrurFragment extends Fragment implements ISearch {
                 super.onPostExecute(x);
                 FatherTab.toggleSpinner(false, mainLayout, spinner);
                 refreshAdapter(acceptedad, acceptedList.getList(), getIrurWithStatus(newList,ACCEPTED).getList());
-                refreshAdapter(failedad, failedList.getList(), getIrurWithStatus(newList,FAILED).getList());
+                refreshAdapter(failedad, failedList.getList(), getFailedIrurs(newList,FAILED).getList());
                 refreshAdapter(halfad, halfList.getList(), getIrurWithStatus(newList,HALF).getList());
                 refreshAdapter(progad, progList.getList(), getIrurWithStatus(newList,PROG).getList());
 
@@ -161,6 +176,8 @@ public class IrurFragment extends Fragment implements ISearch {
                 else
                     hideEmptyMessage();
                 //progressBar.setVisibility(VISIBLE);
+                String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
+                Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
             }
         };
         task.execute();
@@ -186,7 +203,7 @@ public class IrurFragment extends Fragment implements ISearch {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_irur_parent, container, false);
         spinner = (ProgressBar) view.findViewById(R.id.irurSpinner);
-        mainLayout = (RelativeLayout) view.findViewById(R.id.irursMainLayout);
+        mainLayout = (LinearLayout) view.findViewById(R.id.irursMainLayout);
         inProg = (ListView) view.findViewById(R.id.listAppealsInProgress);
         accpeted = (ListView) view.findViewById(R.id.listAppealsAccepted);
         half = (ListView) view.findViewById(R.id.listAppealsHalfAccepted);
@@ -200,7 +217,7 @@ public class IrurFragment extends Fragment implements ISearch {
         accpeted.setAdapter(acceptedad = new myAdapter(getContext(),R.layout.fragment_irur_parent,acceptedList.getList()));
         halfList = getIrurWithStatus(irurs,HALF);
         half.setAdapter(halfad = new myAdapter(getContext(),R.layout.fragment_irur_parent,halfList.getList()));
-        failedList = getIrurWithStatus(irurs,FAILED);
+        failedList = getFailedIrurs(irurs,FAILED);
         failed.setAdapter(failedad = new myAdapter(getContext(),R.layout.fragment_irur_parent,failedList.getList()));
 
         return view;
