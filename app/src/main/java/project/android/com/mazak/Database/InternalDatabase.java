@@ -98,7 +98,7 @@ public class InternalDatabase implements Database {
         String list = sharedPref.getString(key, null);
         //got nothing from database.
         if (list == null)
-            return null;
+            return "";
         else {
             Object lst;
             lst = (new Gson()).fromJson(list,Date.class);

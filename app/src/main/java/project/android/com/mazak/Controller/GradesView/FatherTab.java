@@ -52,7 +52,7 @@ public class FatherTab extends Fragment implements ISearch {
     View view;
     Database db;
     GradesList grades = null;
-    HashMap<Integer, GradesList> gradesSorted = null;
+    HashMap<Integer, GradesList> gradesSorted = new HashMap<>();
     int numOfYears = 0;
     ProgressBar spinner;
     LinearLayout mainLayout;
@@ -203,7 +203,7 @@ public class FatherTab extends Fragment implements ISearch {
 
         final ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewPager);
         tabLayout.setupWithViewPager(viewPager, true);
-        SamplePageAdapter mAdapter = new SamplePageAdapter(getFragmentManager());
+        SamplePageAdapter mAdapter = new SamplePageAdapter(getFragmentManager(), (HashMap<Integer, GradesList>) gradesSorted.clone());
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);
         //if(checkHebrew())
@@ -232,19 +232,22 @@ public class FatherTab extends Fragment implements ISearch {
     }
 
     private class SamplePageAdapter extends FragmentStatePagerAdapter {
+        private final HashMap<Integer, GradesList> grades;
+
         @Override
         public void restoreState(Parcelable state, ClassLoader loader) {
         }
 
-        public SamplePageAdapter(FragmentManager fm) {
+        public SamplePageAdapter(FragmentManager fm,HashMap<Integer, GradesList> gradesSorted) {
             super(fm);
+            this.grades = gradesSorted;
         }
 
         @Override
         public Fragment getItem(int position) {
             Bundle b = new Bundle();
             b.putInt("year", position + 1);
-            GradesList currentYearList = gradesSorted.get(position + 1);
+            GradesList currentYearList = grades.get(position + 1);
             b.putSerializable("list", currentYearList);
             Fragment fragment = new gradesViewFragment();
             fragment.setArguments(b);
@@ -261,7 +264,7 @@ public class FatherTab extends Fragment implements ISearch {
 
         @Override
         public int getCount() {
-            return numOfYears;
+            return grades.size();
         }
     }
 

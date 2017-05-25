@@ -22,6 +22,7 @@ import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
+import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Database.LoginDatabase;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.R;
@@ -35,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     static String errormsg = "Error";
 
     LoginDatabase database;
-    String Username = "", Password = "";
     Database db;
     final Activity act = this;
 
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please fill up all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                String time = db.getUpdateTime(InternalDatabase.gradesKey);
                 Login(auth, un, pw);
 
 /*                Username = un;
