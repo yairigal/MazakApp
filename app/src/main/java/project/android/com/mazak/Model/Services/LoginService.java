@@ -19,10 +19,20 @@ public class LoginService extends Service {
         return null;
     }
 
+    /**
+     * checks if the login data is saved and if its the user second time if not , back to the login page.
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        String time = "";
         db = LoginDatabase.getInstance(this);
-        String time = Factory.getInstance(this).getUpdateTime(InternalDatabase.gradesKey);
+        try {
+            time = Factory.getInstance(this).getUpdateTime(InternalDatabase.gradesKey);
+        }catch (Exception ignored){}
         if(!db.dataIsSaved()||time == null || time.equals("")){
             Intent Login = new Intent(LoginService.this, LoginActivity.class);
             Login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

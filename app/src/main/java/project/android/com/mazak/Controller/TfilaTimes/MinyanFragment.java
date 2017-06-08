@@ -82,7 +82,12 @@ public class MinyanFragment extends Fragment implements IRefresh {
         return view;
     }
 
-
+    /**
+     * GET request (for the minyans times)
+     * @param url
+     * @return
+     * @throws Exception
+     */
     private String GetPageContent(String url) throws Exception {
 
         URL obj = new URL(url);
@@ -117,6 +122,9 @@ public class MinyanFragment extends Fragment implements IRefresh {
 
     }
 
+    /**
+     * gets the times to the times var
+     */
     private void getTimes() {
         new AsyncTask<Void,Void,Void>(){
             @Override

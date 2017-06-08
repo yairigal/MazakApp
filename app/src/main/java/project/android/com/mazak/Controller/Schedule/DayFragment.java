@@ -41,10 +41,17 @@ public class DayFragment extends Fragment {
         return root;
     }
 
+    /**
+     * gets the classes for that day from the Host.
+     */
     private void getEventsListFromBundle() {
         events = (ScheduleList) getArguments().getSerializable("events");
     }
 
+    /**
+     * adds all the classes to the UI View.
+     * @param lst
+     */
     private void addEventsToView(ScheduleList lst){
         addDetails();
         for (ClassEvent e:lst) {
@@ -52,6 +59,10 @@ public class DayFragment extends Fragment {
         }
     }
 
+    /**
+     * adds the current event to the UI View
+     * @param aEvent
+     */
     public void addEvent(ClassEvent aEvent){
         LinearLayout main = (LinearLayout) root.findViewById(R.id.DayMainLayout);
         View Mainview = mainInflater.inflate(R.layout.class_event,null);
@@ -63,6 +74,9 @@ public class DayFragment extends Fragment {
         main.addView(Mainview);
     }
 
+    /**
+     * adds the time lecturer and place to the view.
+     */
     public void addDetails(){
         //LinearLayout main = (LinearLayout) root.findViewById(R.id.DayMainLayout);
         //View Mainview = mainInflater.inflate(R.layout.day_details,null);
@@ -80,6 +94,11 @@ public class DayFragment extends Fragment {
         //main.addView(Mainview);
     }
 
+    /**
+     * calculates the total hours of the day.
+     * @param events
+     * @return
+     */
     private String getTotalHours(ScheduleList events) {
         float sum = 0;
         for (ClassEvent e: events)
@@ -87,6 +106,11 @@ public class DayFragment extends Fragment {
         return String.valueOf(sum);
     }
 
+    /**
+     * get the amout of hours that the current class is.
+     * @param ac
+     * @return
+     */
     private float getHours(ClassEvent ac){
         String start = ac.startTime;
         String end = ac.endTime;
@@ -99,6 +123,11 @@ public class DayFragment extends Fragment {
         return ed - st;
     }
 
+    /**
+     * colors the Class card by its type.
+     * @param Mainview
+     * @param type
+     */
     private void colorByType(View Mainview, String type) {
         View mainview = Mainview.findViewById(R.id.cardLayout_ClassEvent);
         switch (type){

@@ -6,6 +6,7 @@ import project.android.com.mazak.Model.Entities.NameValuePair;
 
 /**
  * Created by Yair on 2017-02-14.
+ * This class holds all the web data strings.
  */
 
 public class ConnectionData {
@@ -37,6 +38,12 @@ public class ConnectionData {
     public static final String TestsURL = "https://mazak.jct.ac.il/Student/Tests.aspx";
     public static final String TestsTableID="ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdStudentTests_itemPlaceholderContainer";
 
+    /**
+     * returns the POST arguments for the mazak.jct.ac.il login
+     * @param username
+     * @param pass
+     * @return
+     */
     public static ArrayList<NameValuePair> getMazakCredentials(final String username, final String pass){
         return new ArrayList<NameValuePair>()
         {
@@ -53,6 +60,11 @@ public class ConnectionData {
                 add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$LoginControl$LoginButton", "כניסה"));
             }};
     }
+
+    /**
+     * returns the POST arguments for the mazak statistics.
+     * @return
+     */
     public static ArrayList<NameValuePair> getStatsPostArguments(){
         return new ArrayList<NameValuePair>()
         {

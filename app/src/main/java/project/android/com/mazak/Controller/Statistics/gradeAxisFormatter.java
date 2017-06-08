@@ -6,6 +6,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 /**
  * Created by Yair on 2017-04-04.
+ * This class is for the X axis of the bar chart.
  */
 
 public class gradeAxisFormatter implements IAxisValueFormatter {

@@ -92,7 +92,10 @@ public class TestsFragment extends Fragment implements IRefresh {
         return view;
     }
 
-
+    /**
+     * Initializing the TestList @grades Asynchronously.
+     * @param options get the Tests from the web or from the internal database.
+     */
     private void getTestsAsync(final getOptions options) {
         new AsyncTask<Void, Void, Void>() {
             public String errorMsg;
@@ -134,7 +137,8 @@ public class TestsFragment extends Fragment implements IRefresh {
                     adp.changeList((ArrayList<Test>) grades.clone().getList());
                     adp.notifyDataSetChanged();
                     String cal1 = database.getUpdateTime(InternalDatabase.TestKey);
-                    Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
+                    if(view != null)
+                        Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
                     //setupTabs(view);
                 }
             }
@@ -166,7 +170,6 @@ public class TestsFragment extends Fragment implements IRefresh {
         }.execute();
     }
 
-
     void refreshAdapter(ArrayAdapter adp) {
         adp.notifyDataSetChanged();
     }
@@ -178,13 +181,19 @@ public class TestsFragment extends Fragment implements IRefresh {
         adp.notifyDataSetChanged();
     }
 
-
+    /**
+     * Refresh The tests from the web Asynchronously
+     */
     @Override
     public void Refresh() {
         getTestsAsync(getOptions.fromWeb);
     }
 
-    class GradeAdapter extends ArrayAdapter<Test> {
+
+    /**
+     * Adapter for the ListView
+     */
+    private class GradeAdapter extends ArrayAdapter<Test> {
 
         ArrayList<Test> list;
 
@@ -193,6 +202,10 @@ public class TestsFragment extends Fragment implements IRefresh {
             this.list = objects;
         }
 
+        /**
+         * changing the list in the adapter.
+         * @param list
+         */
         public void changeList(ArrayList<Test> list){
             this.list = list;
         }
@@ -224,6 +237,11 @@ public class TestsFragment extends Fragment implements IRefresh {
             return convertView;
         }
 
+
+        /**
+         * Showing the dialog when clicking an item on the list.
+         * @param gd The Test to show his details.
+         */
         void showDialog(final Test gd) {
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.dialog_list);

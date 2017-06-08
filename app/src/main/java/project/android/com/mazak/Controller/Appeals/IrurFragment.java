@@ -59,6 +59,10 @@ public class IrurFragment extends Fragment implements ISearch {
     public IrurFragment() {
     }
 
+    /**
+     * Singleton functions.
+     * @return
+     */
     public static Fragment getInstance() {
         if(instance == null)
             instance = new IrurFragment();
@@ -71,6 +75,9 @@ public class IrurFragment extends Fragment implements ISearch {
         irurs = new IrurList();
     }
 
+    /**
+     * Gets The irurs from the web Asynchronously
+     */
     private void getIrursAsync() {
         try {
             db = Factory.getInstance();
@@ -127,6 +134,12 @@ public class IrurFragment extends Fragment implements ISearch {
         task.execute();
     }
 
+    /**
+     * Returns the irurs with that status
+     * @param irurs scans this irurs
+     * @param status searches for that status.
+     * @return the irurs with that status.
+     */
     private IrurList getFailedIrurs(IrurList irurs, String[] status){
         IrurList toret = new IrurList();
         for(int i=0;i<status.length;i++){
@@ -135,6 +148,10 @@ public class IrurFragment extends Fragment implements ISearch {
         return toret;
     }
 
+    /**
+     * Gets the irrus asynchronously by the option specified
+     * @param op fromWeb or fromDatabase.
+     */
     private void getIrursAsync(final getOptions op) {
         try {
             db = Factory.getInstance();
@@ -177,23 +194,34 @@ public class IrurFragment extends Fragment implements ISearch {
                     hideEmptyMessage();
                 //progressBar.setVisibility(VISIBLE);
                 String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
-                Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
+                if(view != null)
+                    Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
             }
         };
         task.execute();
     }
 
+    /**
+     * hides the emptyIrurs messages
+     */
     private void hideEmptyMessage() {
         (view.findViewById(R.id.emptyIrurs)).setVisibility(View.GONE);
         mainLayout.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * shows the emotyIrurs label
+     */
     private void showEmptyMessage() {
         (view.findViewById(R.id.emptyIrurs)).setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
 
     }
 
+    /**
+     * Show a snackbar with the msg specified
+     * @param msg the message to be shown.
+     */
     private void showSnackException(String msg) {
         Snackbar.make(getView(), msg, Snackbar.LENGTH_LONG).show();
     }
@@ -223,6 +251,12 @@ public class IrurFragment extends Fragment implements ISearch {
         return view;
     }
 
+    /**
+     * Returns the irurs with that status
+     * @param irurs scans this irurs
+     * @param status searches for that status.
+     * @return the irurs with that status.
+     */
     private IrurList getIrurWithStatus(IrurList irurs,String status){
         IrurList toReturn = new IrurList();
         for (Irur r:irurs.getList())
@@ -257,12 +291,21 @@ public class IrurFragment extends Fragment implements ISearch {
         getIrursAsync(getOptions.fromWeb);
     }
 
+    /**
+     * refresh the listView adapter.
+     * @param ad the adapter to be refreshed
+     * @param originList the original list
+     * @param newList the new list to be shown.
+     */
     public static void refreshAdapter(ArrayAdapter ad, ArrayList originList, ArrayList newList) {
         originList.clear();
         originList.addAll(newList);
         ad.notifyDataSetChanged();
     }
 
+    /**
+     * Adapter class for the ListView adapter.
+     */
     class myAdapter extends ArrayAdapter<Irur>{
 
         private final IrurList irurs;
@@ -328,6 +371,10 @@ public class IrurFragment extends Fragment implements ISearch {
         }
     }
 
+    /**
+     * Shows the dialog with the irur details.
+     * @param gd
+     */
     void showDialog(final Irur gd) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.irur_child);

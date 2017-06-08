@@ -31,7 +31,11 @@ public class MazakConnection {
         cookies = null;
     }
 
-    //need to do this only 1 time at start.
+    /**
+     * logging in to the page
+     * we need it only at the start , and after a long period of time.
+     * @throws Exception
+     */
     private void login() throws Exception {
         CookieHandler.setDefault(new CookieManager());
 
@@ -39,14 +43,27 @@ public class MazakConnection {
         GetPageContent(loginUrl);
         sendPost(loginUrl, postData);
     }
-    //returns the html of the page.
+
+    /**
+     * connecting to the current url page
+     * if it needs login we are logging in first.
+     * @param url
+     * @return
+     * @throws Exception
+     */
     public String connect(String url) throws Exception {
         //need to login only in the first time.
         if(cookies == null)
             login();
         return GetPageContent(url);
     }
-    //loggin
+
+    /**
+     * returns the Statistics html page
+     * @param statLink
+     * @return
+     * @throws Exception
+     */
     public String getStatisticsPage(String statLink) throws Exception {
         //need to login only in the first time.
         if(cookies == null)
@@ -56,6 +73,14 @@ public class MazakConnection {
     }
 
     //region web functions
+
+    /**
+     * HTTP POST
+     * @param url
+     * @param postParams
+     * @return
+     * @throws Exception
+     */
     private String sendPost(String url, String postParams) throws Exception {
 
         URL obj = new URL(url);
@@ -104,6 +129,12 @@ public class MazakConnection {
 
     }
 
+    /**
+     * HTTP GET
+     * @param url
+     * @return
+     * @throws Exception
+     */
     private String GetPageContent(String url) throws Exception {
 
         URL obj = new URL(url);
@@ -147,10 +178,20 @@ public class MazakConnection {
 
     }
 
+    /**
+     * saves the cookies for next time enters.
+     * @param cookies
+     */
     public void setCookies(List<String> cookies) {
         this.cookies = cookies;
     }
 
+    /**
+     * converts the params from NameValuePair to a String.
+     * @param params
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;

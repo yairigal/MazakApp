@@ -44,6 +44,12 @@ public class PieChartFragment extends Fragment implements IRefresh {
         return root;
     }
 
+    /**
+     * sets up all the pie chart details.
+     * @param mChart
+     * @param coursename
+     * @param freqs
+     */
     private void setUpPiechart(PieChart mChart,String coursename,ArrayList<Integer> freqs){
 
         //mChart.setUsePercentValues(true);
@@ -103,6 +109,12 @@ public class PieChartFragment extends Fragment implements IRefresh {
         pie.animateXY(1000,1000);
     }
 
+    /**
+     * gets the data from the rawData.
+     * @param freqs
+     * @param coursename
+     * @return
+     */
     private PieData getDataPie(ArrayList<Integer> freqs, String coursename) {
         PieData data = new PieData();
         List<PieEntry> entries = new ArrayList<>();

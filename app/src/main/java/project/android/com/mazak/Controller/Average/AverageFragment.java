@@ -99,6 +99,7 @@ public class AverageFragment extends Fragment implements IRefresh {
         });
     }*/
 
+
     private void getGradesAsync(final Delegate delegate) {
         new AsyncTask<Void, Void, Void>() {
             public boolean error;
@@ -132,11 +133,18 @@ public class AverageFragment extends Fragment implements IRefresh {
         }.execute();
     }
 
+    /**
+     * This function gets called when loading the grades is done.
+     */
     private void onFinisehd() {
         calculateAverageAndRename();
         addYearsCards();
     }
 
+    /**
+     * Calculates all the averages
+     * renames the label to their proper names.
+     */
     private void calculateAverageAndRename() {
         HashMap<String, Float> map = GradesModel.getAvg(grades);
         String avg = roundTo2OrLessAfterPoint(map.get("avg")),
@@ -150,12 +158,21 @@ public class AverageFragment extends Fragment implements IRefresh {
         kodesh.setText(kod);
     }
 
+    /**
+     * rounding the num for 2 digits after the point
+     * @param num
+     * @return
+     */
     private String roundTo2OrLessAfterPoint(float num) {
         if (num == ((int) num)) // no digits after point
             return String.valueOf((int)num);
         return String.valueOf(((float) Math.round(num * 100) / 100));
     }
 
+    /**
+     * gets the database instance
+     * @return
+     */
     private boolean getDatabaseFactory() {
         try {
             db = Factory.getInstance();
@@ -167,6 +184,9 @@ public class AverageFragment extends Fragment implements IRefresh {
         }
     }
 
+    /**
+     * adds the years cards to the main view.
+     */
     private void addYearsCards(){
         HashMap<Integer, GradesList> map = GradesModel.sortByYears(grades);
         ((ViewGroup)(root.findViewById(R.id.mainLayoutAverage))).removeAllViews();
@@ -180,6 +200,11 @@ public class AverageFragment extends Fragment implements IRefresh {
         }
     }
 
+    /**
+     * adds the semesters to each card.
+     * @param mainview
+     * @param grades
+     */
     private void setupSemesters(View mainview, GradesList grades) {
         HashMap<Integer, GradesList> map = GradesModel.sortBySemester(grades);
         ((TextView)mainview.findViewById(R.id.CardTitle_Sem1Layout)).setText("סמסטר אלול");

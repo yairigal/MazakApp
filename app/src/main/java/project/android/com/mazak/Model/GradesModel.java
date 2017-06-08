@@ -51,6 +51,11 @@ public class GradesModel {
         return hm;
     }
 
+    /**
+     * sorts the grades by semester and year
+     * @param grades
+     * @return
+     */
     public static HashMap<Integer, HashMap<Integer, GradesList>> sortBySemesterAndYear(GradesList grades) {
         HashMap<Integer, GradesList> det = sortByYears(grades);
         HashMap<Integer, HashMap<Integer, GradesList>> toret = new HashMap<>();
@@ -86,6 +91,11 @@ public class GradesModel {
         return toret;
     }
 
+    /**
+     * sorts the grades by semester
+     * @param grades
+     * @return
+     */
     public static HashMap<Integer,GradesList> sortBySemester(GradesList grades){
         HashMap<Integer,GradesList> map = new HashMap<>();
         GradesList sem0 = new GradesList();
@@ -110,6 +120,11 @@ public class GradesModel {
         return map;
     }
 
+    /**
+     * returns the int value of the current semester
+     * @param sem
+     * @return
+     */
     public static int semsterToInt(String sem) {
         if (sem.equals("אלול"))
             return 0;
@@ -169,6 +184,11 @@ public class GradesModel {
         return map;
     }
 
+    /**
+     * removes duplicates of grades from the list.
+     * @param grades
+     * @return
+     */
     private static GradesList removeDuplicatesOfGrades(GradesList grades) {
         HashMap<String,Grade> map = new HashMap<>();
         GradesList toRet = new GradesList();

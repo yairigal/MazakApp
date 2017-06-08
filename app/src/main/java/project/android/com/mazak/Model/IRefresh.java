@@ -5,5 +5,9 @@ package project.android.com.mazak.Model;
  */
 
 public interface IRefresh {
+
+    /**
+     * Refreshing The Activity Data.
+     */
     void Refresh();
 }

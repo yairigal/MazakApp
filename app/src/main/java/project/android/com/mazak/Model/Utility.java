@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 /**
  * Created by Yair on 2017-03-21.
+ * this class is taken from stackoverflow to help with the a couple lists in a single page to be all opened
  */
 
 public class Utility {
