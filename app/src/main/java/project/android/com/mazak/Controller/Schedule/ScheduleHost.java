@@ -69,10 +69,17 @@ public class ScheduleHost extends Fragment implements IRefresh {
         return root;
     }
 
+    /**
+     * gets the database instance.
+     */
     private void getDatabaseAsync() {
         db = Factory.getInstance(getContext());
     }
 
+    /**
+     * sets up the days tabs.
+     * @param v
+     */
     private void setupTabs(View v) {
         TabLayout tabLayout = (TabLayout) v.findViewById(R.id.ScheduleHost_TabLayout);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -93,6 +100,11 @@ public class ScheduleHost extends Fragment implements IRefresh {
         }
     }
 
+    /**
+     * gets the schedule from the web or the database
+     * @param view
+     * @param options if options is null , this tries from the database then from the web.
+     */
     private void getScheduleAsync(final View view, final getOptions options) {
         new AsyncTask<Void, Void, Void>() {
             public String errorMsg;
@@ -129,7 +141,8 @@ public class ScheduleHost extends Fragment implements IRefresh {
                     toggleSpinner(false, MainLayouit, pb);
                     setupTabs(view);
                     String cal1 = db.getUpdateTime(InternalDatabase.ScheduleKey);
-                    Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
+                    if(view != null)
+                        Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -196,6 +209,10 @@ public class ScheduleHost extends Fragment implements IRefresh {
         }
     }
 
+    /**
+     * returns the current dat of the week number.
+     * @return
+     */
     private int getDayOfWeek() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);

@@ -55,13 +55,27 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(onClickLoginBtn());
     }
 
+    /**
+     * sets the login font.
+     */
     private void setFont() {
         Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/lvnm.ttf");
         ((TextView)findViewById(R.id.mainText)).setTypeface(typeFace);
     }
 
+    /**
+     * This function is called when the login button is clicked.
+     * @return
+     */
     private View.OnClickListener onClickLoginBtn(){
         return new View.OnClickListener() {
+            /**
+             * gets the username and password,
+             * checks that are both no empty.
+             * gets the update time.
+             * and tries to login.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 final boolean[] auth = {false};
@@ -87,6 +101,14 @@ public class LoginActivity extends AppCompatActivity {
                 }*/
             }
 
+            /**
+             * check the username and password with the server
+             * if its authenticated you save it in the device and moves to the next activity.
+             * else you delete the entire login database and throws an exception.
+             * @param auth
+             * @param un
+             * @param pw
+             */
             private void Login(final boolean[] auth, final String un, final String pw) {
                 new AsyncTask<Void,Void,Void>(){
                     ProgressDialog dialog = new ProgressDialog(act);
@@ -134,7 +156,9 @@ public class LoginActivity extends AppCompatActivity {
         };
     }
 
-
+    /**
+     * deletes the login database and the data database.
+     */
     private void clearDatabases() {
         try {
             database = LoginDatabase.getInstance(getApplicationContext());
@@ -146,12 +170,25 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * sends the data to the next activity and moves to there.
+     * @param refresh
+     */
     void sentIntent(boolean refresh) {
         Intent intent = new Intent(LoginActivity.this, NavDrawerActivity.class);
         intent.putExtra("refresh", refresh);
         startActivity(intent);
     }
 
+    /**
+     * Checks if the username and password are correct with the server.
+     * first it saves the username and password , then access the grades if it succeeded then the username and password are correct
+     * else they are not correct and an error is printed.
+     * @param username
+     * @param password
+     * @param ctx
+     * @return
+     */
     public static boolean authenticate(String username , String password, Context ctx){
         try {
             if(!FatherTab.isNetworkAvailable(ctx))
@@ -167,6 +204,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * checks the error type and returns the corresponds message
+     * @param e1
+     * @return
+     */
     public static String checkErrorTypeAndMessage(Exception e1) {
         String errorMsg;
         if (e1 instanceof UnknownHostException)

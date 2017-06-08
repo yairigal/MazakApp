@@ -28,7 +28,13 @@ import static project.android.com.mazak.Model.Entities.Grade.ParseToGrade;
  */
 
 public class HtmlParser {
-
+    /**
+     * Parsing the html page and returning the grades from it
+     * @param html
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public static  GradesList ParseToGrades(String html) throws ExecutionException, InterruptedException {
        /* AsyncTask<Void,Void,ArrayList<Grade>> as  = getAsyncTask(html);
         as.execute();
@@ -43,6 +49,11 @@ public class HtmlParser {
         return grades;
     }
 
+    /**
+     * arsing the html page and returning the irurs from it
+     * @param html
+     * @return
+     */
     public static IrurList ParseToIrurs(String html){
         IrurList irurs = new IrurList();
         Document doc = null;
@@ -56,6 +67,12 @@ public class HtmlParser {
         return irurs;
     }
 
+    /**
+     * adds the irurs from the document to the list.
+     * @param TableId
+     * @param lst
+     * @param doc
+     */
     private static void addIrurs(String TableId,IrurList lst,Document doc){
         Element elem = doc.getElementById(TableId);
         if(elem != null) {
@@ -65,6 +82,11 @@ public class HtmlParser {
         }
     }
 
+    /**
+     *
+     * @param html
+     * @return
+     */
     public static ArrayList<gradeIngerdiants> ParseToingerdiants(String html){
         Document doc = null;
         doc = Jsoup.parse(html);
@@ -73,6 +95,11 @@ public class HtmlParser {
         return null;
     }
 
+    /**
+     * arsing the html page and returning the statistics from it
+     * @param html
+     * @return
+     */
     public static CourseStatistics ParseToStats(String html){
         CourseStatistics statistics = new CourseStatistics();
         Document doc = Jsoup.parse(html);
@@ -102,6 +129,11 @@ public class HtmlParser {
         return sched;
     }
 
+    /**
+     * arsing the html page and returning the classes  from it
+     * @param html
+     * @return
+     */
     public static ScheduleList ParseToClassEvents(String html) {
         ScheduleList sched = new ScheduleList();
         Document doc = Jsoup.parse(html);
@@ -113,6 +145,11 @@ public class HtmlParser {
         return sched;
     }
 
+    /**
+     * parses the html page to find the url to the schedule page that is in words and not pictures
+     * @param html
+     * @return
+     */
     public static String getListScheudleURL(String html) {
         String year=null,sem=null;
         Document doc = Jsoup.parse(html);
@@ -139,6 +176,11 @@ public class HtmlParser {
         return String.format("https://mazak.jct.ac.il/Student/ScheduleList.aspx?AcademicYearID=%s&SemesterID=%s",year,sem);
     }
 
+    /**
+     * arsing the html page and returning the Tfila times from it
+     * @param html
+     * @return
+     */
     public static ArrayList<TfilaTime> ParseToTfilaTime(String html){
         ArrayList<TfilaTime> times = new ArrayList<>();
         Document doc = Jsoup.parse(html);
@@ -155,6 +197,11 @@ public class HtmlParser {
         return times;
     }
 
+    /**
+     * arsing the html page and returning the tests from it
+     * @param html
+     * @return
+     */
     public static TestList ParseToTests(String html) {
         TestList times = new TestList();
         Document doc = Jsoup.parse(html);
@@ -166,6 +213,13 @@ public class HtmlParser {
         return times;
     }
 
+    /**
+     * a general function for all the parses by their keys.
+     * @param html
+     * @param key
+     * @return
+     * @throws Exception
+     */
     public static Object Parse(String html,String key) throws Exception {
         switch (key){
             case InternalDatabase.gradesKey:

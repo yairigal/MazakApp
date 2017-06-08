@@ -125,12 +125,18 @@ public class NavDrawerActivity extends AppCompatActivity
 
     }
 
+    /**
+     * sets up all google analytics tracer stuff
+     */
     private void setupGoogleAnalyticsTracker(){
         if(mTracker == null) {
             mTracker = GoogleAnalytics.getInstance(this).newTracker("UA-96616811-1");
         }
     }
 
+    /**
+     * sets up flurry analytics
+     */
     private void setupAnalytics() {
         new FlurryAgent.Builder()
                 .withLogEnabled(false)
@@ -163,12 +169,20 @@ public class NavDrawerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * sends to google analytics the page that was accessed
+     * @param ScreenName
+     */
     private void sendGoogleAnalyticsData(String ScreenName) {
         setupGoogleAnalyticsTracker();
         mTracker.setScreenName(ScreenName);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
+    /**
+     * gets the database factory.
+     * @throws Exception
+     */
     private void getDatabasesFactory() throws Exception {
         loginDatabase = LoginDatabase.getInstance(this);
         HashMap<String, String> data = loginDatabase.getLoginDataFromMemory();
@@ -177,6 +191,9 @@ public class NavDrawerActivity extends AppCompatActivity
         db = Factory.getInstance(current);
     }
 
+    /**
+     * sets up the google ads ad
+     */
     private void setupAd() {
         adView = (AdView) findViewById(R.id.adView);
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
@@ -259,6 +276,9 @@ public class NavDrawerActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * pops up the logout dialog
+     */
     private void popUpLogoutDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
@@ -322,36 +342,11 @@ public class NavDrawerActivity extends AppCompatActivity
         }
     }
 
-/*    private void initSearchView(SearchView search) {
-
-        //set the search view to the right side.
-        search.setLayoutParams(new Toolbar.LayoutParams(Gravity.RIGHT));
-        search.setMaxWidth(Integer.MAX_VALUE);
-
-        search.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                currentFragment.clearFilter();
-                return false;
-            }
-        });
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (currentFragment != null)
-                    currentFragment.Filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (currentFragment != null)
-                    currentFragment.Filter(newText);
-                return false;
-            }
-        });
-    }*/
-
+    /**
+     * Navigates the frame to the current fragment with the current title.
+     * @param fgmt
+     * @param title
+     */
     void navigateTo(Fragment fgmt, String title) {
         //fgmt.setArguments(bundle);
         currentFragment = (IRefresh) fgmt;
@@ -395,6 +390,10 @@ public class NavDrawerActivity extends AppCompatActivity
         //sendBroadcast(new Intent("action.APP_KILLED"));
     }
 
+    /**
+     * this function executes when the user presses the email.
+     * @param view
+     */
     public void onEmailClick(View view) {
         sendFeedbackWithLog();
     }
@@ -530,6 +529,36 @@ public class NavDrawerActivity extends AppCompatActivity
                 break;
         }
         return title;
+    }*/
+
+    /*    private void initSearchView(SearchView search) {
+
+        //set the search view to the right side.
+        search.setLayoutParams(new Toolbar.LayoutParams(Gravity.RIGHT));
+        search.setMaxWidth(Integer.MAX_VALUE);
+
+        search.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                currentFragment.clearFilter();
+                return false;
+            }
+        });
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (currentFragment != null)
+                    currentFragment.Filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (currentFragment != null)
+                    currentFragment.Filter(newText);
+                return false;
+            }
+        });
     }*/
 
     //endregion

@@ -54,6 +54,12 @@ public class BarChartFragment extends Fragment implements IRefresh {
         bar.animateXY(1000,1000);
     }
 
+    /**
+     * sets up the barchart details
+     * @param mChart
+     * @param coursename
+     * @param freqs
+     */
     private void setUpBarchart(BarChart mChart, String coursename, ArrayList<Integer> freqs){
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
@@ -123,7 +129,12 @@ public class BarChartFragment extends Fragment implements IRefresh {
         //setData(12, 50);
     }
 
-
+    /**
+     * gets the data from the raw data.
+     * @param freqs
+     * @param coursename
+     * @return
+     */
     private BarData getData(ArrayList<Integer> freqs, String coursename) {
         BarData data = new BarData();
         List<BarEntry> entries = new ArrayList<>();

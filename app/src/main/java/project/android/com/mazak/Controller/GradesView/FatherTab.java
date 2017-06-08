@@ -87,9 +87,10 @@ public class FatherTab extends Fragment implements ISearch {
     }
 
     /**
-     * Getting grades from memory, if failed getting grades from web.
-     *
+     * if options if null  - tries to get grades from database , if failed , gets grades from web.
+     * if options is not null - gets the grades from that specific place.
      * @param view
+     * @param options
      */
     private void getGradesAsync(final View view, final getOptions options) {
         new AsyncTask<Void, Void, Void>() {
@@ -131,7 +132,8 @@ public class FatherTab extends Fragment implements ISearch {
                     toggleSpinner(false, mainLayout, spinner);
                     setupTabs(view);
                     String cal1 = db.getUpdateTime(InternalDatabase.gradesKey);
-                    Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
+                    if(view != null)
+                        Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -181,6 +183,11 @@ public class FatherTab extends Fragment implements ISearch {
         }.execute();
     }
 
+    /**
+     * checks which error it is and returns the error message for that type.
+     * @param e1
+     * @return
+     */
     public static String checkErrorTypeAndMessage(Exception e1) {
         String errorMsg;
         if (e1 instanceof UnknownHostException)
@@ -194,6 +201,10 @@ public class FatherTab extends Fragment implements ISearch {
         return errorMsg;
     }
 
+    /**
+     * set us the years tabs
+     * @param v
+     */
     private void setupTabs(View v) {
         TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tabLayout);
         if (numOfYears > 3)
@@ -275,10 +286,19 @@ public class FatherTab extends Fragment implements ISearch {
         return lst;
     }
 
+    /**
+     * checks if the device is on hebrew.
+     * @return
+     */
     public static boolean checkHebrew() {
         return Locale.getDefault().toString().equals("iw_IL") || Locale.getDefault().toString().equals("he_IL");
     }
 
+    /**
+     * gets the Title by the year number.
+     * @param year
+     * @return
+     */
     String getYearTitle(int year) {
         String title = "";
         switch (year) {
@@ -304,6 +324,12 @@ public class FatherTab extends Fragment implements ISearch {
         return title;
     }
 
+    /**
+     * toggles the spinner (loading animation) true or false
+     * @param toggle toggle the spinner true or false
+     * @param toDismiss the view to dismiss and hide
+     * @param toShow the view to show.
+     */
     public static void toggleSpinner(boolean toggle, View toDismiss, ProgressBar toShow) {
         if (toggle) {
             toDismiss.setVisibility(View.GONE);
@@ -316,6 +342,11 @@ public class FatherTab extends Fragment implements ISearch {
         }
     }
 
+    /**
+     * checks if network is available in the device.
+     * @param ctx
+     * @return
+     */
     public static boolean isNetworkAvailable(Context ctx) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);

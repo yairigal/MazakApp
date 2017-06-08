@@ -43,6 +43,12 @@ public class LoginDatabase {
         this.ctx = ctx;
     }
 
+    /**
+     * saves the username and password in the device memory.
+     * @param us
+     * @param pw
+     * @throws IOException
+     */
     public void saveLoginInformation(String us,String pw) throws IOException {
         SharedPreferences sharedPref = ctx.getSharedPreferences("pw", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -52,15 +58,30 @@ public class LoginDatabase {
         editor.commit();
     }
 
+    /**
+     * encrpyes the data with base64.encode function.
+     * @param toEnc
+     * @return
+     */
     private String encrypt(String toEnc) {
         byte[] UN = StringToByte(toEnc);
         return ByteToString(Base64.encode(UN, Base64.DEFAULT));
     }
+
+    /**
+     * decrypts the data .
+     * @param toDec
+     * @return
+     */
     private String decrypt(String toDec) {
         byte[] UN = StringToByte(toDec);
         return ByteToString(Base64.decode(UN, Base64.DEFAULT));
     }
 
+    /**
+     * deletes the login information from the device memory.
+     * @throws IOException
+     */
     public void clearLoginInformation() throws IOException {
         SharedPreferences sharedPref = ctx.getSharedPreferences("pw", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -97,6 +118,10 @@ public class LoginDatabase {
         return data;
     }*/
 
+    /**
+     * checks if the login information is saved or not.
+     * @return
+     */
     public boolean dataIsSaved() {
         try {
             getLoginDataFromMemory();
@@ -106,6 +131,11 @@ public class LoginDatabase {
         return !(username.equals("") || password.equals(""));
     }
 
+    /**
+     * returns the login information from the device memory.
+     * @return
+     * @throws IOException
+     */
     public HashMap<String,String> getLoginDataFromMemory() throws IOException {
         HashMap<String,String> map = new HashMap<>();
         SharedPreferences sharedPref = ctx.getSharedPreferences("pw", Context.MODE_PRIVATE);
@@ -115,6 +145,13 @@ public class LoginDatabase {
         map.put("password", decrypt(password));
         return map;
     }
+    //help functions
+
+    /**
+     * turns the string to a byte array
+     * @param str
+     * @return
+     */
     public static byte[] StringToByte(String str){
         byte[] toRet = new byte[str.length()];
         char[] arr = str.toCharArray();
@@ -123,6 +160,12 @@ public class LoginDatabase {
         }
         return toRet;
     }
+
+    /**
+     * turns the byte array to a string
+     * @param arg
+     * @return
+     */
     public static String ByteToString(byte[] arg){
         char[] arr = new char[arg.length];
         for(int i = 0;i<arg.length;i++){

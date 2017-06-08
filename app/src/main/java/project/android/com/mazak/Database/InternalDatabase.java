@@ -26,6 +26,7 @@ import project.android.com.mazak.R;
 
 /**
  * Created by Yair on 2017-02-17.
+ * This class is the device database handler.
  */
 
 public class InternalDatabase implements Database {
@@ -48,6 +49,10 @@ public class InternalDatabase implements Database {
         activity = ctx;
     }
 
+    /**
+     * checks if the connection is out and then refresh it.
+     * @throws IOException
+     */
     private void refreshConnection() throws IOException {
         String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
         String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
@@ -58,6 +63,9 @@ public class InternalDatabase implements Database {
         }
     }
 
+    /**
+     * deletes all the data from the database.
+     */
     @Override
     public void clearDatabase() {
         deleteGrades();
@@ -82,6 +90,10 @@ public class InternalDatabase implements Database {
         connection = new MazakConnection(username, password);
     }
 
+    /**
+     * updates the time in database that the current data (key) was updated.
+     * @param key
+     */
     private void updateTime(String key){
         Date cal1 = getCurrentTime();
         SharedPreferences sharedPref = activity.getSharedPreferences(updatesFileName, Context.MODE_PRIVATE);
@@ -92,6 +104,11 @@ public class InternalDatabase implements Database {
         editor.commit();
     }
 
+    /**
+     * reads from the device data the last saved
+     * @param key
+     * @return the last saved update time.
+     */
     @Override
     public String getUpdateTime(String key){
         SharedPreferences sharedPref = activity.getSharedPreferences(updatesFileName, Context.MODE_PRIVATE);
@@ -106,6 +123,11 @@ public class InternalDatabase implements Database {
         }
     }
 
+    /**
+     * saves the object at the current key in the data.
+     * @param toSave
+     * @param key
+     */
     public void save(Object toSave,String key){
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -115,6 +137,11 @@ public class InternalDatabase implements Database {
         editor.commit();
     }
 
+    /**
+     * delets the current key and updates the listOfItmes to be null.
+     * @param key
+     * @param listOfItems
+     */
     public void clear(String key,Object listOfItems){
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -123,6 +150,14 @@ public class InternalDatabase implements Database {
         listOfItems = null;
     }
 
+    /**
+     * loads the key data from the URL to the list Object.
+     * @param key
+     * @param URL
+     * @param list
+     * @return
+     * @throws Exception
+     */
     public Object loadFromWeb(String key,String URL,Object list) throws Exception {
         String html;
         Object listParsed;
@@ -135,6 +170,12 @@ public class InternalDatabase implements Database {
         return listParsed;
     }
 
+    /**
+     * loads the key data from the memory and returns it.
+     * @param key
+     * @param typeOfList
+     * @return
+     */
     public Object loadFromMemory(String key, Type typeOfList){
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         String list = sharedPref.getString(key, null);
@@ -148,6 +189,16 @@ public class InternalDatabase implements Database {
         }
     }
 
+    /**
+     * gets the key data from the options specified (if its web so from the URL) to the listOfObjects.
+     * @param option the option web , or memory.
+     * @param key the key that IDs the data
+     * @param listOfObjects the list of objects to update
+     * @param typeOfList the type of that list
+     * @param URL the url to check if its web.
+     * @return
+     * @throws Exception
+     */
     public Object get(getOptions option,String key,Object listOfObjects,Type typeOfList,String URL) throws Exception {
         Object returnedList = null;
         switch (option) {

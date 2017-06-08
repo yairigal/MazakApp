@@ -67,6 +67,10 @@ public class CourseStatisticsActivity extends AppCompatActivity{
         finish();
     }
 
+    /**
+     * gets the statistics asynchronously from the server.
+     * @param onFinishLoading
+     */
     private void getStatisticsAsync(final Delegate onFinishLoading) {
         new AsyncTask<Void, Void, Void>() {
             public boolean error = false;
@@ -103,6 +107,9 @@ public class CourseStatisticsActivity extends AppCompatActivity{
         }.execute();
     }
 
+    /**
+     * this method is executed when the statistics are finished loading.
+     */
     private void onFinishedLoading(){
 
         setupTabs();
@@ -114,6 +121,9 @@ public class CourseStatisticsActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * sets up all the global details
+     */
     private void setupDetails() {
         TextView num = (TextView)findViewById(R.id.numOfStud);
         TextView avg = (TextView)findViewById(R.id.mean);
@@ -132,10 +142,16 @@ public class CourseStatisticsActivity extends AppCompatActivity{
         sem.setText(sem.getText()+" "+currentGrade.semester);
     }
 
+    /**
+     * gets the grade from the sender activity
+     */
     private void getGradeFromIntent() {
         currentGrade = (Grade) getIntent().getSerializableExtra("grade");
     }
 
+    /**
+     * gets the instance of the database.
+     */
     private void getFactoryDatabase() {
         try {
             db = Factory.getInstance();
@@ -155,6 +171,9 @@ public class CourseStatisticsActivity extends AppCompatActivity{
         return colors;
     }
 
+    /**
+     * sets up the charts tabs.
+     */
     private void setupTabs( ) {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.Stats_TabLayout);
         int numOfTabs = 2;

@@ -15,6 +15,7 @@ import project.android.com.mazak.R;
 
 /**
  * Created by Yair on 2017-04-04.
+ * This class if for the barChart on click View
  */
 
 public class XYMarkerView extends MarkerView {
