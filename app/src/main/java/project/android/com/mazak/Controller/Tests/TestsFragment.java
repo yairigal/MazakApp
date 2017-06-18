@@ -137,8 +137,10 @@ public class TestsFragment extends Fragment implements IRefresh {
                     adp.changeList((ArrayList<Test>) grades.clone().getList());
                     adp.notifyDataSetChanged();
                     String cal1 = database.getUpdateTime(InternalDatabase.TestKey);
-                    if(view != null)
-                        Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
+                    try {
+                        if (view != null)
+                            Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                    }catch (Exception ex){}
                     //setupTabs(view);
                 }
             }

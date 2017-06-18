@@ -132,8 +132,10 @@ public class FatherTab extends Fragment implements ISearch {
                     toggleSpinner(false, mainLayout, spinner);
                     setupTabs(view);
                     String cal1 = db.getUpdateTime(InternalDatabase.gradesKey);
-                    if(view != null)
-                        Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
+                    try {
+                        if (view != null)
+                            Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                    }catch (Exception ex){}
                 }
             }
 
