@@ -141,8 +141,10 @@ public class ScheduleHost extends Fragment implements IRefresh {
                     toggleSpinner(false, MainLayouit, pb);
                     setupTabs(view);
                     String cal1 = db.getUpdateTime(InternalDatabase.ScheduleKey);
-                    if(view != null)
-                        Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
+                    try {
+                        if (view != null)
+                            Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                    }catch (Exception ex){}
                 }
             }
 

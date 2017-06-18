@@ -118,7 +118,11 @@ public class InternalDatabase implements Database {
             return "";
         else {
             Object lst;
-            lst = (new Gson()).fromJson(list,Date.class);
+            try {
+                lst = (new Gson()).fromJson(list, Date.class);
+            }catch (Exception ex){
+                return "";
+            }
             return new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(lst).toString();
         }
     }
