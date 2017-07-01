@@ -225,7 +225,9 @@ public class IrurFragment extends Fragment implements ISearch {
      * @param msg the message to be shown.
      */
     private void showSnackException(String msg) {
-        Snackbar.make(getView(), msg, Snackbar.LENGTH_LONG).show();
+        View v = getView();
+        if(v!= null)
+            Snackbar.make(v, msg, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
