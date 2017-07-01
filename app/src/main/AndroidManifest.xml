@@ -20,7 +20,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".Controller.Login.LoginActivity"
-            android:noHistory="true"></activity>
+            android:noHistory="true"/>
         <activity
             android:name=".Controller.NavDrawerActivity"
             android:label="@string/app_name"

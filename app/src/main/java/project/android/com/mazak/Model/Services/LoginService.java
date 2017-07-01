@@ -33,7 +33,7 @@ public class LoginService extends Service {
         try {
             time = Factory.getInstance(this).getUpdateTime(InternalDatabase.gradesKey);
         }catch (Exception ignored){}
-        if(!db.dataIsSaved()||time == null || time.equals("")){
+        if(!db.dataIsSaved()){
             Intent Login = new Intent(LoginService.this, LoginActivity.class);
             Login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(Login);
