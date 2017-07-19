@@ -9,6 +9,7 @@ import java.net.CookieManager;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -21,12 +22,13 @@ import project.android.com.mazak.Model.Entities.NameValuePair;
 public class MazakConnection {
 
     public List<String> cookies;
-    private HttpsURLConnection conn;
+    private HttpsURLConnection conn = null;
     private final String USER_AGENT = "Mozilla/5.0";
     String loginUrl = ConnectionData.LoginUrl;
     String postData;
+
     public MazakConnection(final String username, final String password) throws UnsupportedEncodingException {
-        Object mazakCredentials = ConnectionData.getMazakCredentials(username,password);
+        Object mazakCredentials = ConnectionData.getMazakCredentials(username, password);
         postData = getQuery((List<NameValuePair>) mazakCredentials);
         cookies = null;
     }
@@ -34,6 +36,7 @@ public class MazakConnection {
     /**
      * logging in to the page
      * we need it only at the start , and after a long period of time.
+     *
      * @throws Exception
      */
     private void login() throws Exception {
@@ -47,35 +50,38 @@ public class MazakConnection {
     /**
      * connecting to the current url page
      * if it needs login we are logging in first.
+     *
      * @param url
      * @return
      * @throws Exception
      */
     public String connect(String url) throws Exception {
         //need to login only in the first time.
-        if(cookies == null)
+        if (conn == null)
             login();
         return GetPageContent(url);
     }
 
     /**
      * returns the Statistics html page
+     *
      * @param statLink
      * @return
      * @throws Exception
      */
     public String getStatisticsPage(String statLink) throws Exception {
         //need to login only in the first time.
-        if(cookies == null)
+        if (cookies == null)
             login();
         String postQuery = getQuery(ConnectionData.getStatsPostArguments());
-        return sendPost(statLink,postQuery);
+        return sendPost(statLink, postQuery);
     }
 
     //region web functions
 
     /**
      * HTTP POST
+     *
      * @param url
      * @param postParams
      * @return
@@ -91,11 +97,11 @@ public class MazakConnection {
         conn.setRequestMethod("POST");
         //conn.setRequestProperty("Host", "accounts.google.com");
         conn.setRequestProperty("User-Agent", USER_AGENT);
-        conn.setRequestProperty("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        for (String cookie : this.cookies) {
-            conn.addRequestProperty("Cookie", cookie.split(";", 1)[0]);
-        }
+        //for (String cookie : this.cookies) {
+         //   conn.addRequestProperty("Cookie", cookie.split(";", 1)[0]);
+       // }
         conn.setRequestProperty("WebViewConnection", "keep-alive");
         //conn.setRequestProperty("Referer", "https://accounts.google.com/ServiceLoginAuth");
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -124,6 +130,13 @@ public class MazakConnection {
             response.append(inputLine);
         }
         in.close();
+
+        // Get the response cookies
+/*        Map<String, List<String>> coo1 = conn.getHeaderFields();
+        List<String> coo = coo1.get("Set-Cookie");
+        if (coo != null)
+            setCookies(coo);*/
+
         return response.toString();
         // System.out.println(response.toString());
 
@@ -131,6 +144,7 @@ public class MazakConnection {
 
     /**
      * HTTP GET
+     *
      * @param url
      * @return
      * @throws Exception
@@ -150,11 +164,17 @@ public class MazakConnection {
         conn.setRequestProperty("Accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+/*
         if (cookies != null) {
             for (String cookie : this.cookies) {
                 conn.addRequestProperty("Cookie", cookie.split(";", 1)[0]);
             }
         }
+*/
+
+
+
+
         int responseCode = conn.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
         System.out.println("Response Code : " + responseCode);
@@ -169,10 +189,12 @@ public class MazakConnection {
         }
         in.close();
 
-        // Get the response cookies
-        List<String> coo = conn.getHeaderFields().get("Set-Cookie");
-        if(coo != null)
-            setCookies(coo);
+
+/*        // Get the response cookies
+        Map<String, List<String>> coo1 = conn.getHeaderFields();
+        List<String> coo = coo1.get("Set-Cookie");
+        if (coo != null)
+            setCookies(coo);*/
 
         return response.toString();
 
@@ -180,6 +202,7 @@ public class MazakConnection {
 
     /**
      * saves the cookies for next time enters.
+     *
      * @param cookies
      */
     public void setCookies(List<String> cookies) {
@@ -188,6 +211,7 @@ public class MazakConnection {
 
     /**
      * converts the params from NameValuePair to a String.
+     *
      * @param params
      * @return
      * @throws UnsupportedEncodingException
@@ -196,8 +220,7 @@ public class MazakConnection {
         StringBuilder result = new StringBuilder();
         boolean first = true;
 
-        for (NameValuePair pair : params)
-        {
+        for (NameValuePair pair : params) {
             if (first)
                 first = false;
             else

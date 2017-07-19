@@ -127,8 +127,10 @@ public class IrurFragment extends Fragment implements ISearch {
                 else
                     hideEmptyMessage();
                 //progressBar.setVisibility(VISIBLE);
-                String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
-                Snackbar.make(view,"Last Update  "+cal1, Toast.LENGTH_SHORT).show();
+                if(db != null && view != null) {
+                    String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
+                    Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                }
             }
         };
         task.execute();

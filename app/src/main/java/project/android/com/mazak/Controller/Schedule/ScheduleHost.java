@@ -106,74 +106,79 @@ public class ScheduleHost extends Fragment implements IRefresh {
      * @param options if options is null , this tries from the database then from the web.
      */
     private void getScheduleAsync(final View view, final getOptions options) {
-        new AsyncTask<Void, Void, Void>() {
-            public String errorMsg;
-            public boolean error;
+        try {
+            new AsyncTask<Void, Void, Void>() {
+                public String errorMsg;
+                public boolean error;
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                toggleSpinner(true, MainLayouit, pb);
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                if(options == getOptions.fromWeb){
-                    getGradesFromWebOnly();
-                } else {
-                    getGradesFromAnywhere();
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    toggleSpinner(true, MainLayouit, pb);
                 }
-                if(error)
+
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if (options == getOptions.fromWeb) {
+                        getGradesFromWebOnly();
+                    } else {
+                        getGradesFromAnywhere();
+                    }
+                    if (error)
+                        return null;
+                    NumOfDays = list.getNumOfDays();
                     return null;
-                NumOfDays = list.getNumOfDays();
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if (error) {
-                    list = null;
-                    NumOfDays = 0;
-                    Toast.makeText(getContext(),errorMsg,Toast.LENGTH_LONG).show();
-                    toggleSpinner(false, MainLayouit, pb);
-                } else {
-                    toggleSpinner(false, MainLayouit, pb);
-                    setupTabs(view);
-                    String cal1 = db.getUpdateTime(InternalDatabase.ScheduleKey);
-                    try {
-                        if (view != null)
-                            Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
-                    }catch (Exception ex){}
                 }
-            }
 
-            private void getGradesFromAnywhere() {
-                try {
-                    list = db.getScheudle(getOptions.fromMemory);
-                } catch (Exception e) {
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    if (error) {
+                        list = null;
+                        NumOfDays = 0;
+                        Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+                        toggleSpinner(false, MainLayouit, pb);
+                    } else {
+                        toggleSpinner(false, MainLayouit, pb);
+                        setupTabs(view);
+                        String cal1 = db.getUpdateTime(InternalDatabase.ScheduleKey);
+                        try {
+                            if (view != null)
+                                Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                        } catch (Exception ex) {
+                        }
+                    }
+                }
+
+                private void getGradesFromAnywhere() {
                     try {
-                        if (FatherTab.isNetworkAvailable(getContext()))
-                            list = db.getScheudle(getOptions.fromWeb);
-                        else
-                            throw new NetworkErrorException();
-                    } catch (Exception e1) {
-                        errorMsg = FatherTab.checkErrorTypeAndMessage(e1);
+                        list = db.getScheudle(getOptions.fromMemory);
+                    } catch (Exception e) {
+                        try {
+                            if (FatherTab.isNetworkAvailable(getContext()))
+                                list = db.getScheudle(getOptions.fromWeb);
+                            else
+                                throw new NetworkErrorException();
+                        } catch (Exception e1) {
+                            errorMsg = FatherTab.checkErrorTypeAndMessage(e1);
+                            error = true;
+                        }
+                    }
+                }
+
+                private void getGradesFromWebOnly() {
+                    try {
+                        list = db.getScheudle(getOptions.fromWeb);
+                    } catch (Exception e) {
+                        errorMsg = FatherTab.checkErrorTypeAndMessage(e);
                         error = true;
                     }
                 }
-            }
 
-            private void getGradesFromWebOnly(){
-                try{
-                    list = db.getScheudle(getOptions.fromWeb);
-                } catch (Exception e) {
-                    errorMsg = FatherTab.checkErrorTypeAndMessage(e);
-                    error = true;
-                }
-            }
-
-        }.execute();
+            }.execute();
+        }catch (Exception ex){
+            Toast.makeText(getContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
