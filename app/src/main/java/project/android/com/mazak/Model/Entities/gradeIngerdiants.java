@@ -1,10 +1,12 @@
 package project.android.com.mazak.Model.Entities;
 
+import java.io.Serializable;
+
 /**
  * Created by Yair on 2017-02-19.
  */
 
-public class gradeIngerdiants {
+public class gradeIngerdiants implements Serializable {
     public String type;
     public String minGrade;
     public String weight;

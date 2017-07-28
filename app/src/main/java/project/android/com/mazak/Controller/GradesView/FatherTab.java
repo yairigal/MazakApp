@@ -43,6 +43,7 @@ import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.ISearch;
+import project.android.com.mazak.Model.Web.MazakConnection;
 import project.android.com.mazak.R;
 
 public class FatherTab extends Fragment implements ISearch {
@@ -116,6 +117,17 @@ public class FatherTab extends Fragment implements ISearch {
 
                 gradesSorted = GradesModel.sortByYears(grades);
                 numOfYears = gradesSorted.size();
+
+/*                long time1 = System.currentTimeMillis();
+                try {
+                    MazakConnection connection = db.getConnection();
+                    for(int i=0;i<grades.size();i++)
+                        grades.get(i).getGradeDetails(connection);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                time1 = System.currentTimeMillis() - time1;
+                time1++;*/
                 return null;
             }
 
@@ -239,9 +251,7 @@ public class FatherTab extends Fragment implements ISearch {
     }
 
     public static Fragment getInstance() {
-        if(instnace == null)
-            instnace = new FatherTab();
-        return instnace;
+        return new FatherTab();
     }
 
     private class SamplePageAdapter extends FragmentStatePagerAdapter {

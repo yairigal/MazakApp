@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:textDirection="rtl"
+    android:layout_margin="5dp"
+    android:weightSum="9"
+    android:layout_gravity="center_horizontal"
+    android:gravity="right"
+    android:layoutDirection="rtl"
+    android:layout_height="wrap_content">
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/Type_details"
+        android:layout_margin="5dp"
+        android:layout_weight="2"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="סוג"
+        android:maxLines="2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/Weight_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="משקל" />
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/MinGrade_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:maxLines="2"
+        android:text="ציון מינימלי" />
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/MoedA_detials"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="מועד א" />
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/MoedB_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="מועד ב" />
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/MoedSpec_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:maxLines="2"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="מועד מיוחד" />
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/MoedC_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="מועד ג" />
+</LinearLayout>

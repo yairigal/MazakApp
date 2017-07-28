@@ -161,25 +161,60 @@ public class GradesModel {
         float kodesh = 0;
         float numOfKodesh = 0;
         float Nz , grade;
+        float mingrade;
+        float baseOfCalcNZ = 0;
 
         grades = removeDuplicatesOfGrades(grades);
         for (Grade g:grades.getList()) {
             try {
+                //replaceing grades like 36נ to 36.
+                g.finalGrade = g.finalGrade.replace("נ","");
+
+                mingrade = Float.parseFloat(g.minGrade);
                 Nz = Float.parseFloat(g.points);
+                switch (g.finalGrade){
+                    case "לא נבחן":
+                        baseOfCalcNZ += Nz;
+                        sumOfGrades += 0;
+                        break;
+                    case "לא השלים":
+                        break;
+                    case "טרם":
+                        break;
+                    case "נכשל":
+                        baseOfCalcNZ += Nz;
+                        sumOfGrades += 0;
+                        break;
+                    case "עבר":
+                        sumOfNz += Nz;
+                        break;
+                    case "פטור":
+                        break;
+                    case "זיכוי":
+                        sumOfNz += Nz;
+                        break;
+                }
                 grade = Float.parseFloat(g.finalGrade);
-                sumOfNz += Nz;
-                sumOfGrades += grade * Nz;
+                if(grade < mingrade){
+                    sumOfGrades += grade * Nz;
+                    baseOfCalcNZ += Nz;
+                }else if (grade >= mingrade){
+                    sumOfNz += Nz;
+                    baseOfCalcNZ += Nz;
+                    sumOfGrades += grade * Nz;
+                }
+
                 if(g.name.equals(LimodeyKodesh)){
                     kodesh += grade;
                     numOfKodesh++;
                 }
-            }catch (Exception ex){
+            }catch (Exception ignored){
 
             }
         }
         HashMap<String,Float> map = new HashMap<>();
         map.put("kodesh",kodesh/numOfKodesh);
-        map.put("avg",sumOfGrades/sumOfNz);
+        map.put("avg",sumOfGrades/baseOfCalcNZ);
         map.put("nz",sumOfNz);
         return map;
     }

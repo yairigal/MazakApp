@@ -58,6 +58,8 @@ public class HtmlParser {
         IrurList irurs = new IrurList();
         Document doc = null;
         doc = Jsoup.parse(html);
+        //right now appeals
+        addIrurs(ConnectionData.IrurTableID,irurs,doc);
         //normal irurs.
         addIrurs(ConnectionData.LastAppealsTableID,irurs,doc);
         //to the Rosh mahlaka

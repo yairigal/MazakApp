@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +44,8 @@ public class IrurFragment extends Fragment implements ISearch {
     View view;
     LinearLayout mainLayout;
     myAdapter acceptedad,failedad,halfad,progad;
-    String ACCEPTED = "התקבל",HALF = "התקבל חלקית",PROG = "בטיפול";
+    String ACCEPTED = "התקבל",HALF = "התקבל חלקית";
+    String[] PROG = {"בטיפול","טרם טופל"};
     String[] FAILED = {"נדחה","ציון הורד"};
     ListView inProg;
     ListView accpeted;
@@ -268,6 +268,21 @@ public class IrurFragment extends Fragment implements ISearch {
         for (Irur r:irurs.getList())
             if(r.getStatus().equals(status))
                 toReturn.add(r);
+        return toReturn;
+    }
+
+    /**
+     * Returns the irurs with that status
+     * @param irurs scans this irurs
+     * @param status searches for that status.
+     * @return the irurs with that status.
+     */
+    private IrurList getIrurWithStatus(IrurList irurs,String[] status){
+        IrurList toReturn = new IrurList();
+        for (Irur r:irurs.getList())
+            for(String str:status)
+                if(r.getStatus().equals(str))
+                    toReturn.add(r);
         return toReturn;
     }
 

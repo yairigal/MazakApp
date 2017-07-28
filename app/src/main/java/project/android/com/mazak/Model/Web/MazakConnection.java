@@ -63,6 +63,18 @@ public class MazakConnection {
     }
 
     /**
+     * Like The Connect function , checks if we need to login , and after that sends a POST instead of GET
+     * @param url
+     * @return
+     */
+    public String connectPost(String url,String params) throws Exception {
+        //need to login only in the first time.
+        if (conn == null)
+            login();
+        return sendPost(url,params);
+    }
+
+    /**
      * returns the Statistics html page
      *
      * @param statLink
@@ -87,7 +99,7 @@ public class MazakConnection {
      * @return
      * @throws Exception
      */
-    private String sendPost(String url, String postParams) throws Exception {
+    public String sendPost(String url, String postParams) throws Exception {
 
         URL obj = new URL(url);
         conn = (HttpsURLConnection) obj.openConnection();
@@ -216,7 +228,7 @@ public class MazakConnection {
      * @return
      * @throws UnsupportedEncodingException
      */
-    private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException {
+    public String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
 

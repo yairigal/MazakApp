@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/gradeCard"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:weightSum="10"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal">
+
+        <!--                       <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="10dp"
+                        android:foregroundGravity="left"
+                        android:id="@+id/statsBtn"
+                        android:src="@mipmap/icon_chart_v3" />-->
+
+        <Button
+            android:id="@+id/statsBtn"
+            android:layout_width="68dp"
+            android:layout_height="38dp"
+            android:background="@android:color/transparent"
+            android:foregroundGravity="left"
+            android:layout_weight="1"
+            android:text="STATS"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14dp" />
+
+        <!--            <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="STATS"
+                        android:id="@+id/statsBtn"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="normal|bold" />-->
+
+        <TextView
+            android:id="@+id/NZTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="3.5 נ''ז"
+            android:layout_weight="2"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/GradeTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="100"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/courseTv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:gravity="center_vertical|right"
+            android:text="Course Name"
+            android:layout_weight="6"
+            android:textSize="15sp"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/ExpadAbleLayout_Details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#e2dfdf"
+        app:el_duration="300"
+        app:el_expanded="false">
+
+        <include layout="@layout/expandable_grade_details_child" />
+    </net.cachapa.expandablelayout.ExpandableLayout>
+</LinearLayout>

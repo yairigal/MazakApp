@@ -63,6 +63,15 @@ public class InternalDatabase implements Database {
         }
     }
 
+    public MazakConnection getConnection() throws IOException {
+        if(connection == null){
+            String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
+            String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
+            connection = new MazakConnection(username,passw);
+        }
+        return connection;
+    }
+
     /**
      * deletes all the data from the database.
      */
@@ -123,7 +132,7 @@ public class InternalDatabase implements Database {
             }catch (Exception ex){
                 return "";
             }
-            return new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(lst).toString();
+            return new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm").format(lst).toString();
         }
     }
 
