@@ -15,6 +15,7 @@ import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
+import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.TestList;
 import project.android.com.mazak.Model.Entities.getOptions;
@@ -37,12 +38,15 @@ public class InternalDatabase implements Database {
     public static final String IrursKey = "irurs";
     public static final String ScheduleKey = "schedules";
     public static final String TestKey = "tests";
+    public static final String NotebookKey = "notebooks";
     private MazakConnection connection;
     private String currentUsername = "",currentPassword="";
     private GradesList grades;
     private IrurList irurs;
     private ScheduleList schedule;
     private TestList tests;
+    private NotebookList notebooks;
+
 
 
     public InternalDatabase(Context ctx) {
@@ -54,23 +58,21 @@ public class InternalDatabase implements Database {
      * @throws IOException
      */
     private void refreshConnection() throws IOException {
-        String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
+ /*       String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
         String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
         if (connection == null || !username.equals(currentUsername) || !passw.equals(currentPassword)) {
             currentUsername = username;
             currentPassword = passw;
             connection = new MazakConnection(currentUsername, currentPassword);
-        }
+        }*/
     }
 
-    public MazakConnection getConnection() throws IOException {
-        if(connection == null){
-            String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
-            String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
-            connection = new MazakConnection(username,passw);
-        }
-        return connection;
+    public  MazakConnection getConnection() throws IOException {
+        String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
+        String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
+        return new MazakConnection(username,passw);
     }
+
 
     /**
      * deletes all the data from the database.
@@ -81,6 +83,7 @@ public class InternalDatabase implements Database {
         deleteIrurs();
         clearScheudle();
         clearTests();
+        clear(NotebookKey,notebooks);
     }
 
     @Override
@@ -176,7 +179,7 @@ public class InternalDatabase implements Database {
         Object listParsed;
         clear(key,list);
         refreshConnection();
-        html = connection.connect(URL);
+        html = getConnection().connect(URL);
         listParsed = HtmlParser.Parse(html,key);
         save(listParsed,key);
         updateTime(key);
@@ -275,7 +278,7 @@ public class InternalDatabase implements Database {
         String html;
         deleteGrades();
         refreshConnection();
-        html = connection.connect(ConnectionData.GradesURL);
+        html = getConnection().connect(ConnectionData.GradesURL);
         //String res = WebViewConnection.RhinoTest(html);
         grades = HtmlParser.ParseToGrades(html);
         saveGrades(grades);
@@ -350,7 +353,7 @@ public class InternalDatabase implements Database {
         String html;
         deleteIrurs();
         refreshConnection();
-        html = connection.connect(ConnectionData.IrurURL);
+        html = getConnection().connect(ConnectionData.IrurURL);
         //String res = WebViewConnection.RhinoTest(html);
         irurs = HtmlParser.ParseToIrurs(html);
         saveIrurs(irurs);
@@ -375,7 +378,7 @@ public class InternalDatabase implements Database {
     @Override
     public CourseStatistics getStatsFromWeb(String link) throws Exception {
         refreshConnection();
-        String res = connection.getStatisticsPage(link);
+        String res = getConnection().getStatisticsPage(link);
         return HtmlParser.ParseToStats(res);
     }
 
@@ -401,9 +404,9 @@ public class InternalDatabase implements Database {
         String html;
         clearScheudle();
         refreshConnection();
-        html = connection.connect(ConnectionData.ScheduleURL);
+        html = getConnection().connect(ConnectionData.ScheduleURL);
         String newURL = HtmlParser.getListScheudleURL(html);
-        html = connection.connect(newURL);
+        html = getConnection().connect(newURL);
         schedule = HtmlParser.ParseToClassEvents(html);
         saveScheudle(schedule);
         updateTime(ScheduleKey);
@@ -464,6 +467,12 @@ public class InternalDatabase implements Database {
 
     private void clearTests() {
         clear(TestKey,tests);
+    }
+
+    @Override
+    public NotebookList getNotebooks(getOptions options) throws Exception {
+        NotebookList list = (NotebookList) get(options,NotebookKey,notebooks,NotebookList.class,ConnectionData.NotebookURL);
+        return list;
     }
 
     //endregion

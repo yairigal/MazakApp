@@ -10,7 +10,7 @@ import project.android.com.mazak.Model.Web.MazakConnection;
  * Created by Yair on 2017-02-17.
  */
 
-public interface Database extends IGrades,IIrurs,IStats,ISchedule,ITests {
+public interface Database extends IGrades,IIrurs,IStats,ISchedule,ITests,INotebook {
     String username = null,password = null;
     void clearDatabase();
     void changeUsernameAndPassword(String username, String password) throws Exception;

@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import project.android.com.mazak.Model.Web.ConnectionData;
@@ -25,6 +26,7 @@ public class Grade implements Serializable {
     public String subDetailsID;
     public ArrayList<gradeIngerdiants> ingerdiantses = new ArrayList<>();
     public String StatLink;
+    public ArrayList<Notebook> Notebook = new ArrayList<>();
 
     public Grade(String code , String name, String sem, String points, String min, String finalGrade) {
         this.code = code;
@@ -35,6 +37,7 @@ public class Grade implements Serializable {
         this.finalGrade = finalGrade;
         this.subDetailsID = "";
         this.StatLink = "";
+        this.Notebook = null;
     }
 
     public Grade(String code , String name, String sem, String points, String min, String finalGrade,ArrayList<gradeIngerdiants> ing) {
@@ -47,6 +50,20 @@ public class Grade implements Serializable {
         this.subDetailsID = "";
         this.StatLink = "";
         this.ingerdiantses = ing;
+        this.Notebook = null;
+    }
+
+    public Grade(String code , String name, String sem, String points, String min, String finalGrade, ArrayList<gradeIngerdiants> ing, ArrayList<Notebook> notebookLink) {
+        this.code = code;
+        this.name = name;
+        this.semester = sem;
+        this.points = points;
+        this.minGrade = min;
+        this.finalGrade = finalGrade;
+        this.subDetailsID = "";
+        this.StatLink = "";
+        this.ingerdiantses = ing;
+        this.Notebook = (ArrayList<project.android.com.mazak.Model.Entities.Notebook>) notebookLink.clone();
     }
 
     public Grade(){}
@@ -59,7 +76,17 @@ public class Grade implements Serializable {
         ingerdiantses.addAll(newing);
     }
 
-    public ArrayList<gradeIngerdiants> ParseGradeDetails(String html){
+    public ArrayList<gradeIngerdiants> getGradeDetailsExplcit(MazakConnection connection) throws Exception {
+        String params = connection.getQuery(ConnectionData.getGradeDetailsPostArguments(subDetailsID));
+        String html = connection.connectPost(ConnectionData.GradesURL,params);
+        ArrayList<gradeIngerdiants> newing = ParseGradeDetails(html);
+        return newing;
+    }
+
+
+
+
+    public static ArrayList<gradeIngerdiants> ParseGradeDetails(String html){
         ArrayList<gradeIngerdiants> ing = new ArrayList<>();
         Document doc = Jsoup.parse(html);
         Element elem = doc.getElementById(ConnectionData.GradeDetailsTableID);
@@ -78,6 +105,7 @@ public class Grade implements Serializable {
         }
         return ing;
     }
+
 
     public static Grade ParseToGrade(Element root){
         Elements el = root.getAllElements();

@@ -151,7 +151,7 @@ public class MinyanFragment extends Fragment implements IRefresh {
                 times = (ArrayList<TfilaTime>) times.clone();
                 Adapter.notifyDataSetChanged();
             }
-        }.execute();
+        }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
     }
 
     @Override

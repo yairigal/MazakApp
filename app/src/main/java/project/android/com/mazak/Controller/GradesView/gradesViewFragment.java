@@ -70,6 +70,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
     private boolean[] animationStates;
     ExpandableLayout currentOpen = null;
     private ScrollView mScrollView;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,24 +88,24 @@ public class gradesViewFragment extends Fragment implements ISearch {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_grades_view_test, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_grades_view_test, container, false);
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.gradesRecycleView);
-        mScrollView = (ScrollView) view.findViewById(R.id.scrollojt);
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.gradesRecycleView);
+            mScrollView = (ScrollView) view.findViewById(R.id.scrollojt);
 
 
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(mLayoutManager);
 
-        sem0List = GradesModel.sortBySemester(grades).get(0);
-        sem1List = GradesModel.sortBySemester(grades).get(1);
-        sem2List = GradesModel.sortBySemester(grades).get(2);
+            sem0List = GradesModel.sortBySemester(grades).get(0);
+            sem1List = GradesModel.sortBySemester(grades).get(1);
+            sem2List = GradesModel.sortBySemester(grades).get(2);
 
-        MyAdapter mAdapter = new MyAdapter(sem0List, sem1List, sem2List,getContext(),mScrollView);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
-                DividerItemDecoration.VERTICAL));
+            MyAdapter mAdapter = new MyAdapter(sem0List, sem1List, sem2List, getContext(), mScrollView);
+            recyclerView.setAdapter(mAdapter);
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
+                    DividerItemDecoration.VERTICAL));
 
 
 /*        mScrollView = (ScrollView) view.findViewById(R.id.scrollojt);
@@ -124,6 +125,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
         Utility.setListViewHeightBasedOnChildren(sem0);
         Utility.setListViewHeightBasedOnChildren(sem1);
         Utility.setListViewHeightBasedOnChildren(sem2);*/
+        }
 
         return view;
     }
@@ -334,7 +336,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
                     }*/
                 Grade current = list.get(position);
                 setNz(convertView, current);
-                setStatsButton(current, convertView);
+                //setStatsButton(current, convertView);
                 setName(convertView, courseTv, current.name);
                 setOnClick(convertView, current, position);
                 setBackgroundColor(position, convertView);
@@ -346,6 +348,7 @@ public class gradesViewFragment extends Fragment implements ISearch {
             return convertView;
         }
 
+        @Deprecated
         private void setDetails(final View convertView, final Grade gd) {
             //((TextView) convertView.findViewById(R.id.nameDetails)).setText(gd.name);
             ((TextView) convertView.findViewById(R.id.courseIdDetails)).setText(gd.code);
@@ -383,9 +386,9 @@ public class gradesViewFragment extends Fragment implements ISearch {
                 public void function(Object obj) {
                     toggleSpinner(false, detailsListView, spinner);
                     refreshAdapter(adp);
-                    final ExpandableLayout layout = (ExpandableLayout) convertView.findViewById(R.id.ExpadAbleLayout_Details);
+                    //final ExpandableLayout layout = (ExpandableLayout) convertView.findViewById(R.id.ExpadAbleLayout_Details);
                     Utility.setListViewHeightBasedOnChildren(detailsListView);
-                    Utility.setListViewHeightBasedOnChildrenWithDetailsListView(currentListView, detailsListView, layout, true);
+                    Utility.setListViewHeightBasedOnChildrenWithDetailsListView(currentListView, detailsListView, null, true);
                 }
             }).start();
 
@@ -408,13 +411,14 @@ public class gradesViewFragment extends Fragment implements ISearch {
             TextView name = (TextView) convertView.findViewById(courseTv);
             name.setText(name2);
         }
-
+        @Deprecated
         private void setOnClick(final View convertView, final Grade grade, final int position) {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //showDialog(grade);
-                    final ExpandableLayout layout = (ExpandableLayout) convertView.findViewById(R.id.ExpadAbleLayout_Details);
+                    //final ExpandableLayout layout = (ExpandableLayout) convertView.findViewById(R.id.ExpadAbleLayout_Details);
+                    final ExpandableLayout layout = null;
                     layout.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
                         @Override
                         public void onExpansionUpdate(float expansionFraction, int state) {
@@ -467,21 +471,19 @@ public class gradesViewFragment extends Fragment implements ISearch {
         else
             convertView.findViewById(R.id.gradeCard).setBackgroundColor(Color.WHITE);*/
         }
-
+        @Deprecated
         private void setStatsButton(final Grade position, View convertView) {
-            (convertView.findViewById(R.id.statsBtn)).setOnClickListener(new View.OnClickListener() {
+/*            (convertView.findViewById(R.id.statsBtn)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), CourseStatisticsActivity.class);
                     intent.putExtra("grade", position);
                     startActivity(intent);
                 }
-            });
+            });*/
         }
 
     }
-
-
 
 
 }

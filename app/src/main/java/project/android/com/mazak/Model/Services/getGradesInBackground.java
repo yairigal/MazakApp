@@ -70,7 +70,7 @@ public class getGradesInBackground extends Service {
                     super.onPostExecute(aVoid);
                     //startService(new Intent(getApplicationContext(),startAlarmService.class));
                 }
-            }.execute();
+            }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
     }
 
     private void sendIrurNotification() {

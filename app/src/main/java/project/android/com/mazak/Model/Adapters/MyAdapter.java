@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import org.w3c.dom.Text;
@@ -24,6 +26,7 @@ import org.w3c.dom.Text;
 import java.util.function.Consumer;
 
 import project.android.com.mazak.Controller.GradesView.gradesViewFragment;
+import project.android.com.mazak.Controller.GradesView.singleGradeView;
 import project.android.com.mazak.Controller.Statistics.CourseStatisticsActivity;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Model.Entities.BackgroundTask;
@@ -97,7 +100,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(convertView);
             Nz = (TextView) convertView.findViewById(R.id.NZTV);
             name = (TextView) convertView.findViewById(R.id.courseTv);
-            statsBtn = (Button) convertView.findViewById(R.id.statsBtn);
+            //statsBtn = (Button) convertView.findViewById(R.id.statsBtn);
             grade = (TextView)convertView.findViewById(R.id.GradeTV);
             view = convertView;
         }
@@ -134,7 +137,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //its not a title
         if (itemtype == ITEM_TYPE_GRADE) {
             ViewHolderGrade Gholder = (ViewHolderGrade) holder;
-            Gholder.view.findViewById(R.id.statsBtn).setVisibility(View.VISIBLE);
+            //Gholder.view.findViewById(R.id.statsBtn).setVisibility(View.VISIBLE);
             Gholder.view.findViewById(R.id.NZTV).setVisibility(View.VISIBLE);
             setNz(Gholder.Nz, current);
             setName(Gholder.name, current.name);
@@ -153,6 +156,33 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void setGrade(TextView grade, String finalGrade) {
         grade.setText(finalGrade);
+        setGradeColor(grade,finalGrade);
+    }
+
+    private void setGradeColor(TextView gradeView, String finalGrade) {
+        try{
+            float grade = Float.parseFloat(finalGrade);
+            if(grade <= 59)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[0]);
+            else if(grade <= 64)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[1]);
+            else if(grade <= 69)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[2]);
+            else if(grade <= 74)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[3]);
+            else if(grade <= 79)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[4]);
+            else if(grade <= 84)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[5]);
+            else if(grade <= 89)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[6]);
+            else if(grade <= 94)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[7]);
+            else if(grade <= 100)
+                gradeView.setTextColor(CourseStatisticsActivity.colors[8]);
+        }catch (Exception ex){
+            gradeView.setTextColor(Color.GRAY);
+        }
     }
 
     private float getNz(Grade current) {
@@ -280,7 +310,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 //showDialog(grade);
-                final ExpandableLayout layout = (ExpandableLayout) convertView.findViewById(R.id.ExpadAbleLayout_Details);
+                /*final ExpandableLayout layout = (ExpandableLayout) convertView.findViewById(R.id.ExpadAbleLayout_Details);
                 layout.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
                     @Override
                     public void onExpansionUpdate(float expansionFraction, int state) {
@@ -314,7 +344,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     setDetails(convertView, grade);
                     layout.expand();
 
-                }
+                }*/
+                Intent intet = new Intent(context,singleGradeView.class);
+                intet.putExtra("grade",grade);
+                context.startActivity(intet);
             }
 
             private void scollDown() {
@@ -328,14 +361,14 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void setStatsButton(final Grade position, View convertView) {
-        (convertView.findViewById(R.id.statsBtn)).setOnClickListener(new View.OnClickListener() {
+/*        (convertView.findViewById(R.id.statsBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CourseStatisticsActivity.class);
                 intent.putExtra("grade", position);
                 context.startActivity(intent);
             }
-        });
+        });*/
     }
 
     private void setAnimation(View viewToAnimate, int position) {

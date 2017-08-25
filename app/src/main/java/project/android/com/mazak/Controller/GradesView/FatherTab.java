@@ -1,6 +1,7 @@
 package project.android.com.mazak.Controller.GradesView;
 
 import android.accounts.NetworkErrorException;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -74,15 +75,17 @@ public class FatherTab extends Fragment implements ISearch {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_father_tab, container, false);
-        spinner = (ProgressBar) view.findViewById(R.id.FatherSpinner);
-        mainLayout = (LinearLayout) view.findViewById(R.id.TabsFatherLayout);
+        if(view == null) {
+            view = inflater.inflate(R.layout.fragment_father_tab, container, false);
+            spinner = (ProgressBar) view.findViewById(R.id.FatherSpinner);
+            mainLayout = (LinearLayout) view.findViewById(R.id.TabsFatherLayout);
 
-        try {
-            db = Factory.getInstance(getActivity());
-            getGradesAsync(view,null);
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                db = Factory.getInstance(getActivity());
+                getGradesAsync(view, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return view;
     }
@@ -93,6 +96,7 @@ public class FatherTab extends Fragment implements ISearch {
      * @param view
      * @param options
      */
+    @SuppressLint("StaticFieldLeak")
     private void getGradesAsync(final View view, final getOptions options) {
         new AsyncTask<Void, Void, Void>() {
             public String errorMsg;
@@ -194,7 +198,7 @@ public class FatherTab extends Fragment implements ISearch {
                 else
                     Snackbar.make(getView(), errorMsg, Snackbar.LENGTH_LONG).show();
             }
-        }.execute();
+        }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
     }
 
     /**

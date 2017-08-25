@@ -38,15 +38,15 @@ import project.android.com.mazak.R;
 public class IrurFragment extends Fragment implements ISearch {
     private static IrurFragment instance;
     IrurList irurs;
-    IrurList acceptedList,failedList,halfList,progList;
+    IrurList acceptedList, failedList, halfList, progList;
     Database db;
     ProgressBar spinner;
     View view;
     LinearLayout mainLayout;
-    myAdapter acceptedad,failedad,halfad,progad;
-    String ACCEPTED = "התקבל",HALF = "התקבל חלקית";
-    String[] PROG = {"בטיפול","טרם טופל"};
-    String[] FAILED = {"נדחה","ציון הורד"};
+    myAdapter acceptedad, failedad, halfad, progad;
+    String ACCEPTED = "התקבל", HALF = "התקבל חלקית";
+    String[] PROG = {"בטיפול", "טרם טופל"};
+    String[] FAILED = {"נדחה", "ציון הורד"};
     ListView inProg;
     ListView accpeted;
     ListView half;
@@ -61,10 +61,11 @@ public class IrurFragment extends Fragment implements ISearch {
 
     /**
      * Singleton functions.
+     *
      * @return
      */
     public static Fragment getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new IrurFragment();
         return instance;
     }
@@ -112,10 +113,10 @@ public class IrurFragment extends Fragment implements ISearch {
             protected void onPostExecute(IrurList x) {
                 super.onPostExecute(x);
                 FatherTab.toggleSpinner(false, mainLayout, spinner);
-                refreshAdapter(acceptedad, acceptedList.getList(), getIrurWithStatus(newList,ACCEPTED).getList());
-                refreshAdapter(failedad, failedList.getList(), getFailedIrurs(newList,FAILED).getList());
-                refreshAdapter(halfad, halfList.getList(), getIrurWithStatus(newList,HALF).getList());
-                refreshAdapter(progad, progList.getList(), getIrurWithStatus(newList,PROG).getList());
+                refreshAdapter(acceptedad, acceptedList.getList(), getIrurWithStatus(newList, ACCEPTED).getList());
+                refreshAdapter(failedad, failedList.getList(), getFailedIrurs(newList, FAILED).getList());
+                refreshAdapter(halfad, halfList.getList(), getIrurWithStatus(newList, HALF).getList());
+                refreshAdapter(progad, progList.getList(), getIrurWithStatus(newList, PROG).getList());
 
                 Utility.setListViewHeightBasedOnChildren(inProg);
                 Utility.setListViewHeightBasedOnChildren(accpeted);
@@ -127,31 +128,33 @@ public class IrurFragment extends Fragment implements ISearch {
                 else
                     hideEmptyMessage();
                 //progressBar.setVisibility(VISIBLE);
-                if(db != null && view != null) {
+                if (db != null && view != null) {
                     String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
                     Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
                 }
             }
         };
-        task.execute();
+        task.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
     }
 
     /**
      * Returns the irurs with that status
-     * @param irurs scans this irurs
+     *
+     * @param irurs  scans this irurs
      * @param status searches for that status.
      * @return the irurs with that status.
      */
-    private IrurList getFailedIrurs(IrurList irurs, String[] status){
+    private IrurList getFailedIrurs(IrurList irurs, String[] status) {
         IrurList toret = new IrurList();
-        for(int i=0;i<status.length;i++){
-            toret.addAll(getIrurWithStatus(irurs,status[i]));
+        for (int i = 0; i < status.length; i++) {
+            toret.addAll(getIrurWithStatus(irurs, status[i]));
         }
         return toret;
     }
 
     /**
      * Gets the irrus asynchronously by the option specified
+     *
      * @param op fromWeb or fromDatabase.
      */
     private void getIrursAsync(final getOptions op) {
@@ -184,10 +187,10 @@ public class IrurFragment extends Fragment implements ISearch {
             protected void onPostExecute(IrurList x) {
                 super.onPostExecute(x);
                 FatherTab.toggleSpinner(false, mainLayout, spinner);
-                refreshAdapter(acceptedad, acceptedList.getList(), getIrurWithStatus(newList,ACCEPTED).getList());
-                refreshAdapter(failedad, failedList.getList(), getFailedIrurs(newList,FAILED).getList());
-                refreshAdapter(halfad, halfList.getList(), getIrurWithStatus(newList,HALF).getList());
-                refreshAdapter(progad, progList.getList(), getIrurWithStatus(newList,PROG).getList());
+                refreshAdapter(acceptedad, acceptedList.getList(), getIrurWithStatus(newList, ACCEPTED).getList());
+                refreshAdapter(failedad, failedList.getList(), getFailedIrurs(newList, FAILED).getList());
+                refreshAdapter(halfad, halfList.getList(), getIrurWithStatus(newList, HALF).getList());
+                refreshAdapter(progad, progList.getList(), getIrurWithStatus(newList, PROG).getList());
 
 
                 if (newList.size() == 0)
@@ -199,7 +202,9 @@ public class IrurFragment extends Fragment implements ISearch {
                 try {
                     if (view != null)
                         Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
-                }catch (Exception ex){};
+                } catch (Exception ex) {
+                }
+                ;
             }
         };
         task.execute();
@@ -224,64 +229,69 @@ public class IrurFragment extends Fragment implements ISearch {
 
     /**
      * Show a snackbar with the msg specified
+     *
      * @param msg the message to be shown.
      */
     private void showSnackException(String msg) {
         View v = getView();
-        if(v!= null)
+        if (v != null)
             Snackbar.make(v, msg, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_irur_parent, container, false);
-        spinner = (ProgressBar) view.findViewById(R.id.irurSpinner);
-        mainLayout = (LinearLayout) view.findViewById(R.id.irursMainLayout);
-        inProg = (ListView) view.findViewById(R.id.listAppealsInProgress);
-        accpeted = (ListView) view.findViewById(R.id.listAppealsAccepted);
-        half = (ListView) view.findViewById(R.id.listAppealsHalfAccepted);
-        failed = (ListView) view.findViewById(R.id.listAppealsNotAccepted);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_irur_parent, container, false);
+            spinner = (ProgressBar) view.findViewById(R.id.irurSpinner);
+            mainLayout = (LinearLayout) view.findViewById(R.id.irursMainLayout);
+            inProg = (ListView) view.findViewById(R.id.listAppealsInProgress);
+            accpeted = (ListView) view.findViewById(R.id.listAppealsAccepted);
+            half = (ListView) view.findViewById(R.id.listAppealsHalfAccepted);
+            failed = (ListView) view.findViewById(R.id.listAppealsNotAccepted);
 
-        getIrursAsync();
+            getIrursAsync();
 
-        progList = getIrurWithStatus(irurs,PROG);
-        inProg.setAdapter(progad = new myAdapter(getContext(),R.layout.fragment_irur_parent,progList.getList()));
-        acceptedList = getIrurWithStatus(irurs,ACCEPTED);
-        accpeted.setAdapter(acceptedad = new myAdapter(getContext(),R.layout.fragment_irur_parent,acceptedList.getList()));
-        halfList = getIrurWithStatus(irurs,HALF);
-        half.setAdapter(halfad = new myAdapter(getContext(),R.layout.fragment_irur_parent,halfList.getList()));
-        failedList = getFailedIrurs(irurs,FAILED);
-        failed.setAdapter(failedad = new myAdapter(getContext(),R.layout.fragment_irur_parent,failedList.getList()));
+            progList = getIrurWithStatus(irurs, PROG);
+            inProg.setAdapter(progad = new myAdapter(getContext(), R.layout.fragment_irur_parent, progList.getList()));
+            acceptedList = getIrurWithStatus(irurs, ACCEPTED);
+            accpeted.setAdapter(acceptedad = new myAdapter(getContext(), R.layout.fragment_irur_parent, acceptedList.getList()));
+            halfList = getIrurWithStatus(irurs, HALF);
+            half.setAdapter(halfad = new myAdapter(getContext(), R.layout.fragment_irur_parent, halfList.getList()));
+            failedList = getFailedIrurs(irurs, FAILED);
+            failed.setAdapter(failedad = new myAdapter(getContext(), R.layout.fragment_irur_parent, failedList.getList()));
 
+        }
         return view;
     }
 
     /**
      * Returns the irurs with that status
-     * @param irurs scans this irurs
+     *
+     * @param irurs  scans this irurs
      * @param status searches for that status.
      * @return the irurs with that status.
      */
-    private IrurList getIrurWithStatus(IrurList irurs,String status){
+    private IrurList getIrurWithStatus(IrurList irurs, String status) {
         IrurList toReturn = new IrurList();
-        for (Irur r:irurs.getList())
-            if(r.getStatus().equals(status))
+        for (Irur r : irurs.getList())
+            if (r.getStatus().equals(status))
                 toReturn.add(r);
         return toReturn;
     }
 
     /**
      * Returns the irurs with that status
-     * @param irurs scans this irurs
+     *
+     * @param irurs  scans this irurs
      * @param status searches for that status.
      * @return the irurs with that status.
      */
-    private IrurList getIrurWithStatus(IrurList irurs,String[] status){
+    private IrurList getIrurWithStatus(IrurList irurs, String[] status) {
         IrurList toReturn = new IrurList();
-        for (Irur r:irurs.getList())
-            for(String str:status)
-                if(r.getStatus().equals(str))
+        for (Irur r : irurs.getList())
+            for (String str : status)
+                if (r.getStatus().equals(str))
                     toReturn.add(r);
         return toReturn;
     }
@@ -314,9 +324,10 @@ public class IrurFragment extends Fragment implements ISearch {
 
     /**
      * refresh the listView adapter.
-     * @param ad the adapter to be refreshed
+     *
+     * @param ad         the adapter to be refreshed
      * @param originList the original list
-     * @param newList the new list to be shown.
+     * @param newList    the new list to be shown.
      */
     public static void refreshAdapter(ArrayAdapter ad, ArrayList originList, ArrayList newList) {
         originList.clear();
@@ -327,25 +338,25 @@ public class IrurFragment extends Fragment implements ISearch {
     /**
      * Adapter class for the ListView adapter.
      */
-    class myAdapter extends ArrayAdapter<Irur>{
+    class myAdapter extends ArrayAdapter<Irur> {
 
         private final IrurList irurs;
 
         public myAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Irur> objects) {
             super(context, resource, objects);
-            this.irurs = new IrurList((ArrayList<Irur>) objects,false);
+            this.irurs = new IrurList((ArrayList<Irur>) objects, false);
         }
 
         private void setAppealColor(View view, Irur current) {
             TextView name = (TextView) view;
             String status = current.getStatus();
-            if(status.equals("התקבל")){
+            if (status.equals("התקבל")) {
                 name.setTextColor(ColorTemplate.rgb("388E3C"));
-            } else if(status.equals("התקבל חלקית")){
+            } else if (status.equals("התקבל חלקית")) {
                 name.setTextColor(ColorTemplate.rgb("FFA000"));
-            } else if(status.equals("נדחה")){
+            } else if (status.equals("נדחה")) {
                 name.setTextColor(ColorTemplate.rgb("D32F2F"));
-            }else if(status.equals("בטיפול")){
+            } else if (status.equals("בטיפול")) {
                 name.setTextColor(ColorTemplate.rgb("9E9E9E"));
             }
         }
@@ -361,8 +372,8 @@ public class IrurFragment extends Fragment implements ISearch {
                 final Irur current = irurs.get(position);
                 //set the irur name;
                 ((TextView) convertView.findViewById(R.id.IrurName)).setText(current.getCourseName());
-                setAppealColor(convertView.findViewById(R.id.IrurName),current);
-                setOnClick(convertView,current);
+                setAppealColor(convertView.findViewById(R.id.IrurName), current);
+                setOnClick(convertView, current);
                 return convertView;
 
             } catch (Exception ex) {
@@ -370,8 +381,6 @@ public class IrurFragment extends Fragment implements ISearch {
             }
             return convertView;
         }
-
-
 
 
         private void setOnClick(View convertView, final Irur irur) {
@@ -394,20 +403,21 @@ public class IrurFragment extends Fragment implements ISearch {
 
     /**
      * Shows the dialog with the irur details.
+     *
      * @param gd
      */
     void showDialog(final Irur gd) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.irur_child);
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Name)).setText(gd.getCourseName());
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Code)).setText(gd.getCourseNum());
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Detail)).setText(gd.getGradeDetail());
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Moed)).setText(gd.getMoed());
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Instructor)).setText(gd.getInChargeName());
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Lecturer)).setText(gd.getLecturer());
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Date)).setText(gd.getDate());
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Type)).setText(gd.getIrurType());
-        ((TextView)dialog.findViewById(R.id.AppealsChild_Status)).setText(gd.getStatus());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Name)).setText(gd.getCourseName());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Code)).setText(gd.getCourseNum());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Detail)).setText(gd.getGradeDetail());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Moed)).setText(gd.getMoed());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Instructor)).setText(gd.getInChargeName());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Lecturer)).setText(gd.getLecturer());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Date)).setText(gd.getDate());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Type)).setText(gd.getIrurType());
+        ((TextView) dialog.findViewById(R.id.AppealsChild_Status)).setText(gd.getStatus());
 
 /*        ListView listView = (ListView) dialog.findViewById(R.id.DialogLV);
         final ArrayList<String> lst = new ArrayList<String>() {{

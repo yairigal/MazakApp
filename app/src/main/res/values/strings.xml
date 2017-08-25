@@ -25,4 +25,5 @@
     <string name="web_error">web error</string>
     <string name="FiveNz">5 נ\'\'ז</string>
     <string name="course_name">Course Name</string>
+    <string name="gradeDetails">מרכיבי ציון</string>
 </resources>

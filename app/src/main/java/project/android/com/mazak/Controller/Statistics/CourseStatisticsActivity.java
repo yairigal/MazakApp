@@ -30,15 +30,15 @@ import project.android.com.mazak.R;
 public class CourseStatisticsActivity extends AppCompatActivity{
 
     public static Integer[] colors = new Integer[]{
-            ColorTemplate.rgb("D32F2F"), // red
-            ColorTemplate.rgb("FF5722"), // red
-            ColorTemplate.rgb("F57C00"), // orange
-            ColorTemplate.rgb("FF9800"), // orange
-            ColorTemplate.rgb("FFC107"), // yellow
-            ColorTemplate.rgb("00BCD4"), // bright blue
-            ColorTemplate.rgb("1976D2"), // blue
-            ColorTemplate.rgb("689F38"), // bright green
-            ColorTemplate.rgb("4CAF50")}; // green
+            ColorTemplate.rgb("F56D5D"), // red
+            ColorTemplate.rgb("FB896E"), // red
+            ColorTemplate.rgb("FAA97A"), // orange
+            ColorTemplate.rgb("FDC97D"), // orange
+            ColorTemplate.rgb("FEEB84"), // yellow
+            ColorTemplate.rgb("D9E081"), // bright blue
+            ColorTemplate.rgb("AFD77F"), // blue
+            ColorTemplate.rgb("8ACA7E"), // bright green
+            ColorTemplate.rgb("63BD7D")}; // green
     String noDataText = "No Data Found";
     IRefresh currentFragmet;
     CourseStatistics current;
@@ -104,7 +104,7 @@ public class CourseStatisticsActivity extends AppCompatActivity{
                 onFinishLoading.function(null);
                 //setUpBarchart(bar, current.getCourseName(), current.getFreqs());
             }
-        }.execute();
+        }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
     }
 
     /**

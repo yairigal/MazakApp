@@ -479,7 +479,7 @@ public class NavDrawerActivity extends AppCompatActivity
                 }
             }
         };
-        getGrades.execute();
+        getGrades.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );;
         //endregion
     }
 

@@ -24,8 +24,6 @@ public abstract class ObjectList<T> implements Iterable<T>,Serializable {
         reversed = false;
     }
 
-
-
     @Override
     public Iterator<T> iterator() {
         return list.iterator();

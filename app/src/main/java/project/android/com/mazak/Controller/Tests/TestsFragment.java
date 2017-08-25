@@ -66,7 +66,8 @@ public class TestsFragment extends Fragment implements IRefresh {
     private ProgressBar spinner;
 
 
-    public TestsFragment(){}
+    public TestsFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,17 +84,22 @@ public class TestsFragment extends Fragment implements IRefresh {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_tests, container, false);
-        mainLayout = (LinearLayout) view.findViewById(R.id.TestsMainLayout);
-        spinner = (ProgressBar) view.findViewById(R.id.TestsProgressBar);
-        sem0 = (ListView) view.findViewById(R.id.listTests);
-        sem0.setAdapter(adp = new GradeAdapter(getActivity(), R.layout.fragment_tests, adapterList));
-        getTestsAsync(null);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_tests, container, false);
+            mainLayout = (LinearLayout) view.findViewById(R.id.TestsMainLayout);
+            spinner = (ProgressBar) view.findViewById(R.id.TestsProgressBar);
+            sem0 = (ListView) view.findViewById(R.id.listTests);
+            sem0.setAdapter(adp = new GradeAdapter(getActivity(), R.layout.fragment_tests, adapterList));
+            getTestsAsync(null);
+        } else { //IF ALREADY INSTANTIATED USE SAME OLD View
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
         return view;
     }
 
     /**
      * Initializing the TestList @grades Asynchronously.
+     *
      * @param options get the Tests from the web or from the internal database.
      */
     private void getTestsAsync(final getOptions options) {
@@ -109,13 +115,13 @@ public class TestsFragment extends Fragment implements IRefresh {
 
             @Override
             protected Void doInBackground(Void... params) {
-                if(options == getOptions.fromWeb){
+                if (options == getOptions.fromWeb) {
                     getGradesFromWebOnly();
                 } else {
                     getGradesFromAnywhere();
                 }
 
-                if(error)
+                if (error)
                     return null;
 
                 //gradesSorted = GradesModel.sortByYears(grades);
@@ -140,7 +146,8 @@ public class TestsFragment extends Fragment implements IRefresh {
                     try {
                         if (view != null)
                             Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
-                    }catch (Exception ex){}
+                    } catch (Exception ex) {
+                    }
                     //setupTabs(view);
                 }
             }
@@ -161,15 +168,15 @@ public class TestsFragment extends Fragment implements IRefresh {
                 }
             }
 
-            private void getGradesFromWebOnly(){
-                try{
+            private void getGradesFromWebOnly() {
+                try {
                     grades = database.getTests(getOptions.fromWeb).clone();
                 } catch (Exception e) {
                     errorMsg = checkErrorTypeAndMessage(e);
                     error = true;
                 }
             }
-        }.execute();
+        }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
     }
 
     void refreshAdapter(ArrayAdapter adp) {
@@ -206,34 +213,35 @@ public class TestsFragment extends Fragment implements IRefresh {
 
         /**
          * changing the list in the adapter.
+         *
          * @param list
          */
-        public void changeList(ArrayList<Test> list){
+        public void changeList(ArrayList<Test> list) {
             this.list = list;
         }
 
         @NonNull
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView == null) {
-                    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.test, parent, false);
-                }
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.test, parent, false);
+            }
 
-                final Test current = list.get(position);
-                //do stuff
-                TextView name = (TextView) convertView.findViewById(R.id.TestName);
-                TextView moed = (TextView) convertView.findViewById(R.id.TestMoed);
-                TextView time = (TextView) convertView.findViewById(R.id.TestTime);
-                name.setText(current.getName());
-                moed.setText(current.getMoed());
-                time.setText(current.getTime()+"\n"+current.getDate());
-                convertView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showDialog(current);
-                    }
-                });
+            final Test current = list.get(position);
+            //do stuff
+            TextView name = (TextView) convertView.findViewById(R.id.TestName);
+            TextView moed = (TextView) convertView.findViewById(R.id.TestMoed);
+            TextView time = (TextView) convertView.findViewById(R.id.TestTime);
+            name.setText(current.getName());
+            moed.setText(current.getMoed());
+            time.setText(current.getTime() + "\n" + current.getDate());
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog(current);
+                }
+            });
 
 
             return convertView;
@@ -242,16 +250,17 @@ public class TestsFragment extends Fragment implements IRefresh {
 
         /**
          * Showing the dialog when clicking an item on the list.
+         *
          * @param gd The Test to show his details.
          */
         void showDialog(final Test gd) {
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.dialog_list);
-            ((TextView)dialog.findViewById(R.id.dialog1)).setText(gd.getName());
-            ((TextView)dialog.findViewById(R.id.dialog2)).setText(gd.getMoed());
-            ((TextView)dialog.findViewById(R.id.dialog3)).setText("מועד המבחן:\n"+gd.getDate()+"\n"+gd.getTime());
-            ((TextView)dialog.findViewById(R.id.dialog4)).setText("תאריך אחרון להרשמה:"+gd.getLastRegtime());
-            ((TextView)dialog.findViewById(R.id.dialog5)).setText("תאריך אחרון לביטול:"+gd.getLastCancelTime());
+            ((TextView) dialog.findViewById(R.id.dialog1)).setText(gd.getName());
+            ((TextView) dialog.findViewById(R.id.dialog2)).setText(gd.getMoed());
+            ((TextView) dialog.findViewById(R.id.dialog3)).setText("מועד המבחן:\n" + gd.getDate() + "\n" + gd.getTime());
+            ((TextView) dialog.findViewById(R.id.dialog4)).setText("תאריך אחרון להרשמה:" + gd.getLastRegtime());
+            ((TextView) dialog.findViewById(R.id.dialog5)).setText("תאריך אחרון לביטול:" + gd.getLastCancelTime());
 /*        ListView listView = (ListView) dialog.findViewById(R.id.DialogLV);
         final ArrayList<String> lst = new ArrayList<String>() {{
             add(gd.name);

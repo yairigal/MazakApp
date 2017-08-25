@@ -2,6 +2,7 @@ package project.android.com.mazak.Controller.Schedule;
 
 
 import android.accounts.NetworkErrorException;
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -61,11 +62,13 @@ public class ScheduleHost extends Fragment implements IRefresh {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_schedule_host, container, false);
-        pb = (ProgressBar) root.findViewById(R.id.ScheduleHost_ProgressBar);
-        MainLayouit = (LinearLayout) root.findViewById(R.id.ScheduleHost_MainLayout);
-        getDatabaseAsync();
-        getScheduleAsync(root,null);
+        if(root == null) {
+            root = inflater.inflate(R.layout.fragment_schedule_host, container, false);
+            pb = (ProgressBar) root.findViewById(R.id.ScheduleHost_ProgressBar);
+            MainLayouit = (LinearLayout) root.findViewById(R.id.ScheduleHost_MainLayout);
+            getDatabaseAsync();
+            getScheduleAsync(root, null);
+        }
         return root;
     }
 
@@ -105,6 +108,7 @@ public class ScheduleHost extends Fragment implements IRefresh {
      * @param view
      * @param options if options is null , this tries from the database then from the web.
      */
+    @SuppressLint("StaticFieldLeak")
     private void getScheduleAsync(final View view, final getOptions options) {
         try {
             new AsyncTask<Void, Void, Void>() {
@@ -175,7 +179,7 @@ public class ScheduleHost extends Fragment implements IRefresh {
                     }
                 }
 
-            }.execute();
+            }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
         }catch (Exception ex){
             Toast.makeText(getContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
         }

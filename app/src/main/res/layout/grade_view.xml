@@ -11,6 +11,7 @@
         android:layout_height="70dp"
         android:layout_margin="1dp"
         android:gravity="center"
+        android:layout_gravity="center"
         android:weightSum="10"
         android:layoutDirection="ltr"
         android:orientation="horizontal">
@@ -23,41 +24,46 @@
                         android:id="@+id/statsBtn"
                         android:src="@mipmap/icon_chart_v3" />-->
 
-        <Button
+<!--        <Button
+            android:visibility="gone"
             android:id="@+id/statsBtn"
-            android:layout_width="68dp"
+            android:layout_width="0dp"
             android:layout_height="38dp"
             android:background="@android:color/transparent"
-            android:foregroundGravity="left"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:layout_marginLeft="5dp"
             android:text="STATS"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:textSize="14dp" />
+            android:textSize="14dp" />-->
 
-        <!--            <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="STATS"
-                        android:id="@+id/statsBtn"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="normal|bold" />-->
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
+
 
         <TextView
             android:id="@+id/NZTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="3.5 נ''ז"
+            android:gravity="center"
             android:layout_weight="2"
+            android:layout_gravity="center"
             android:textStyle="normal|bold" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/GradeTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:text="100"
+            android:lines="1"
+            android:gravity="center"
+            android:layout_margin="5dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:textStyle="normal|bold" />
@@ -66,16 +72,16 @@
             android:id="@+id/courseTv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="15dp"
-            android:gravity="center_vertical|right"
+            android:layout_marginRight="20dp"
+            android:gravity="right|center_vertical"
             android:text="Course Name"
-            android:layout_weight="6"
+            android:layout_weight="5"
             android:textSize="15sp"
             android:textStyle="normal|bold" />
 
     </LinearLayout>
 
-    <net.cachapa.expandablelayout.ExpandableLayout
+<!--    <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/ExpadAbleLayout_Details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,5 +90,5 @@
         app:el_expanded="false">
 
         <include layout="@layout/expandable_grade_details_child" />
-    </net.cachapa.expandablelayout.ExpandableLayout>
+    </net.cachapa.expandablelayout.ExpandableLayout>-->
 </LinearLayout>

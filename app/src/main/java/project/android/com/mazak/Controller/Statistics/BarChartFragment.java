@@ -33,7 +33,7 @@ import project.android.com.mazak.R;
 public class BarChartFragment extends Fragment implements IRefresh {
     View root;
     BarChart bar;
-    Grade currentGrade;
+    //Grade currentGrade;
     CourseStatistics current;
     private String noDataText = "No Data Found";
 
@@ -42,7 +42,7 @@ public class BarChartFragment extends Fragment implements IRefresh {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.bar_chart_fragment, container, false);
         bar = (BarChart) root.findViewById(R.id.BarChart);
-        currentGrade = (Grade) getArguments().getSerializable("grade");
+        //currentGrade = (Grade) getArguments().getSerializable("grade");
         current = (CourseStatistics) getArguments().getSerializable("stats");
         setUpBarchart(bar,current.getCourseName(),current.getFreqs());
         return root;
@@ -166,6 +166,7 @@ public class BarChartFragment extends Fragment implements IRefresh {
         data.addDataSet(set);
         return data;
     }
+
     @Override
     public void Refresh() {
 

@@ -6,14 +6,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Model.Entities.ClassEvent;
 import project.android.com.mazak.Model.Entities.CourseStatistics;
+import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.Irur;
 import project.android.com.mazak.Model.Entities.IrurList;
+import project.android.com.mazak.Model.Entities.Notebook;
+import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.Test;
 import project.android.com.mazak.Model.Entities.TestList;
@@ -232,8 +237,42 @@ public class HtmlParser {
                 return ParseToClassEvents(html);
             case InternalDatabase.TestKey:
                 return ParseToTests(html);
+            case InternalDatabase.NotebookKey:
+                return ParseToNotebooks(html);
             default:
                 return null;
         }
     }
+
+    private static NotebookList ParseToNotebooks(String html) {
+        HashMap<String,ArrayList<Notebook>> map = new HashMap<>();
+        int id = 0;
+        Document doc = Jsoup.parse(html);
+        Element root = doc.getElementById(ConnectionData.NotebookTableID);
+        Elements listOfNotebooks = root.child(0).children();
+        for(int i=1;i<listOfNotebooks.size();i++){
+            String code = listOfNotebooks.get(i).child(2).text();
+            Notebook newN = Notebook.setupNotebookLink(listOfNotebooks.get(i),id++);
+            if(map.containsKey(code)){
+                map.get(code).add(newN);
+            }else {
+                ArrayList<Notebook> list = new ArrayList<>();
+                list.add(newN);
+                map.put(code,list);
+            }
+        }
+        return new NotebookList(map);
+    }
+
+/*    public static void setupAllGradesNotebookLinks(GradesList grades,String html){
+        Map m = grades.toHashtable();
+        Document doc = Jsoup.parse(html);
+        Element root = doc.getElementById(ConnectionData.NotebookTableID);
+        Elements listOfNotebooks = root.child(0).children();
+        for(int i=1;i<listOfNotebooks.size();i++){
+            String code = listOfNotebooks.get(i).child(2).text();
+            Grade g = (Grade) m.get(code);
+            g.setupNotebookLink(listOfNotebooks.get(i));
+        }
+    }*/
 }

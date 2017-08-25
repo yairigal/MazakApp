@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     }
-                }.execute();
+                }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
             }
         };
     }
