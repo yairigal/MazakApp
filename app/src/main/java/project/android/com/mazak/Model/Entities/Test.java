@@ -118,10 +118,10 @@ public class Test {
         String[] DateAndTime = childs.get(3).text().trim().split(" ");
         t.setTime(DateAndTime[1]);
         t.setDate(DateAndTime[0]);
-        if(!childs.get(5).hasAttr("href"))
+        if(!childs.get(4).hasAttr("href"))
             t.setIsMoedB(MoedB.NotSigned);
         else {
-            String link = childs.get(5).child(0).attr("href");
+            String link = childs.get(4).child(0).attr("href");
             if (link != null) {
                 t.setMoedBLink("https://mazak.jct.ac.il/Student/" + link);
                 t.setIsMoedB(MoedB.CanSign);
@@ -129,8 +129,8 @@ public class Test {
                 t.setIsMoedB(MoedB.Signed);
             }
         }
-        t.setLastRegtime(childs.get(6).text());
-        t.setLastCancelTime(childs.get(7).text());
+        t.setLastRegtime(childs.get(5).text());
+        t.setLastCancelTime(childs.get(6).text());
         return t;
     }
 }

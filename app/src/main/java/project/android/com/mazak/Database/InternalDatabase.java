@@ -405,8 +405,6 @@ public class InternalDatabase implements Database {
         clearScheudle();
         refreshConnection();
         html = getConnection().connect(ConnectionData.ScheduleURL);
-        String newURL = HtmlParser.getListScheudleURL(html);
-        html = getConnection().connect(newURL);
         schedule = HtmlParser.ParseToClassEvents(html);
         saveScheudle(schedule);
         updateTime(ScheduleKey);

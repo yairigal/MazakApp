@@ -203,10 +203,9 @@ public class NotebookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void function(Object obj) {
                 try {
-                    String url, params;
-                    url = ConnectionData.NotebookURL;
-                    params = db.getConnection().getQuery(ConnectionData.getNoteBookPostArguments(currentPressed.link));
-                    File pdf = db.getConnection().getAndWritePDF(url, params,currentPressed);
+                    String url;
+                    url = currentPressed.link;
+                    File pdf = db.getConnection().downloadPDF(url,currentPressed);
                     openFile(pdf);
                 } catch (Exception e) {
                     e.printStackTrace();

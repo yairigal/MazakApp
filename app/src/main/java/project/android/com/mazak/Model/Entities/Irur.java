@@ -28,7 +28,7 @@ public class Irur {
         this.linkToFull = linkToFull;
     }
 
-    public Irur(String courseName, String courseNum, String status, String gradeDetail, String irurType, String moed, String inChargeName, String lecturer, String date,String link) {
+    public Irur(String courseName, String courseNum, String status, String gradeDetail, String irurType, String moed, String inChargeName, String lecturer, String date, String link) {
         this.courseName = courseName;
         this.courseNum = courseNum;
         this.status = status;
@@ -41,7 +41,8 @@ public class Irur {
         this.linkToFull = link;
     }
 
-    public Irur(){}
+    public Irur() {
+    }
 
     public String getCourseNum() {
         return courseNum;
@@ -115,50 +116,42 @@ public class Irur {
         this.status = status;
     }
 
-    public static Irur ParseToIrur(Element root){
-        Elements el = root.getAllElements();
-        Irur irur = new Irur();
-        try {
-            irur.linkToFull = "https://mazak.jct.ac.il/Student/" + el.get(1).child(0).attr("href");
-            irur.courseNum = el.get(3).text();
-            irur.gradeDetail = el.get(6).text();
-            irur.irurType = el.get(7).text();
-            irur.moed = el.get(8).text();
-            irur.inChargeName = el.get(9).text();
-            irur.lecturer = el.get(10).text();
-            irur.date = el.get(11).text();
-            irur.status = el.get(12).text();
-            irur.courseName = el.get(4).child(0).text();
-        }catch (Exception e){
-            irur.status = el.get(1).text();
-            irur.date = el.get(2).text();
-        }
-        return irur;
+    public static Irur ParseToIrur(Element root) {
+        Elements el = root.children();
+            Irur irur = new Irur();
+            try {
+                irur.linkToFull = "https://mazak.jct.ac.il/Student/" + el.get(0).child(0).attr("href");
+                irur.courseNum = el.get(1).text();
+                irur.gradeDetail = el.get(3).text();
+                irur.irurType = el.get(4).text();
+                irur.moed = el.get(5).text();
+                irur.inChargeName = el.get(6).text();
+                irur.lecturer = el.get(7).text();
+                irur.date = el.get(10).text();
+                irur.status = el.get(9).text();
+                irur.courseName = el.get(2).child(0).text();
+            } catch (Exception e) {
+                irur.status = el.get(1).text();
+                irur.date = el.get(2).text();
+            }
+            return irur;
     }
 
     @Override
     public boolean equals(Object obj) {
         Irur sec = (Irur) obj;
-        if(courseNum == null && sec.courseNum == null || courseNum.equals(sec.courseNum))
-            if(courseName == null && sec.courseName == null || courseName.equals(sec.courseName))
-                if(gradeDetail == null && sec.gradeDetail == null || gradeDetail.equals(sec.gradeDetail))
-                    if(irurType == null && sec.irurType == null || irurType.equals(sec.irurType))
-                        if(moed == null && sec.moed == null || moed.equals(sec.moed))
-                            if(inChargeName == null && sec.inChargeName == null || inChargeName.equals(sec.inChargeName))
-                                if(lecturer == null && sec.lecturer == null || lecturer.equals(sec.lecturer))
-                                    if(date == null && sec.date == null || date.equals(sec.date))
-                                        if(status == null && sec.status == null || status.equals(sec.status))
-                                            if(linkToFull == null && sec.linkToFull == null || linkToFull.equals(sec.linkToFull))
+        if (courseNum == null && sec.courseNum == null || courseNum.equals(sec.courseNum))
+            if (courseName == null && sec.courseName == null || courseName.equals(sec.courseName))
+                if (gradeDetail == null && sec.gradeDetail == null || gradeDetail.equals(sec.gradeDetail))
+                    if (irurType == null && sec.irurType == null || irurType.equals(sec.irurType))
+                        if (moed == null && sec.moed == null || moed.equals(sec.moed))
+                            if (inChargeName == null && sec.inChargeName == null || inChargeName.equals(sec.inChargeName))
+                                if (lecturer == null && sec.lecturer == null || lecturer.equals(sec.lecturer))
+                                    if (date == null && sec.date == null || date.equals(sec.date))
+                                        if (status == null && sec.status == null || status.equals(sec.status))
+                                            if (linkToFull == null && sec.linkToFull == null || linkToFull.equals(sec.linkToFull))
                                                 return true;
         return false;
-
-
-
-
-
-
-
-
 
 
     }

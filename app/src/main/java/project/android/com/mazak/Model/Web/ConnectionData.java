@@ -27,11 +27,11 @@ public class ConnectionData {
     public static final String IrurTableHeadID2 = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_OpenSecondAppealsGridUserControl_grdSecondAppeals_Table2";
     public static final String StatisticsTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_GradesTable";
     public static final String LastAppealsTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_ucPreviousAppealsGrid_grdAppeals_itemPlaceholderContainer";
-    public static final String StatsNumOfStudntsID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_lSumOfStudents";
-    public static final String StatsMeanID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_lTotalCourseAverage";
-    public static final String StatsMedianID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_lPassedCourseMadian";
+    public static final String StatsNumOfStudntsID = "lSumOfStudents";
+    public static final String StatsMeanID = "lTotalCourseAverage";
+    public static final String StatsMedianID = "lPassedCourseMadian";
     public static final String ScheduleTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_ScheduleView";
-    public static final String ScheduleURL = "https://mazak.jct.ac.il/Student/Schedule.aspx";
+    public static final String ScheduleURL = "https://mazak.jct.ac.il/Student/ScheduleList.aspx";
     public static final String ScheduleYearCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbAcademicYears";
     public static final String ScheduleSemesterCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbSemesters";
     public static final String ScheduleListTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdCoursesList_itemPlaceholderContainer";
@@ -52,16 +52,13 @@ public class ConnectionData {
     public static ArrayList<NameValuePair> getMazakCredentials(final String username, final String pass) {
         return new ArrayList<NameValuePair>() {
             {
-                add(new NameValuePair("__EVENTTARGET", ""));
+                add(new NameValuePair("__EVENTTARGET", "ctl00$content$btnLogin"));
                 add(new NameValuePair("__EVENTARGUMENT", ""));
-                add(new NameValuePair("__VIEWSTATE", "/wEPDwUJODQ1NTExNDM3ZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAgU4Y3RsMDAkY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRMb2dpblN0YXR1c0NvbnRyb2wkY3RsMDEFOGN0bDAwJGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkTG9naW5TdGF0dXNDb250cm9sJGN0bDAz9StvzTms9RNhJpUJEIvLE/fgmvI="));
+                add(new NameValuePair("__VIEWSTATE", "/wEPDwUKMTg3MzMwNzY5OGRkHCaF7BZkLQl9GefpQwdxxmezt/A="));
                 add(new NameValuePair("__VIEWSTATEGENERATOR", "1806D926"));
-                add(new NameValuePair("__SCROLLPOSITIONX", "0"));
-                add(new NameValuePair("__SCROLLPOSITIONY", "0"));
-                add(new NameValuePair("__EVENTVALIDATION", "/wEdAAftMc5YJCCVXYNVVn0in7zwyuUwJ3LGjJskskkgL1MJ/Kct0ueWAA0YL7V6O1AochnANEsgx9K9r/2lixUqPdVYOVB//zNqTaUBR/8dOG4iyLATo2l1y7ugf3AadYP1/o1HSZucqxgKJG9VFVk9FehcP636nVhtOI+3n6LJDgDKOCk9wZk="));
-                add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$LoginControl$UserName", username));
-                add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$LoginControl$Password", pass));
-                add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$LoginControl$LoginButton", "כניסה"));
+                add(new NameValuePair("__EVENTVALIDATION", "/wEdAATgx8kKgJBELIOcXbH3Q6m+j5/t2OOZ/RHdF/YKwp5dYwJDrok5fYudB9Cp78gLDON8M/fB2YTrHoJF2xiTjDS4j9B92IbktVzaSHGo3WwFwg3YiCU="));
+                add(new NameValuePair("ctl00$content$Username", username));
+                add(new NameValuePair("ctl00$content$Password", pass));
             }
         };
     }
@@ -104,19 +101,18 @@ public class ConnectionData {
     }
 
     public static ArrayList<NameValuePair> getNoteBookPostArguments(String notebook){
-        notebook = notebook.replace("%","$").replace("_","$");
+        String notebook2 = notebook.replace("%","$").replace("_","$");
         ArrayList<NameValuePair> params = new ArrayList<>();
         params.add(new NameValuePair("__EVENTTARGET", notebook));
         params.add(new NameValuePair("__EVENTARGUMENT", ""));
-        params.add(new NameValuePair("__VIEWSTATE", "/wEPDwULLTE0MTY2ODcyMThkGAMFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYDBThjdGwwMCRjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJExvZ2luU3RhdHVzQ29udHJvbCRjdGwwMQU4Y3RsMDAkY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRMb2dpblN0YXR1c0NvbnRyb2wkY3RsMDMFSWN0bDAwJGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkQ29udGVudFBsYWNlSG9sZGVyMSR1Y0NvbW1hbmRTaG93JGJ0blNob3cFR2N0bDAwJGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkQ29udGVudFBsYWNlSG9sZGVyMSRncmRTdHVkZW50Tm90ZWJvb2tzDxQrAA5kZGRkZGRkPCsAMAACMGRkZGYC/////w9kBSljdGwwMCRjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJExvZ2luVmlldw8PZAIBZIid/nLU4NKXrVxnUY4F73kBMNyj"));
+        params.add(new NameValuePair("__LASTFOCUS",""));
+        params.add(new NameValuePair("__VIEWSTATE", "/wEPDwUKMTgzMTcxMjgzN2QYAQUhY3RsMDAkY29udGVudCRncmRTdHVkZW50Tm90ZWJvb2tzDxQrAA5kZGRkZGRkPCsAMwACM2RkZGYC/////w9kw536WaoS0bk56S4n8tUWB8zeg58="));
         params.add(new NameValuePair("__VIEWSTATEGENERATOR", "860DB63F"));
-        params.add(new NameValuePair("__SCROLLPOSITIONX", "0"));
-        params.add(new NameValuePair("__SCROLLPOSITIONY", "0"));
-        params.add(new NameValuePair("__EVENTVALIDATION", "/wEdAEQnSbxoFkJRhzRCvtNH2KNSCW8vdzVzmzgmuoYuqTP+frzNHFSs7lSNq0+deRyG2iB1Cpam/+YA6ZwazksodyYwRrg1LO9qTKAvKcUDOXQM2fh1s9h85FxvJUNPOC0sWG0lXFBl1Ur+q13i3uhQH0bdcZoqHMUjs+9l00xz9nm1xI6TUEAkUVRmNoEsEpd9nhBln+i5etHD5sCufiCUS9W4ielF5W++l4YEQj4pQtiVuUu6kDA47r8cLlAQrwVfjlG642k4kog2kn7soZiKldG9lNqZSjtSSX60Jww23CPJPEKvmMG2rAzowBczY5cAmKF2nNoRLTYL3BgYXnbuNuIeNgHRJB9jF5vqSbI8lKLG2p/nAk3h+K0PnlUN/CUTODdnR9wBAFo8RyGOg/8suX03jpK57qAKPqPzAgVmODcHRTLVQNej7gpcmYT4Cxq2pGxyif4q6umWDZ8UhHEkmgxs9adAcP3Q0zTnYjtdhw1HYJGh+35RDSaQtk1S5at7nfwKJCVoIT0ztfQbjMek0nEmadfbAnnpCgwTy7RUtr3FeALS9x4jZ70rna3ctmcyFbC1juwN+YR3GRRBKCBD/516dI+MS5ebJQXnSvZGxM6DNxYr46NDEwu2Vw1FYKayf+/xtz6Nr6jhxD1Cfo/vVDBsMpFsoUANI1+4E+9sGd63hLF7Bhswg2UEA27nroDzw92eIgbgSIg+mn7XSxpGUXrXWlCAPbl97eokLY9ZTGvU1H9qUx9JP76mLme3m+QP3F7g33LJS0egefYuUh4wksvNSehHQC9JCK39axm7/KgVtjSjN1GD+U9ZEFFu6eAQY4UB+NWJdiaDzZFq+pwAlxyiGPlLqJBgmJXmJ9xqcRyZJKXTtR1LbfzrCPQDJvTiOhSFVK04broydvCF7MmH8IV9M4f2Qtsm4TzS1TM5lakNpr1m3IpavNE4AVCvejrhmWLjyT4r/Xfipii++427z0jdQmhlsCSzci4MRW6l1Jty7xl+/hnNRSKwEtoxlLXT6OODDVg40YOJBlgBUvh1+G2ylDpFBy3Hnr1p7mrWxB/U2oQPei4O6IR4nkBt2p2aW1gUp5xKZyyw9d57TTwTeB0BDUXkCngeWWDcMSYegsiqLpgh6sVom5yujaYmmUUNd+PNQGmaJ8IlJStC/EubuB2qewfiM7kYMlAwsLv1vDSwtBhkf5+Hg9DNWldfES3evAvIFVh9likflK32hhmL5SDyPhNzP3VdqZYbSXdL+e9ayuIATjE14EnowbVoX3hWphXAsUs9ohIdq8oF8KP7w4Br4FfLIw269Bzd0B/W542CYU8csJxVNquuHxYV0uJgr1s2E/4I6B+N6tzF9Wc9l+DqILX4JOctwjOaakaP0I3TzfJcwIxkaLqKS/HUpD2YJNAUKlI8c+r/zrK7WHGvpf6RIvp1yDW//IsOG3I+wBql1q+IlvT/EreYp6Hdz1J8xDR65Zi6"));
-        params.add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$hPaidRevacha", "true"));
-        params.add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$cmbAcademicYears", ""));
-        params.add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$cmbSemsters", ""));
-        params.add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$cmbTestTimeTypes", ""));
+        params.add(new NameValuePair("__EVENTVALIDATION", "/wEdAEQUITHckR5BvH1aiVyG9tlbbLI1CDD4ct7b9x2VWjrv8dXNO6LsxDTLxLhKtZURpVCtt3EiV4cQ2QXRq583ZTa4r7jYvJe3MkjwSRGl09Ex3Mu+KyJyTgYNECw7zOQOLoV51MMKMPh1WzsXabYEBCZBYrkWHI7IvaQdyhpH6espbL5avCd9fJ1xxUmmSPrLku0KqYoCNz9pE0bNpF9EkpEvAKOmddXHn70K0LIsJ4OoXcrgUdxB6Y2NwUSq5YuHRjuJH4ORoNdXlxOLzP9+WVAHDiBriw484snAvB8YmODmTQeMa26zR5aqdOqaryae2gx9Z8X9VKEpqQV1gjOF1pNDMDyNboi394kYGo6IGd6K7ioKjZnzE6w51p3ZO+4iqOW/pwL+RM98EXbL40CDsI0R2RBjfDhtSmFAc2ufrDIIWxrJC/ajSui7n3ike9qgOFiEKKHlkMEwJ/Scfgp7CeTbeWqhljlAATOrD6xU0hmzhb8bSHUvdCll086gY1y4xHcDgjhNDSrhY3D7Sha1KLoW2Rs1GyRgg6S74P1zNbtLGJ0LbtXJ2pT2wsUGichTYOgHEqNJImzmMGL/br3xoQlMkme9RT5Q+K+P8WU81qnK9NuyeKheLuynbIIsobZVQzaHEKRo0jE98uz2ZtmVGQg5h0rUy7BxVXTDjyPjkg4xB5nqTT8ViSW8tb+16BWCI/9BZ65PDbpVkozCwME3gsGFaQLlH1GrGtznerRvE9oT2Au+4XD8rAjj2nWLd9gfT3Lg07QCzj/bGUvBc9OVVJkjSG1RRr7aSjxtBXnkzTZm5QNXmaWO3/ikS4Eg1vLuTsJJeXDiH9dLJZY3o+2lxOdYkzFO/VTImBrSvQw915yV0PWZyrY/l2xwBf/+34kRRiGPJnN0s075B+kNCMgSvSf9zf5CJHZDVFmCWANsYG4yRsD1tYg//vn84JvmHCMd0myPrt72xasHHB0jSxse+Zhtko8hRwxyTYxy8qz1AP8VNQbmYvq8m35KeqTzEunBuDYhMSB3MFfVa4+0JfCiu0cQVdbxyGVFiCZF5Mxtzf/5CB/Gx7kdmsf6ztLiCo7VlQTFh9iGeJSF8MxCHgak1w+lstz2fXF+kqMk9pc6jBzQULv4HtRHiNJ4XbOY55gJZcIIWvmyyfu3c8osxsxT8WxEG4cLeERUeCyxWvK+wdwiV2WcRjet5cJrZB1VYc6Ihu0EgSuwrut3RNfjHZEqPe+jWL8ON2EyWYQ1Hg+QbCreEpdmvR8A0Tj4n5Ji/Qs4+VkTFe83u/hQ11qBD0bbjeD4B89WA6fmcjwyWN5biaVxn+xG2jy1ywSv5Yd8XNu5m5qFCGQOCzptMGnXn4lBTUzfoKhQsiB47mUh1Fr6zGwoTe07LunjfkNLQ5zOXJRjq0DmqeqqLxV1DSil99qUI/+BgsoCBAwrEKJ4QKAJl+f1EFXu6kjRWw30NL2+SasE458U6kcu"));
+        params.add(new NameValuePair("ctl00$content$hPaidRevacha", "true"));
+        params.add(new NameValuePair("ctl00$content$cmbAcademicYears", ""));
+        params.add(new NameValuePair("ctl00$content$cmbSemesters", ""));
+        params.add(new NameValuePair("ctl00$content$cmbTestTimeTypes", ""));
         return params;
     }
 

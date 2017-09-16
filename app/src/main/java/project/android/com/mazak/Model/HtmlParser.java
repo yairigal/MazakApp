@@ -3,10 +3,13 @@ package project.android.com.mazak.Model;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -47,9 +50,12 @@ public class HtmlParser {
         GradesList grades = new GradesList();
         Document doc = null;
         doc = Jsoup.parse(html);
-        Element elem = doc.getElementById(ConnectionData.GradesTableID);
-        Elements el = elem.children().get(0).children();
-        for(int i=1;i<el.size();i++)
+        Element el1 = doc.getElementById("dvGrades");
+        Element el2 = el1.child(2);
+        Element el3 = el2.child(0);
+        Element el4 = el3.child(1);
+        Elements el = el4.children();
+        for(int i=0;i<el.size();i++)
             grades.add(ParseToGrade(el.get(i)));
         return grades;
     }
@@ -64,28 +70,24 @@ public class HtmlParser {
         Document doc = null;
         doc = Jsoup.parse(html);
         //right now appeals
-        addIrurs(ConnectionData.IrurTableID,irurs,doc);
-        //normal irurs.
-        addIrurs(ConnectionData.LastAppealsTableID,irurs,doc);
-        //to the Rosh mahlaka
-        addIrurs(ConnectionData.IrurTableHeadID,irurs,doc);
-        //to rosh mahlaka 2
-        addIrurs(ConnectionData.IrurTableHeadID2,irurs,doc);
+        Elements tables = doc.select("table.table");
+        for (Element tab:tables)
+            addIrurs(tab,irurs);
         return irurs;
     }
 
     /**
      * adds the irurs from the document to the list.
-     * @param TableId
+     * @param root
      * @param lst
-     * @param doc
      */
-    private static void addIrurs(String TableId,IrurList lst,Document doc){
-        Element elem = doc.getElementById(TableId);
-        if(elem != null) {
-            Elements el = elem.children().get(0).children();
-            for (int i = 1; i < el.size(); i++)
-                lst.add(Irur.ParseToIrur(el.get(i)));
+    private static void addIrurs(Element root,IrurList lst){
+        if(root != null) {
+            Elements el = root.children().get(1).children();
+            for (int i = 0; i < el.size(); i++)
+                //checking its not a not sent irur
+                if(el.get(i).children().size()>10)
+                    lst.add(Irur.ParseToIrur(el.get(i)));
         }
     }
 
@@ -116,10 +118,10 @@ public class HtmlParser {
         statistics.setMean(Float.parseFloat(avg.text()));
         statistics.setMedian(Float.parseFloat(median.text()));
         statistics.setNumOfStudentsWithGrade(Integer.parseInt(num.text()));
-        Element elem = doc.getElementById(ConnectionData.StatisticsTableID);
-        Elements el = elem.children().get(0).children();
-        for(int i=1;i<10;i++) {
-            String freq = el.get(i).child(1).text();
+        Elements elem = doc.select("table.table");
+        Elements el = elem.get(0).child(1).children();
+        for(int i=0;i<9;i++) {
+            String freq = ((Element)el.get(i).childNode(3).childNode(1)).text();
             Integer frq = Integer.parseInt(freq);
             statistics.getFreqs().add(frq);
         }
@@ -144,11 +146,11 @@ public class HtmlParser {
     public static ScheduleList ParseToClassEvents(String html) {
         ScheduleList sched = new ScheduleList();
         Document doc = Jsoup.parse(html);
-        Element elem = doc.getElementById(ConnectionData.ScheduleListTableID);
-        Elements el = elem.children().get(0).children();
-        for(int i=2;i<el.size();i++)
+        Element elem = doc.select("table.table").get(0);
+        List<Node> el = elem.childNode(3).childNodes();
+        for(int i=0;i<el.size();i+=2)
             //sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
-            sched.add(ClassEvent.ParseToClassEvent(el.get(i)));
+            sched.add(ClassEvent.ParseToClassEvent((Element) el.get(i)));
         return sched;
     }
 
@@ -212,8 +214,8 @@ public class HtmlParser {
     public static TestList ParseToTests(String html) {
         TestList times = new TestList();
         Document doc = Jsoup.parse(html);
-        Element elem = doc.getElementById(ConnectionData.TestsTableID);
-        Elements el = elem.children().get(0).children();
+        Element elem = doc.select("table.table").get(0);
+        Elements el = elem.children().get(1).children();
         for(int i=1;i<el.size();i++) {
             times.add(Test.ParseToTest(el.get(i)));
         }
@@ -248,10 +250,18 @@ public class HtmlParser {
         HashMap<String,ArrayList<Notebook>> map = new HashMap<>();
         int id = 0;
         Document doc = Jsoup.parse(html);
-        Element root = doc.getElementById(ConnectionData.NotebookTableID);
-        Elements listOfNotebooks = root.child(0).children();
-        for(int i=1;i<listOfNotebooks.size();i++){
-            String code = listOfNotebooks.get(i).child(2).text();
+        Elements elem = doc.getAllElements();
+        Elements currents = null;
+        for (Element e : elem) {
+            if (e.className().equals("table-responsive")) {
+                currents = e.child(0).child(1).children();
+                break;
+            }
+        }
+
+        Elements listOfNotebooks = currents;
+        for(int i=0;i<listOfNotebooks.size();i++){
+            String code = ((TextNode)(listOfNotebooks.get(i).childNode(5).childNode(0))).text().trim();
             Notebook newN = Notebook.setupNotebookLink(listOfNotebooks.get(i),id++);
             if(map.containsKey(code)){
                 map.get(code).add(newN);

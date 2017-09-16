@@ -113,6 +113,7 @@
                     android:layout_height="wrap_content">
 
                     <Button
+                        android:visibility="gone"
                         android:id="@+id/NotebookRefreshButton"
                         android:text="REFRESH NOTEBOOK LIST"
                         android:layout_width="match_parent"

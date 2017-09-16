@@ -1,19 +1,18 @@
 package project.android.com.mazak.Model.Web;
 
-import android.app.Activity;
-import android.net.Uri;
-import android.os.Environment;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -22,7 +21,6 @@ import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import project.android.com.mazak.Controller.TestActivity;
 import project.android.com.mazak.Model.Adapters.NotebookAdapter;
 import project.android.com.mazak.Model.Entities.NameValuePair;
 import project.android.com.mazak.Model.Entities.Notebook;
@@ -38,8 +36,6 @@ public class MazakConnection implements Cloneable {
     private HttpsURLConnection conn = null;
     private final String USER_AGENT = "Mozilla/5.0";
     private String postData;
-
-
 
 
     public MazakConnection(final String username, final String password) throws UnsupportedEncodingException {
@@ -80,14 +76,15 @@ public class MazakConnection implements Cloneable {
 
     /**
      * Like The Connect function , checks if we need to login , and after that sends a POST instead of GET
+     *
      * @param url
      * @return
      */
-    public String connectPost(String url,String params) throws Exception {
+    public String connectPost(String url, String params) throws Exception {
         //need to login only in the first time.
         if (conn == null)
             login();
-        return sendPost(url,params);
+        return sendPost(url, params);
     }
 
     /**
@@ -105,16 +102,57 @@ public class MazakConnection implements Cloneable {
         return sendPost(statLink, postQuery);
     }
 
-    //region web functions
+    public File downloadPDF(String sUrl, Notebook currentNotebook) throws Exception {
+        login();
+        String saveOutputName = NotebookAdapter.getFileName(currentNotebook);
+        URL obj = new URL(sUrl);
+        conn = (HttpsURLConnection) obj.openConnection();
 
-    /**
-     * HTTP POST
-     *
-     * @param url
-     * @param postParams
-     * @return
-     * @throws Exception
-     */
+        // Acts like a browser
+        // default is GET
+        conn.setRequestMethod("GET");
+
+        conn.setUseCaches(false);
+
+        // act like a browser
+        conn.setRequestProperty("User-Agent", USER_AGENT);
+        conn.setRequestProperty("Accept",
+                "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+        int responseCode = conn.getResponseCode();
+
+
+
+        if ("gzip".equals(conn.getContentEncoding())) {
+            GZIPInputStream reader = new GZIPInputStream(conn.getInputStream());
+            FileOutputStream fos = new FileOutputStream(saveOutputName);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = reader.read(buffer)) != -1) {
+                fos.write(buffer, 0, len);
+            }
+            fos.close();
+            reader.close();
+        } else {
+            InputStream inputStream = conn.getInputStream();
+            FileOutputStream outputStream = new FileOutputStream(saveOutputName);
+            int SumBytes = 0;
+
+            int bytesRead = -1;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+                SumBytes += bytesRead;
+            }
+            inputStream.close();
+            outputStream.close();
+        }
+
+
+        return new File(saveOutputName);
+    }
+
     public File getAndWritePDF(String url, String postParams, Notebook current) throws Exception {
 
         URL obj = new URL(url);
@@ -146,8 +184,6 @@ public class MazakConnection implements Cloneable {
         System.out.println("Response Code : " + responseCode);
 
 
-
-
         //InputStream inputStream = conn.getInputStream();
         String saveFilePath = NotebookAdapter.getFileName(current);
         //FileOutputStream outputStream = new FileOutputStream(saveFilePath);
@@ -156,9 +192,9 @@ public class MazakConnection implements Cloneable {
         //int bytesRead = -1;
         //byte[] buffer = new byte[BUFFER_SIZE];
         //while ((bytesRead = inputStream.read(buffer)) != -1) {
-         //   outputStream.write(buffer, 0, bytesRead);
-         //   SumBytes += bytesRead;
-       // }
+        //   outputStream.write(buffer, 0, bytesRead);
+        //   SumBytes += bytesRead;
+        // }
 
 
         if ("gzip".equals(conn.getContentEncoding())) {
@@ -166,13 +202,12 @@ public class MazakConnection implements Cloneable {
             FileOutputStream fos = new FileOutputStream(saveFilePath);
             byte[] buffer = new byte[1024];
             int len;
-            while((len = reader.read(buffer)) != -1){
+            while ((len = reader.read(buffer)) != -1) {
                 fos.write(buffer, 0, len);
             }
             fos.close();
             reader.close();
-        }
-        else {
+        } else {
             InputStream inputStream = conn.getInputStream();
             FileOutputStream outputStream = new FileOutputStream(saveFilePath);
             int SumBytes = 0;
@@ -180,10 +215,10 @@ public class MazakConnection implements Cloneable {
             int bytesRead = -1;
             byte[] buffer = new byte[BUFFER_SIZE];
             while ((bytesRead = inputStream.read(buffer)) != -1) {
-               outputStream.write(buffer, 0, bytesRead);
-               SumBytes += bytesRead;
-             }
-             inputStream.close();
+                outputStream.write(buffer, 0, bytesRead);
+                SumBytes += bytesRead;
+            }
+            inputStream.close();
             outputStream.close();
         }
 
@@ -191,6 +226,17 @@ public class MazakConnection implements Cloneable {
         return new File(saveFilePath);
 
     }
+
+    //region web functions
+
+    /**
+     * HTTP POST
+     *
+     * @param url
+     * @param postParams
+     * @return
+     * @throws Exception
+     */
 
     public String sendPost(String url, String postParams) throws Exception {
 
@@ -228,7 +274,7 @@ public class MazakConnection implements Cloneable {
 
         Charset set = Charset.forName("UTF-8");
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(),set));
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), set));
         String inputLine;
         StringBuffer response = new StringBuffer();
         while ((inputLine = in.readLine()) != null) {
@@ -248,7 +294,7 @@ public class MazakConnection implements Cloneable {
      * @return
      * @throws Exception
      */
-    private String GetPageContent(String url) throws Exception {
+    public String GetPageContent(String url) throws Exception {
 
         URL obj = new URL(url);
         conn = (HttpsURLConnection) obj.openConnection();
@@ -272,14 +318,12 @@ public class MazakConnection implements Cloneable {
 */
 
 
-
-
         int responseCode = conn.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
         System.out.println("Response Code : " + responseCode);
 
         BufferedReader in =
-                new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
         String inputLine;
         StringBuffer response = new StringBuffer();
 

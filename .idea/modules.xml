@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MazakApp-master.iml" filepath="$PROJECT_DIR$/MazakApp-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MazakApp.iml" filepath="$PROJECT_DIR$/MazakApp.iml" />
+      <module fileurl="file://C:\MazakJCTApp\MazakApp\MazakApp-master.iml" filepath="C:\MazakJCTApp\MazakApp\MazakApp-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
