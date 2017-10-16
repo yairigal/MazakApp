@@ -63,6 +63,20 @@ public class ConnectionData {
         };
     }
 
+    public static String getMazakCredentialsNew(final String username, final String pass) {
+        return
+                "{"+
+                "\"password\":"+
+                "\""+pass+"\""+
+                ","+
+                "\"username\":"+
+                "\""+username+"\""+
+                ","+
+                "\"action\":"+
+                "\""+"login"+"\""+
+                "}";
+    }
+
     /**
      * returns the POST arguments for the mazak statistics.
      *

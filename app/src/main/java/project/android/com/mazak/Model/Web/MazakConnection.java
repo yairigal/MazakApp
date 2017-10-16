@@ -40,7 +40,7 @@ public class MazakConnection implements Cloneable {
 
     public MazakConnection(final String username, final String password) throws UnsupportedEncodingException {
         Object mazakCredentials = ConnectionData.getMazakCredentials(username, password);
-        postData = getQuery((List<NameValuePair>) mazakCredentials);
+        postData = ConnectionData.getMazakCredentialsNew(username,password);
         cookies = null;
     }
 
@@ -255,7 +255,7 @@ public class MazakConnection implements Cloneable {
         // }
         conn.setRequestProperty("WebViewConnection", "keep-alive");
         //conn.setRequestProperty("Referer", "https://accounts.google.com/ServiceLoginAuth");
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("Content-Type", "application/json");
         conn.setRequestProperty("Content-Length", Integer.toString(postParams.length()));
 
         conn.setDoOutput(true);

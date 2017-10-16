@@ -86,7 +86,9 @@ public class Grade implements Serializable {
         //String params = connection.getQuery(ConnectionData.getGradeDetailsPostArguments(subDetailsID));
         String html = connection.connect(subDetailsID);
         ArrayList<gradeIngerdiants> newing = ParseGradeDetails(html);
-        this.getNotebooksLinks(html);
+        try {
+            this.getNotebooksLinks(html);
+        }catch (Exception ex){}
         return newing;
     }
 
