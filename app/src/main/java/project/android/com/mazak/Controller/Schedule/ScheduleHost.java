@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import project.android.com.mazak.Controller.GradesView.FatherTab;
@@ -154,13 +155,21 @@ public class ScheduleHost extends Fragment implements IRefresh {
                     }
                 }
 
-                private void getGradesFromAnywhere() {
+                private void getGradesFromAnywhere(){
+                    ArrayList<String> det = null;
                     try {
-                        list = db.getScheudle(getOptions.fromMemory);
+                        det = db.getYearAndSem();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        error = true;
+                        return;
+                    }
+                    try {
+                        list = db.getScheudle(getOptions.fromMemory,det.get(0),det.get(1));
                     } catch (Exception e) {
                         try {
                             if (FatherTab.isNetworkAvailable(getContext()))
-                                list = db.getScheudle(getOptions.fromWeb);
+                                list = db.getScheudle(getOptions.fromWeb,det.get(0),det.get(1));
                             else
                                 throw new NetworkErrorException();
                         } catch (Exception e1) {
@@ -172,7 +181,8 @@ public class ScheduleHost extends Fragment implements IRefresh {
 
                 private void getGradesFromWebOnly() {
                     try {
-                        list = db.getScheudle(getOptions.fromWeb);
+                        ArrayList<String> det = db.getYearAndSem();
+                        list = db.getScheudle(getOptions.fromWeb,det.get(0),det.get(1));
                     } catch (Exception e) {
                         errorMsg = FatherTab.checkErrorTypeAndMessage(e);
                         error = true;

@@ -32,12 +32,15 @@ public class ScheduleList extends ObjectList<ClassEvent>{
     }
 
     public int getNumOfDays() {
-        HashMap<Integer,Integer> map = new HashMap<>();
+        int maxday = -1;
         for (ClassEvent c:
              list) {
-            map.put(c.day,0);
+            if(c.day>=maxday)
+                maxday = c.day;
         }
-        return map.size();
+        if (maxday > 5)
+            return maxday;
+        return 6;
     }
 
     @Override

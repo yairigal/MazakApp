@@ -2,6 +2,8 @@ package project.android.com.mazak.Model.Entities;
 
 import android.support.annotation.NonNull;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -125,13 +127,13 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
         return new ClassEvent();
     }
 
-    public static ClassEvent ParseToClassEvent(Element root){
-        Elements childs = root.children();
+    public static ClassEvent ParseToClassEvent(Object root) throws JSONException {
         ClassEvent toRet = new ClassEvent();
-        toRet.name = childs.get(2).child(0).text();
-        toRet.Type = childs.get(3).text();
-        toRet.lecturer = childs.get(4).text();
-        String TimeAndPlace = childs.get(6).text();
+        JSONObject obj = (JSONObject) root;
+        toRet.name = obj.getString("courseName");
+        toRet.Type = obj.getString("groupTypeName");
+        toRet.lecturer = obj.getString("courseGroupLecturers");
+        String TimeAndPlace = obj.getString("courseGroupMeetingHour");
         Pattern p = Pattern.compile("([\\p{InHebrew}\\s]+):\\s*([\\d:]+)\\s*-\\s*([\\d:]+),\\s*([\\d\\-'\\s\\p{InHebrew}]+)");
         Matcher m = p.matcher(TimeAndPlace.trim());
         if(m.find()) {

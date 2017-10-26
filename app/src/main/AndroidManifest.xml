@@ -30,8 +30,9 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-               <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -80,14 +81,18 @@
             android:exported="true" />
 
         <activity android:name=".Controller.TestActivity">
-<!--            <intent-filter>
+
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
-        <activity android:name=".Controller.GradesView.singleGradeView"></activity>
+        <activity android:name=".Controller.GradesView.singleGradeView" />
+        <activity android:name=".Controller.WebViewActivity"></activity>
     </application>
 
 </manifest>

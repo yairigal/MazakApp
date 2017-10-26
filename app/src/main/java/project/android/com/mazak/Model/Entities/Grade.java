@@ -1,7 +1,8 @@
 package project.android.com.mazak.Model.Entities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,12 +10,8 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import project.android.com.mazak.Database.Factory;
-import project.android.com.mazak.Database.LoginDatabase;
-import project.android.com.mazak.Model.Web.ConnectionData;
 import project.android.com.mazak.Model.Web.MazakConnection;
 
 /**
@@ -32,6 +29,7 @@ public class Grade implements Serializable {
     public ArrayList<gradeIngerdiants> ingerdiantses = new ArrayList<>();
     public String StatLink;
     public ArrayList<Notebook> Notebook = new ArrayList<>();
+    private String actualCourseID;
 
     public Grade(String code, String name, String sem, String points, String min, String finalGrade) {
         this.code = code;
@@ -147,20 +145,18 @@ public class Grade implements Serializable {
         return ing;
     }
 
-    public static Grade ParseToGrade(Element root) {
-        Elements el = root.children();
+    public static Grade ParseToGrade(Object root) throws JSONException {
+        JSONObject object = (JSONObject) root;
         Grade grade = new Grade();
-        Element a = el.get(0);
-        Node b = a.childNode(1);
-        Attributes c = b.attributes();
-        grade.subDetailsID = "https://mazak.jct.ac.il" + c.get("onclick").substring(11, c.get("onclick").length() - 2);
-        grade.code = el.get(1).text();
-        grade.name = el.get(2).child(0).text();
-        grade.semester = el.get(3).text();
-        grade.points = el.get(4).text();
-        grade.minGrade = el.get(5).text();
-        grade.finalGrade = el.get(6).text();
-        grade.StatLink = "https://mazak.jct.ac.il" + el.get(9).childNode(1).attr("href").substring(2);
+        grade.actualCourseID = object.getString("actualCourseID");
+        grade.subDetailsID = "https://mazak.jct.ac.il/Student/Modals/StudentCoursePartGradePage.aspx?actualCourseID="+grade.actualCourseID;
+        grade.code = object.getString("actualCourseFullNumber");
+        grade.name = object.getString("courseName");
+        grade.semester = object.getString("semesterName");
+        grade.points = object.getString("effectiveCredits");
+        grade.minGrade = object.getString("effectiveMinGrade");
+        grade.finalGrade = object.getString("finalGradeName");
+        grade.StatLink = "https://mazak.jct.ac.il/Student/GradesCharts.aspx?ActualCourseID="+grade.actualCourseID;
         return grade;
     }
 }

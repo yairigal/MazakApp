@@ -1,5 +1,10 @@
 package project.android.com.mazak.Model;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -43,20 +48,22 @@ public class HtmlParser {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public static  GradesList ParseToGrades(String html) throws ExecutionException, InterruptedException {
+    public static  GradesList ParseToGrades(String html) throws ExecutionException, InterruptedException, JSONException {
        /* AsyncTask<Void,Void,ArrayList<Grade>> as  = getAsyncTask(html);
         as.execute();
         return as.get();*/
         GradesList grades = new GradesList();
-        Document doc = null;
+/*        Document doc = null;
         doc = Jsoup.parse(html);
         Element el1 = doc.getElementById("dvGrades");
         Element el2 = el1.child(2);
         Element el3 = el2.child(0);
         Element el4 = el3.child(1);
-        Elements el = el4.children();
-        for(int i=0;i<el.size();i++)
-            grades.add(ParseToGrade(el.get(i)));
+        Elements el = el4.children();*/
+        final JSONObject obj = new JSONObject(html);
+        JSONArray items = obj.getJSONArray("items");
+        for(int i=0;i<items.length();i++)
+            grades.add(ParseToGrade(items.get(i)));
         return grades;
     }
 
@@ -143,14 +150,16 @@ public class HtmlParser {
      * @param html
      * @return
      */
-    public static ScheduleList ParseToClassEvents(String html) {
+    public static ScheduleList ParseToClassEvents(String html) throws JSONException {
         ScheduleList sched = new ScheduleList();
-        Document doc = Jsoup.parse(html);
+/*        Document doc = Jsoup.parse(html);
         Element elem = doc.select("table.table").get(0);
-        List<Node> el = elem.childNode(3).childNodes();
-        for(int i=0;i<el.size();i+=2)
+        List<Node> el = elem.childNode(3).childNodes();*/
+        final JSONObject obj = new JSONObject(html);
+        JSONArray items = obj.getJSONArray("groupsWithMeetings");
+        for(int i=0;i<items.length();i++)
             //sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
-            sched.add(ClassEvent.ParseToClassEvent((Element) el.get(i)));
+            sched.add(ClassEvent.ParseToClassEvent(items.get(i)));
         return sched;
     }
 

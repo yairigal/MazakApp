@@ -5,16 +5,27 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
+import java.lang.annotation.Documented;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
+import project.android.com.mazak.Model.Entities.NameValuePair;
 import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.TestList;
@@ -275,12 +286,20 @@ public class InternalDatabase implements Database {
      * @throws Exception
      */
     private void getGradesFromWeb() throws Exception {
-        String html;
+        String jsonData;
         deleteGrades();
         refreshConnection();
-        html = getConnection().connect(ConnectionData.GradesURL);
+        //html = getConnection().connect(ConnectionData.GradesURL);
+        ArrayList<NameValuePair> data = new ArrayList<>();
+        data.add(new NameValuePair("selectedAcademicYear",""));
+        data.add(new NameValuePair("selectedSemester",""));
+        data.add(new NameValuePair("action","searchquery"));
+        data.add(new NameValuePair("pageSize","99999"));
+        //data.add(new NameValuePair("current","4"));
+        String stringdata = ConnectionData.JsonValues(data);
+        jsonData = getConnection().connectPost(ConnectionData.GradesURL,stringdata);
         //String res = WebViewConnection.RhinoTest(html);
-        grades = HtmlParser.ParseToGrades(html);
+        grades = HtmlParser.ParseToGrades(jsonData);
         saveGrades(grades);
         updateTime(gradesKey);
     }
@@ -386,13 +405,13 @@ public class InternalDatabase implements Database {
 
     //region schedule
     @Override
-    public ScheduleList getScheudle(getOptions options) throws Exception {
+    public ScheduleList getScheudle(getOptions options, String year, String sem) throws Exception {
         switch (options) {
             case fromMemory:
                 loadScheduleFromMemeory();
                 break;
             case fromWeb:
-                getScheudleFromWeb();
+                getScheudleFromWeb(year,sem);
                 break;
         }
         if (schedule == null)
@@ -400,11 +419,21 @@ public class InternalDatabase implements Database {
         return schedule;
     }
 
-    private void getScheudleFromWeb() throws Exception {
+    private void getScheudleFromWeb(String year,String sem) throws Exception {
         String html;
         clearScheudle();
         refreshConnection();
-        html = getConnection().connect(ConnectionData.ScheduleURL);
+        ArrayList<NameValuePair> data = new ArrayList<>();
+        String stringdata;
+
+        data.add(new NameValuePair("AcademicYearID",year));
+        data.add(new NameValuePair("SemesterID",sem));
+        data.add(new NameValuePair("action","searchquery"));
+        data.add(new NameValuePair("selectedAcademicYear",year));
+        data.add(new NameValuePair("selectedSemester",sem));
+        stringdata = ConnectionData.JsonValues(data);
+
+        html = getConnection().connectPost(ConnectionData.ScheduleURL,stringdata);
         schedule = HtmlParser.ParseToClassEvents(html);
         saveScheudle(schedule);
         updateTime(ScheduleKey);
@@ -435,6 +464,21 @@ public class InternalDatabase implements Database {
         editor.remove(ScheduleKey);
         editor.commit();
         schedule = null;
+    }
+
+    @Override
+    public ArrayList<String> getYearAndSem() throws Exception {
+        String html = getConnection().connect("https://mazak.jct.ac.il/Student/Schedule.aspx");
+        Document doc = Jsoup.parse(html);
+        Elements el  = doc.getElementsByClass("btn btn-primary");
+        String link = el.get(0).attr("href");
+        String[] dets = ((link.split(Pattern.quote("?")))[1]).split("&");
+        String year = (dets[0].split("="))[1];
+        String sem = (dets[1].split("="))[1];
+        ArrayList<String> res = new ArrayList<>();
+        res.add(year);
+        res.add(sem);
+        return res;
     }
 
     //endregion

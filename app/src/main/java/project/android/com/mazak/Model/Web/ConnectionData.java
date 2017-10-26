@@ -65,16 +65,16 @@ public class ConnectionData {
 
     public static String getMazakCredentialsNew(final String username, final String pass) {
         return
-                "{"+
-                "\"password\":"+
-                "\""+pass+"\""+
-                ","+
-                "\"username\":"+
-                "\""+username+"\""+
-                ","+
-                "\"action\":"+
-                "\""+"login"+"\""+
-                "}";
+                "{" +
+                        "\"password\":" +
+                        "\"" + pass + "\"" +
+                        "," +
+                        "\"username\":" +
+                        "\"" + username + "\"" +
+                        "," +
+                        "\"action\":" +
+                        "\"" + "Login" + "\"" +
+                        "}";
     }
 
     /**
@@ -106,7 +106,7 @@ public class ConnectionData {
         params.add(new NameValuePair("__EVENTVALIDATION", "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"));
         params.add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$cmbAcademicYears", ""));
         params.add(new NameValuePair("ctl00$ctl00$ContentPlaceHolder1$ContentPlaceHolder1$cmbSemsters", ""));
-        btn = btn.replace("_","$");
+        btn = btn.replace("_", "$");
         params.add(new NameValuePair(btn + ".x", "10"));
         params.add(new NameValuePair(btn + ".y", "11"));
         params.add(new NameValuePair("ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_dlgCoursePartGrades_clientState", "|0|3,0,191px,213px,500px,500px,0||[[[[null,0,\"42px\",\"557px\",\"500px\",\"500px\",1,null,1,1,null,3]],[[[[[null,null,null]],[[[[[]],[],[]],[{},[]],null],[[[[]],[],[]],[{},[]],null],[[[[]],[],[]],[{},[]],null]],[]],[{},[]],null],[[[[null,null,null,null]],[],[]],[{},[]],null]],[]],[{\"2\":[2,\"191px\"],\"3\":[3,\"213px\"],\"4\":[1,3],\"5\":[11,0]},[]],\"3,0,191px,213px,500px,500px,0\"]"));
@@ -114,12 +114,12 @@ public class ConnectionData {
         return params;
     }
 
-    public static ArrayList<NameValuePair> getNoteBookPostArguments(String notebook){
-        String notebook2 = notebook.replace("%","$").replace("_","$");
+    public static ArrayList<NameValuePair> getNoteBookPostArguments(String notebook) {
+        String notebook2 = notebook.replace("%", "$").replace("_", "$");
         ArrayList<NameValuePair> params = new ArrayList<>();
         params.add(new NameValuePair("__EVENTTARGET", notebook));
         params.add(new NameValuePair("__EVENTARGUMENT", ""));
-        params.add(new NameValuePair("__LASTFOCUS",""));
+        params.add(new NameValuePair("__LASTFOCUS", ""));
         params.add(new NameValuePair("__VIEWSTATE", "/wEPDwUKMTgzMTcxMjgzN2QYAQUhY3RsMDAkY29udGVudCRncmRTdHVkZW50Tm90ZWJvb2tzDxQrAA5kZGRkZGRkPCsAMwACM2RkZGYC/////w9kw536WaoS0bk56S4n8tUWB8zeg58="));
         params.add(new NameValuePair("__VIEWSTATEGENERATOR", "860DB63F"));
         params.add(new NameValuePair("__EVENTVALIDATION", "/wEdAEQUITHckR5BvH1aiVyG9tlbbLI1CDD4ct7b9x2VWjrv8dXNO6LsxDTLxLhKtZURpVCtt3EiV4cQ2QXRq583ZTa4r7jYvJe3MkjwSRGl09Ex3Mu+KyJyTgYNECw7zOQOLoV51MMKMPh1WzsXabYEBCZBYrkWHI7IvaQdyhpH6espbL5avCd9fJ1xxUmmSPrLku0KqYoCNz9pE0bNpF9EkpEvAKOmddXHn70K0LIsJ4OoXcrgUdxB6Y2NwUSq5YuHRjuJH4ORoNdXlxOLzP9+WVAHDiBriw484snAvB8YmODmTQeMa26zR5aqdOqaryae2gx9Z8X9VKEpqQV1gjOF1pNDMDyNboi394kYGo6IGd6K7ioKjZnzE6w51p3ZO+4iqOW/pwL+RM98EXbL40CDsI0R2RBjfDhtSmFAc2ufrDIIWxrJC/ajSui7n3ike9qgOFiEKKHlkMEwJ/Scfgp7CeTbeWqhljlAATOrD6xU0hmzhb8bSHUvdCll086gY1y4xHcDgjhNDSrhY3D7Sha1KLoW2Rs1GyRgg6S74P1zNbtLGJ0LbtXJ2pT2wsUGichTYOgHEqNJImzmMGL/br3xoQlMkme9RT5Q+K+P8WU81qnK9NuyeKheLuynbIIsobZVQzaHEKRo0jE98uz2ZtmVGQg5h0rUy7BxVXTDjyPjkg4xB5nqTT8ViSW8tb+16BWCI/9BZ65PDbpVkozCwME3gsGFaQLlH1GrGtznerRvE9oT2Au+4XD8rAjj2nWLd9gfT3Lg07QCzj/bGUvBc9OVVJkjSG1RRr7aSjxtBXnkzTZm5QNXmaWO3/ikS4Eg1vLuTsJJeXDiH9dLJZY3o+2lxOdYkzFO/VTImBrSvQw915yV0PWZyrY/l2xwBf/+34kRRiGPJnN0s075B+kNCMgSvSf9zf5CJHZDVFmCWANsYG4yRsD1tYg//vn84JvmHCMd0myPrt72xasHHB0jSxse+Zhtko8hRwxyTYxy8qz1AP8VNQbmYvq8m35KeqTzEunBuDYhMSB3MFfVa4+0JfCiu0cQVdbxyGVFiCZF5Mxtzf/5CB/Gx7kdmsf6ztLiCo7VlQTFh9iGeJSF8MxCHgak1w+lstz2fXF+kqMk9pc6jBzQULv4HtRHiNJ4XbOY55gJZcIIWvmyyfu3c8osxsxT8WxEG4cLeERUeCyxWvK+wdwiV2WcRjet5cJrZB1VYc6Ihu0EgSuwrut3RNfjHZEqPe+jWL8ON2EyWYQ1Hg+QbCreEpdmvR8A0Tj4n5Ji/Qs4+VkTFe83u/hQ11qBD0bbjeD4B89WA6fmcjwyWN5biaVxn+xG2jy1ywSv5Yd8XNu5m5qFCGQOCzptMGnXn4lBTUzfoKhQsiB47mUh1Fr6zGwoTe07LunjfkNLQ5zOXJRjq0DmqeqqLxV1DSil99qUI/+BgsoCBAwrEKJ4QKAJl+f1EFXu6kjRWw30NL2+SasE458U6kcu"));
@@ -128,6 +128,27 @@ public class ConnectionData {
         params.add(new NameValuePair("ctl00$content$cmbSemesters", ""));
         params.add(new NameValuePair("ctl00$content$cmbTestTimeTypes", ""));
         return params;
+    }
+
+    public static String JsonValues(ArrayList<NameValuePair> values) {
+        String ans = "{";
+        for (NameValuePair v : values) {
+            ans += "\"" + v.key + "\":";
+            try {
+                Integer.parseInt(v.val);
+            } catch (Exception ex) {
+                ans += "\"" + v.val + "\"";
+                if (values.get(values.size() - 1) != v)
+                    ans += ",";
+                continue;
+            }
+            ans += v.val;
+
+            if (values.get(values.size() - 1) != v)
+                ans += ",";
+        }
+        ans += "}";
+        return ans;
     }
 
 }

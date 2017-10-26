@@ -72,10 +72,10 @@ public class GradesModel {
             for (int j = 0; j < curr.size(); j++) {
                 Grade gr = curr.get(j);
                 switch (semsterToInt(gr.semester)) {
-                    case 0:
+                    case 1:
                         sem0.add(gr);
                         break;
-                    case 1:
+                    case 2:
                         sem1.add(gr);
                         break;
                     default:
@@ -107,10 +107,10 @@ public class GradesModel {
         GradesList sem2 = new GradesList();
         for (Grade g : grades.getList()) {
             switch (semsterToInt(g.semester)) {
-                case 0:
+                case 1:
                     sem0.add(g);
                     break;
-                case 1:
+                case 2:
                     sem1.add(g);
                     break;
                 default:
@@ -132,25 +132,25 @@ public class GradesModel {
      */
     public static int semsterToInt(String sem) {
         if (sem.equals("אלול"))
-            return 0;
-        if (sem.equals("א"))
             return 1;
+        if (sem.equals("א"))
+            return 2;
         if (sem.equals("ב"))
-            return 2;
-        if (sem.equals("שנתי"))
-            return 2;
-        if(sem.equals("מועד מיוחד") || sem.equals("מיוחד"))
             return 3;
-        if(sem.equals("ג"))
+        if (sem.equals("שנתי"))
+            return 3;
+        if(sem.equals("מועד מיוחד") || sem.equals("מיוחד"))
             return 4;
-        return 0;
+        if(sem.equals("ג"))
+            return 5;
+        return 1;
     }
 
     public static String intToSemster(int i) {
         switch (i) {
-            case 0:
-                return "אלול";
             case 1:
+                return "אלול";
+            case 2:
                 return "א";
             default:
                 return "ב";
