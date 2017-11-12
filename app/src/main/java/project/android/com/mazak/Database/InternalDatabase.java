@@ -291,17 +291,24 @@ public class InternalDatabase implements Database {
         refreshConnection();
         //html = getConnection().connect(ConnectionData.GradesURL);
         ArrayList<NameValuePair> data = new ArrayList<>();
+        LoadDataPost();
         data.add(new NameValuePair("selectedAcademicYear",""));
         data.add(new NameValuePair("selectedSemester",""));
-        data.add(new NameValuePair("action","searchquery"));
-        data.add(new NameValuePair("pageSize","99999"));
+        //data.add(new NameValuePair("action","searchquery"));
+        data.add(new NameValuePair("pageSize","200"));
         //data.add(new NameValuePair("current","4"));
         String stringdata = ConnectionData.JsonValues(data);
-        jsonData = getConnection().connectPost(ConnectionData.GradesURL,stringdata);
+        jsonData = getConnection().connectPost(ConnectionData.GradesURL+"?action=searchquery",stringdata);
         //String res = WebViewConnection.RhinoTest(html);
         grades = HtmlParser.ParseToGrades(jsonData);
         saveGrades(grades);
         updateTime(gradesKey);
+    }
+
+    private void LoadDataPost() throws Exception {
+        //String query = "action=LoadData";
+        String jsonData = getConnection().connectPost("https://mazak.jct.ac.il/Student/Grades.aspx"+"?action=LoadData","");
+        int x = 1;
     }
 
     private Date getCurrentTime() {

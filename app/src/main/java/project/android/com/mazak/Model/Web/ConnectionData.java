@@ -12,7 +12,7 @@ import project.android.com.mazak.Model.Entities.NameValuePair;
 public class ConnectionData {
     public static final String GradesURL = "https://mazak.jct.ac.il/Student/Grades.aspx";
     public static final String GradesURL2 = "https://mazak.jct.ac.il/Student/Grades.aspx?AcademicYearID=&SemesterID=";
-    public static final String LoginUrl = "https://mazak.jct.ac.il/Login/Login.aspx";
+    public static final String LoginUrl = "https://mazak.jct.ac.il/api/home/login.ashx?action=TryLogin";
     public static final String GradeURL2 = "https://mazak.jct.ac.il/Login/Login.aspx?ReturnUrl=%2fStudent%2fGrades.aspx";
     public static final String afterLoginGrades = "https://mazak.jct.ac.il/Student/Grades.aspx?AcademicYearID=&SemesterID=";
     public static final String USERNAMEID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_LoginControl_UserName";

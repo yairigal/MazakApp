@@ -346,6 +346,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 }*/
                 Intent intet = new Intent(context,singleGradeView.class);
+                intet.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intet.putExtra("grade",grade);
                 context.startActivity(intet);
             }
