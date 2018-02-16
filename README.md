@@ -13,7 +13,7 @@ Feel free to contribute to the project at any time since JCT change the build of
 
 * **Yair Yigal** - *Initial work* - [YairYigal](https://github.com/yairigal)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/yairigal/MazakApp/contributors) who participated in this project.
 
 
 ## Acknowledgments
