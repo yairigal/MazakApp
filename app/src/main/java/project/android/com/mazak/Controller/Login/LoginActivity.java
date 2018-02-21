@@ -24,6 +24,7 @@ import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Database.LoginDatabase;
+import project.android.com.mazak.Model.Entities.LoginException;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.R;
 
@@ -217,6 +218,8 @@ public class LoginActivity extends AppCompatActivity {
             errorMsg = "Wrong username or password";
         else if (e1 instanceof NetworkErrorException)
             errorMsg = "Check your internet connection";
+        else if (e1 instanceof LoginException)
+            errorMsg = "Wrong username or password";
         else
             errorMsg = "Database Error";
         return errorMsg;

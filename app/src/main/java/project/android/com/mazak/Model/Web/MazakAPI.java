@@ -57,7 +57,7 @@ public class MazakAPI {
         String cookies = res.y;
         String JSONresposne = res.x;
         JSONObject response = new JSONObject(JSONresposne);
-        if (response.get("success").equals("false"))
+        if (response.getString("success").equals("false"))
             throw new LoginException("The username or password is incorrect");
         return cookies;
     }
