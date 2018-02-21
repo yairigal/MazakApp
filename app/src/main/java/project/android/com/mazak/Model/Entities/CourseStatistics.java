@@ -14,6 +14,25 @@ public class CourseStatistics implements Serializable{
     float mean;
     float median;
 
+    public float getPassedMean() {
+        return passedMean;
+    }
+
+    public void setPassedMean(float passedMedian) {
+        this.passedMean = passedMedian;
+    }
+
+    public float getNumOfPassedStudentsWithGrade() {
+        return numOfPassedStudentsWithGrade;
+    }
+
+    public void setNumOfPassedStudentsWithGrade(float numOfPassedStudentsWithGrade) {
+        this.numOfPassedStudentsWithGrade = numOfPassedStudentsWithGrade;
+    }
+
+    float passedMean;
+    float numOfPassedStudentsWithGrade;
+
     public float getMean() {
         return mean;
     }

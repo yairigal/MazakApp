@@ -156,20 +156,18 @@ public class ScheduleHost extends Fragment implements IRefresh {
                 }
 
                 private void getGradesFromAnywhere(){
-                    ArrayList<String> det = null;
                     try {
-                        det = db.getYearAndSem();
                     } catch (Exception e) {
                         e.printStackTrace();
                         error = true;
                         return;
                     }
                     try {
-                        list = db.getScheudle(getOptions.fromMemory,det.get(0),det.get(1));
+                        list = db.getScheudle(getOptions.fromMemory);
                     } catch (Exception e) {
                         try {
                             if (FatherTab.isNetworkAvailable(getContext()))
-                                list = db.getScheudle(getOptions.fromWeb,det.get(0),det.get(1));
+                                list = db.getScheudle(getOptions.fromWeb);
                             else
                                 throw new NetworkErrorException();
                         } catch (Exception e1) {
@@ -181,8 +179,7 @@ public class ScheduleHost extends Fragment implements IRefresh {
 
                 private void getGradesFromWebOnly() {
                     try {
-                        ArrayList<String> det = db.getYearAndSem();
-                        list = db.getScheudle(getOptions.fromWeb,det.get(0),det.get(1));
+                        list = db.getScheudle(getOptions.fromWeb);
                     } catch (Exception e) {
                         errorMsg = FatherTab.checkErrorTypeAndMessage(e);
                         error = true;

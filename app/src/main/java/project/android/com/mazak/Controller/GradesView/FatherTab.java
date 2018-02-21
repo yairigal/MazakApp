@@ -44,7 +44,6 @@ import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.ISearch;
-import project.android.com.mazak.Model.Web.MazakConnection;
 import project.android.com.mazak.R;
 
 public class FatherTab extends Fragment implements ISearch {

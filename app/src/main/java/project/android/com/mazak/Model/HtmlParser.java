@@ -249,39 +249,12 @@ public class HtmlParser {
             case InternalDatabase.TestKey:
                 return ParseToTests(html);
             case InternalDatabase.NotebookKey:
-                return ParseToNotebooks(html);
+                return null;
             default:
                 return null;
         }
     }
 
-    private static NotebookList ParseToNotebooks(String html) {
-        HashMap<String,ArrayList<Notebook>> map = new HashMap<>();
-        int id = 0;
-        Document doc = Jsoup.parse(html);
-        Elements elem = doc.getAllElements();
-        Elements currents = null;
-        for (Element e : elem) {
-            if (e.className().equals("table-responsive")) {
-                currents = e.child(0).child(1).children();
-                break;
-            }
-        }
-
-        Elements listOfNotebooks = currents;
-        for(int i=0;i<listOfNotebooks.size();i++){
-            String code = ((TextNode)(listOfNotebooks.get(i).childNode(5).childNode(0))).text().trim();
-            Notebook newN = Notebook.setupNotebookLink(listOfNotebooks.get(i),id++);
-            if(map.containsKey(code)){
-                map.get(code).add(newN);
-            }else {
-                ArrayList<Notebook> list = new ArrayList<>();
-                list.add(newN);
-                map.put(code,list);
-            }
-        }
-        return new NotebookList(map);
-    }
 
 /*    public static void setupAllGradesNotebookLinks(GradesList grades,String html){
         Map m = grades.toHashtable();

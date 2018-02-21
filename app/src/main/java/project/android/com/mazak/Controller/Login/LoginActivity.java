@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                 throw new NetworkErrorException();
 
             LoginDatabase.getInstance(ctx).saveLoginInformation(username,password);
-            Factory.getInstance(ctx).getGrades(getOptions.fromWeb);
+            Factory.getInstance(ctx).tryLogin();
             return true;
         }catch (Exception ex){
             ex.printStackTrace();

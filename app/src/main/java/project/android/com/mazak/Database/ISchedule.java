@@ -11,9 +11,7 @@ import project.android.com.mazak.Model.Entities.getOptions;
  */
 
 public interface ISchedule {
-    ScheduleList getScheudle(getOptions options,String year,String sem) throws Exception;
+    ScheduleList getScheudle(getOptions options) throws Exception;
     void saveScheudle(ScheduleList list);
     void clearScheudle();
-
-    ArrayList<String> getYearAndSem() throws Exception;
 }

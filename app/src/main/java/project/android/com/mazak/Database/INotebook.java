@@ -1,5 +1,9 @@
 package project.android.com.mazak.Database;
 
+import java.io.File;
+
+import project.android.com.mazak.Model.Entities.Grade;
+import project.android.com.mazak.Model.Entities.Notebook;
 import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.getOptions;
 
@@ -8,5 +12,7 @@ import project.android.com.mazak.Model.Entities.getOptions;
  */
 
 public interface INotebook {
-    NotebookList getNotebooks(getOptions op) throws Exception;
+    NotebookList getNotebooks(Grade course) throws Exception;
+
+    File downloadPDF(String url, Notebook currentPressed) throws Exception;
 }

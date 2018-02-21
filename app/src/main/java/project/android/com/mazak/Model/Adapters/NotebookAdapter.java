@@ -38,6 +38,7 @@ import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.Notebook;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.Web.ConnectionData;
+import project.android.com.mazak.Model.Web.MazakAPI;
 import project.android.com.mazak.R;
 
 /**
@@ -205,7 +206,7 @@ public class NotebookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 try {
                     String url;
                     url = currentPressed.link;
-                    File pdf = db.getConnection().downloadPDF(url,currentPressed);
+                    File pdf = db.downloadPDF(url,currentPressed);
                     openFile(pdf);
                 } catch (Exception e) {
                     e.printStackTrace();

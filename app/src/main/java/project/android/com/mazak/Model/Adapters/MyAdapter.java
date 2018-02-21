@@ -257,7 +257,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void function(Object obj) {
                 try {
-                    gd.getGradeDetails(Factory.getInstance().getConnection());
+                    gd.ingerdiantses = Factory.getInstance().getGradesParts(gd);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

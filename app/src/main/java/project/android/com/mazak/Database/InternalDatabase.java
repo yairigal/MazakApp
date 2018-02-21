@@ -12,11 +12,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Documented;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -26,14 +28,16 @@ import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.NameValuePair;
+import project.android.com.mazak.Model.Entities.Notebook;
 import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.TestList;
 import project.android.com.mazak.Model.Entities.getOptions;
+import project.android.com.mazak.Model.Entities.gradeIngerdiants;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.HtmlParser;
 import project.android.com.mazak.Model.Web.ConnectionData;
-import project.android.com.mazak.Model.Web.MazakConnection;
+import project.android.com.mazak.Model.Web.MazakAPI;
 import project.android.com.mazak.R;
 
 /**
@@ -50,8 +54,6 @@ public class InternalDatabase implements Database {
     public static final String ScheduleKey = "schedules";
     public static final String TestKey = "tests";
     public static final String NotebookKey = "notebooks";
-    private MazakConnection connection;
-    private String currentUsername = "",currentPassword="";
     private GradesList grades;
     private IrurList irurs;
     private ScheduleList schedule;
@@ -64,24 +66,10 @@ public class InternalDatabase implements Database {
         activity = ctx;
     }
 
-    /**
-     * checks if the connection is out and then refresh it.
-     * @throws IOException
-     */
-    private void refreshConnection() throws IOException {
- /*       String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
-        String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
-        if (connection == null || !username.equals(currentUsername) || !passw.equals(currentPassword)) {
-            currentUsername = username;
-            currentPassword = passw;
-            connection = new MazakConnection(currentUsername, currentPassword);
-        }*/
-    }
 
-    public  MazakConnection getConnection() throws IOException {
-        String username = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("username");
-        String passw = LoginDatabase.getInstance(activity).getLoginDataFromMemory().get("password");
-        return new MazakConnection(username,passw);
+    @Override
+    public void tryLogin() throws Exception {
+        MazakAPI.login(activity);
     }
 
 
@@ -104,13 +92,6 @@ public class InternalDatabase implements Database {
             if (g.name.contains(name))
                 toRet.add(g);
         return toRet;
-    }
-
-    @Override
-    public void changeUsernameAndPassword(String username, String password) throws Exception {
-        if (username == null || password == null)
-            throw new Exception("Argument is null");
-        connection = new MazakConnection(username, password);
     }
 
     /**
@@ -185,16 +166,16 @@ public class InternalDatabase implements Database {
      * @return
      * @throws Exception
      */
+    @Deprecated
     public Object loadFromWeb(String key,String URL,Object list) throws Exception {
         String html;
         Object listParsed;
         clear(key,list);
-        refreshConnection();
-        html = getConnection().connect(URL);
-        listParsed = HtmlParser.Parse(html,key);
-        save(listParsed,key);
-        updateTime(key);
-        return listParsed;
+        //html = getConnection().connect(URL);
+        //listParsed = HtmlParser.Parse(html,key);
+        //save(listParsed,key);
+        //updateTime(key);
+        return null;
     }
 
     /**
@@ -286,30 +267,12 @@ public class InternalDatabase implements Database {
      * @throws Exception
      */
     private void getGradesFromWeb() throws Exception {
-        String jsonData;
         deleteGrades();
-        refreshConnection();
-        //html = getConnection().connect(ConnectionData.GradesURL);
-        ArrayList<NameValuePair> data = new ArrayList<>();
-        LoadDataPost();
-        data.add(new NameValuePair("selectedAcademicYear",""));
-        data.add(new NameValuePair("selectedSemester",""));
-        //data.add(new NameValuePair("action","searchquery"));
-        data.add(new NameValuePair("pageSize","200"));
-        //data.add(new NameValuePair("current","4"));
-        String stringdata = ConnectionData.JsonValues(data);
-        jsonData = getConnection().connectPost(ConnectionData.GradesURL+"?action=searchquery",stringdata);
-        //String res = WebViewConnection.RhinoTest(html);
-        grades = HtmlParser.ParseToGrades(jsonData);
+        grades = MazakAPI.getGrades(activity);
         saveGrades(grades);
         updateTime(gradesKey);
     }
 
-    private void LoadDataPost() throws Exception {
-        //String query = "action=LoadData";
-        String jsonData = getConnection().connectPost("https://mazak.jct.ac.il/Student/Grades.aspx"+"?action=LoadData","");
-        int x = 1;
-    }
 
     private Date getCurrentTime() {
         return new Date();
@@ -322,6 +285,16 @@ public class InternalDatabase implements Database {
         editor.remove(gradesKey);
         editor.commit();
         grades = null;
+    }
+
+    @Override
+    public ArrayList<gradeIngerdiants> getGradesParts(Grade currentGrade) throws Exception {
+        return MazakAPI.getGradesDetailsAndNotebooks(currentGrade,activity).x;
+    }
+
+    @Override
+    public MazakAPI.Tuple<ArrayList<gradeIngerdiants>, NotebookList> getGradesDetailsAndNotebooks(Grade course) throws Exception {
+        return MazakAPI.getGradesDetailsAndNotebooks(course,activity);
     }
     //endregion
 
@@ -376,12 +349,8 @@ public class InternalDatabase implements Database {
     }
 
     private void getIrursFromWeb() throws Exception {
-        String html;
         deleteIrurs();
-        refreshConnection();
-        html = getConnection().connect(ConnectionData.IrurURL);
-        //String res = WebViewConnection.RhinoTest(html);
-        irurs = HtmlParser.ParseToIrurs(html);
+        irurs = MazakAPI.getAppeals(activity);
         saveIrurs(irurs);
         updateTime(IrursKey);
     }
@@ -402,23 +371,21 @@ public class InternalDatabase implements Database {
 
     //region stats
     @Override
-    public CourseStatistics getStatsFromWeb(String link) throws Exception {
-        refreshConnection();
-        String res = getConnection().getStatisticsPage(link);
-        return HtmlParser.ParseToStats(res);
+    public CourseStatistics getStatsFromWeb(String cID) throws Exception {
+        return MazakAPI.getStatistics(cID,activity);
     }
 
     //endregion
 
     //region schedule
     @Override
-    public ScheduleList getScheudle(getOptions options, String year, String sem) throws Exception {
+    public ScheduleList getScheudle(getOptions options) throws Exception {
         switch (options) {
             case fromMemory:
                 loadScheduleFromMemeory();
                 break;
             case fromWeb:
-                getScheudleFromWeb(year,sem);
+                getScheudleFromWeb();
                 break;
         }
         if (schedule == null)
@@ -426,22 +393,11 @@ public class InternalDatabase implements Database {
         return schedule;
     }
 
-    private void getScheudleFromWeb(String year,String sem) throws Exception {
-        String html;
+
+
+    private void getScheudleFromWeb() throws Exception {
         clearScheudle();
-        refreshConnection();
-        ArrayList<NameValuePair> data = new ArrayList<>();
-        String stringdata;
-
-        data.add(new NameValuePair("AcademicYearID",year));
-        data.add(new NameValuePair("SemesterID",sem));
-        data.add(new NameValuePair("action","searchquery"));
-        data.add(new NameValuePair("selectedAcademicYear",year));
-        data.add(new NameValuePair("selectedSemester",sem));
-        stringdata = ConnectionData.JsonValues(data);
-
-        html = getConnection().connectPost(ConnectionData.ScheduleURL,stringdata);
-        schedule = HtmlParser.ParseToClassEvents(html);
+        schedule = MazakAPI.getSchedule(activity);
         saveScheudle(schedule);
         updateTime(ScheduleKey);
     }
@@ -473,21 +429,6 @@ public class InternalDatabase implements Database {
         schedule = null;
     }
 
-    @Override
-    public ArrayList<String> getYearAndSem() throws Exception {
-        String html = getConnection().connect("https://mazak.jct.ac.il/Student/Schedule.aspx");
-        Document doc = Jsoup.parse(html);
-        Elements el  = doc.getElementsByClass("btn btn-primary");
-        String link = el.get(0).attr("href");
-        String[] dets = ((link.split(Pattern.quote("?")))[1]).split("&");
-        String year = (dets[0].split("="))[1];
-        String sem = (dets[1].split("="))[1];
-        ArrayList<String> res = new ArrayList<>();
-        res.add(year);
-        res.add(sem);
-        return res;
-    }
-
     //endregion
 
     //region tests
@@ -507,7 +448,7 @@ public class InternalDatabase implements Database {
     }
 
     private void loadTestsFromWeb() throws Exception {
-        tests = (TestList) loadFromWeb(TestKey,ConnectionData.TestsURL,tests);
+        tests = MazakAPI.getTests(activity);
     }
 
     private void saveTests(TestList tests) {
@@ -518,11 +459,17 @@ public class InternalDatabase implements Database {
         clear(TestKey,tests);
     }
 
+    //endregion
+
+    //region notebooks
     @Override
-    public NotebookList getNotebooks(getOptions options) throws Exception {
-        NotebookList list = (NotebookList) get(options,NotebookKey,notebooks,NotebookList.class,ConnectionData.NotebookURL);
-        return list;
+    public NotebookList getNotebooks(Grade course) throws Exception {
+        return MazakAPI.getGradesDetailsAndNotebooks(course,activity).y;
     }
 
+    @Override
+    public File downloadPDF(String url, Notebook currentPressed) throws Exception {
+        return MazakAPI.downloadPDF(url,currentPressed,activity);
+    }
     //endregion
 }

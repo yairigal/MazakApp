@@ -7,8 +7,8 @@ android {
         applicationId "project.android.com.mazak"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 27
-        versionName "2.6"
+        versionCode 30
+        versionName "3"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

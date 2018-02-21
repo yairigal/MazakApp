@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
-import project.android.com.mazak.Model.Web.MazakConnection;
 
 /**
  * Created by Yair on 2017-02-17.
@@ -13,7 +12,6 @@ import project.android.com.mazak.Model.Web.MazakConnection;
 public interface Database extends IGrades,IIrurs,IStats,ISchedule,ITests,INotebook {
     String username = null,password = null;
     void clearDatabase();
-    void changeUsernameAndPassword(String username, String password) throws Exception;
     String getUpdateTime(String key);
-    MazakConnection getConnection() throws IOException;
+    void tryLogin() throws Exception;
 }

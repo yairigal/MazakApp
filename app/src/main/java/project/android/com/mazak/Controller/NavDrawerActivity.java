@@ -43,11 +43,13 @@ import project.android.com.mazak.Controller.TfilaTimes.MinyanFragment;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
+import project.android.com.mazak.Model.Entities.BackgroundTask;
 import project.android.com.mazak.Model.Entities.Delegate;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.Model.Services.LoginService;
+import project.android.com.mazak.Model.Web.MazakAPI;
 import project.android.com.mazak.R;
 
 public class NavDrawerActivity extends AppCompatActivity
@@ -105,6 +107,7 @@ public class NavDrawerActivity extends AppCompatActivity
         //menu.add();
 
         //setupNavigationDrawerItems(menu);
+
 
 
 

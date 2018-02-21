@@ -28,7 +28,7 @@ import project.android.com.mazak.Model.Entities.Notebook;
 /**
  * Created by Yair on 2017-02-17.
  */
-
+@Deprecated
 public class MazakConnection implements Cloneable {
 
     private static final int BUFFER_SIZE = 4096;

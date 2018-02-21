@@ -155,17 +155,22 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
         return toRet;
     }
 
-    private static int getDay(String group) {
+    public static int getDay(String group) {
         switch (group){
             case "יום א":
+            case "א":
                 return 0;
             case "יום ב":
+            case "ב":
                 return 1;
             case "יום ג":
+            case "ג":
                 return 2;
             case "יום ד":
+            case "ד":
                 return 3;
             case "יום ה":
+            case "ה":
                 return 4;
             default:
                 return 5;

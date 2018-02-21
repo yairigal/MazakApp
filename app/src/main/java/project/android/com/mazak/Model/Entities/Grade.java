@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import project.android.com.mazak.Model.Web.MazakConnection;
 
 /**
  * Created by Yair on 2017-02-14.
@@ -29,7 +28,7 @@ public class Grade implements Serializable {
     public ArrayList<gradeIngerdiants> ingerdiantses = new ArrayList<>();
     public String StatLink;
     public ArrayList<Notebook> Notebook = new ArrayList<>();
-    private String actualCourseID;
+    public String actualCourseID;
 
     public Grade(String code, String name, String sem, String points, String min, String finalGrade) {
         this.code = code;
@@ -70,24 +69,6 @@ public class Grade implements Serializable {
     }
 
     public Grade() {
-    }
-
-    public void getGradeDetails(MazakConnection connection) throws Exception {
-        //String params = connection.getQuery(ConnectionData.getGradeDetailsPostArguments(subDetailsID));
-        String html = connection.connect(subDetailsID);
-        ArrayList<gradeIngerdiants> newing = ParseGradeDetails(html);
-        ingerdiantses.clear();
-        ingerdiantses.addAll(newing);
-    }
-
-    public ArrayList<gradeIngerdiants> getGradeDetailsAndNotebooksExplicit(MazakConnection connection) throws Exception {
-        //String params = connection.getQuery(ConnectionData.getGradeDetailsPostArguments(subDetailsID));
-        String html = connection.connect(subDetailsID);
-        ArrayList<gradeIngerdiants> newing = ParseGradeDetails(html);
-        try {
-            this.getNotebooksLinks(html);
-        }catch (Exception ex){}
-        return newing;
     }
 
     private void getNotebooksLinks(String html) {

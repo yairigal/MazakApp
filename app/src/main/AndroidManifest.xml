@@ -91,7 +91,7 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".Controller.GradesView.singleGradeView" />
+        <activity android:name=".Controller.GradesView.singleGradeView" android:noHistory="true" />
         <activity android:name=".Controller.WebViewActivity"></activity>
     </application>
 

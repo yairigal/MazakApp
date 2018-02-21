@@ -49,6 +49,7 @@ import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.Entities.gradeIngerdiants;
 import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.Model.Utility;
+import project.android.com.mazak.Model.Web.MazakAPI;
 import project.android.com.mazak.R;
 
 import static project.android.com.mazak.Controller.GradesView.FatherTab.toggleSpinner;
@@ -153,8 +154,8 @@ public class singleGradeView extends AppCompatActivity {
                     @Override
                     public void function(Object obj) {
                         try {
-                            notebooks.getMap().clear();
-                            notebooks.getMap().putAll(db.getNotebooks(getOptions.fromWeb).getMap());
+                            notebooks.clear();
+                            notebooks.addAll(db.getNotebooks(currentGrade));
                         } catch (Exception e) {
                             error[0] = true;
                             e.printStackTrace();
@@ -170,7 +171,7 @@ public class singleGradeView extends AppCompatActivity {
                             error[0] = false;
                             return;
                         }
-                        NotebookAdapter = new NotebookAdapter(activity, notebooks.get(currentGrade.code));
+                        NotebookAdapter = new NotebookAdapter(activity, (ArrayList<Notebook>) notebooks.getList());
                         recyclerView.setAdapter(NotebookAdapter);
                         NotebookAdapter.notifyDataSetChanged();
 
@@ -181,60 +182,6 @@ public class singleGradeView extends AppCompatActivity {
         });
     }
 
-    private void setNotebooksRecycleView() {
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.NotebooksRecycleView);
-        final View notebookLayout = findViewById(R.id.NotebookLayout);
-        final ProgressBar spinner = (ProgressBar) findViewById(R.id.NotebooksProgressBar);
-        final boolean[] error = {false};
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        //delegates
-        Delegate before = new Delegate() {
-            @Override
-            public void function(Object obj) {
-                toggleSpinner(true, notebookLayout, spinner);
-            }
-        };
-        Delegate in = new Delegate() {
-            @Override
-            public void function(Object obj) {
-                try {
-                    notebooks.getMap().clear();
-                    notebooks.getMap().putAll(db.getNotebooks(getOptions.fromMemory).getMap());
-                } catch (Exception e) {
-                    //if its the first time and not in the memory.
-                    try {
-                        notebooks.getMap().clear();
-                        notebooks.getMap().putAll(db.getNotebooks(getOptions.fromWeb).getMap());
-                    } catch (Exception ex) {
-                        error[0] = true;
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        };
-        Delegate after = new Delegate() {
-            @Override
-            public void function(Object obj) {
-                toggleSpinner(false, notebookLayout, spinner);
-                if (error[0]) {
-                    Toast.makeText(getApplicationContext(), "Notebook error, Try refreshing", Toast.LENGTH_LONG).show();
-                    error[0] = false;
-                    NotebookAdapter = new NotebookAdapter(activity, new ArrayList<Notebook>());
-                    return;
-                }
-                NotebookAdapter = new NotebookAdapter(activity, currentGrade.Notebook);
-                recyclerView.setAdapter(NotebookAdapter);
-                NotebookAdapter.notifyDataSetChanged();
-            }
-        };
-
-        new BackgroundTask(before, in, after).start();
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -270,9 +217,10 @@ public class singleGradeView extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    current = db.getStatsFromWeb(currentGrade.StatLink);
+                    current = db.getStatsFromWeb(currentGrade.actualCourseID);
                     current.setCourseName(currentGrade.name);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     error = true;
                     return null;
                 }
@@ -457,9 +405,11 @@ public class singleGradeView extends AppCompatActivity {
             @Override
             public void function(Object obj) {
                 try {
+                    MazakAPI.Tuple<ArrayList<gradeIngerdiants>, NotebookList> data = db.getGradesDetailsAndNotebooks(currentGrade);
                     ing.clear();
-                    ing.addAll(currentGrade.getGradeDetailsAndNotebooksExplicit(Factory.getInstance().getConnection()));
-
+                    ing.addAll(data.x);
+                    currentGrade.Notebook.clear();
+                    currentGrade.Notebook.addAll(data.y.getList());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
