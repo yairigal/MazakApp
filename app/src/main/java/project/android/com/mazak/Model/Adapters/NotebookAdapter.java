@@ -1,6 +1,7 @@
 package project.android.com.mazak.Model.Adapters;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,11 +9,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +30,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 import project.android.com.mazak.Controller.TestActivity;
@@ -223,15 +227,24 @@ public class NotebookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void openFile(File pdf) {
-        Uri path = Uri.fromFile(pdf);
-        Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
-        pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        pdfOpenintent.setDataAndType(path, "application/pdf");
-        try {
-            context.startActivity(Intent.createChooser(pdfOpenintent, "Your title"));
-            System.out.println("Opened file");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if(Build.VERSION.SDK_INT  < Build.VERSION_CODES.N) {
+            Uri path = Uri.fromFile(pdf);
+            Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
+            pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            pdfOpenintent.setDataAndType(path, "application/pdf");
+            try {
+                context.startActivity(Intent.createChooser(pdfOpenintent, "Your title"));
+                System.out.println("Opened file");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else{
+            Uri pdfURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".yairigal.provider", pdf);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(pdfURI, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            context.startActivity(intent); // Crashes on this line
         }
     }
 
