@@ -81,16 +81,16 @@
 
             <ProgressBar
                 android:id="@+id/NotebooksProgressBar"
-                android:layout_gravity="center"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/NotebookLayout"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -101,23 +101,35 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/NotebooksRecycleView"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        />
+
+                    <TextView
+                        android:id="@+id/NoNotebooksFoundTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="לא נמצאו מחברות"
+                        android:textColor="@color/darkerGray"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:id="@+id/notNotebooksLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <Button
-                        android:visibility="gone"
                         android:id="@+id/NotebookRefreshButton"
-                        android:text="REFRESH NOTEBOOK LIST"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="REFRESH NOTEBOOK LIST"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

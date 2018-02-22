@@ -1,7 +1,11 @@
 package project.android.com.mazak.Controller;
 
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,7 +35,9 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import project.android.com.mazak.Controller.Appeals.IrurFragment;
 import project.android.com.mazak.Controller.Average.AverageFragment;
@@ -312,10 +318,8 @@ public class NavDrawerActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
+        openAppChooser();
 
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"+myEmailAdd));
-        startActivity(intent);
 
 /*        Intent intent = new Intent(Intent.ACTION_SEND);
         //intent.setType("text/plain");
@@ -330,6 +334,24 @@ public class NavDrawerActivity extends AppCompatActivity
                 "mailto", myEmailAdd, null));
         startActivity(Intent.createChooser(emailIntent, "Send email..."));*/
     }
+
+    private void openAppChooser() {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:"+myEmailAdd));
+
+        Intent telegram = new Intent(Intent.ACTION_VIEW);
+        telegram.setData(Uri.parse("https://t.me/YairYigal"));
+
+        Intent chooser = new Intent(Intent.createChooser(telegram,"title"));
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{emailIntent});
+        startActivity(chooser);
+    }
+
+    /**
+     * It shows the chooser app to send the message. It filters out other apps
+     * on the chooser dialog and shows only Messaging and whatsapp apps.
+     * @param message
+     */
 
     private void showException(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();

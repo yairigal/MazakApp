@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -223,5 +224,11 @@ public class LoginActivity extends AppCompatActivity {
         else
             errorMsg = "Database Error";
         return errorMsg;
+    }
+
+    public void onBotClicked(View view) {
+        Intent telegram = new Intent(Intent.ACTION_VIEW);
+        telegram.setData(Uri.parse("https://t.me/mazakjct_bot"));
+        startActivity(telegram);
     }
 }

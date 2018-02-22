@@ -119,7 +119,7 @@ public class singleGradeView extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(singleGradeView.this, NavDrawerActivity.class));
+        //startActivity(new Intent(singleGradeView.this, NavDrawerActivity.class));
         finish();
     }
 
@@ -431,15 +431,20 @@ public class singleGradeView extends AppCompatActivity {
     }
 
     private void setupNotebooksUI() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.NotebooksRecycleView);
+        if(currentGrade.Notebook.size() > 0) {
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.NotebooksRecycleView);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linearLayoutManager);
 
-        NotebookAdapter = new NotebookAdapter(this, currentGrade.Notebook);
-        recyclerView.setAdapter(NotebookAdapter);
-        NotebookAdapter.notifyDataSetChanged();
+            NotebookAdapter = new NotebookAdapter(this, currentGrade.Notebook);
+            recyclerView.setAdapter(NotebookAdapter);
+            NotebookAdapter.notifyDataSetChanged();
+        }else{
+            findViewById(R.id.NotebooksRecycleView).setVisibility(View.GONE);
+            findViewById(R.id.NoNotebooksFoundTV).setVisibility(View.VISIBLE);
+        }
     }
     private void getGradeClicked() {
         currentGrade = (Grade) getIntent().getSerializableExtra("grade");

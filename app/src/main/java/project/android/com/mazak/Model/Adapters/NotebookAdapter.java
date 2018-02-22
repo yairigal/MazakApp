@@ -242,9 +242,9 @@ public class NotebookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Uri pdfURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".yairigal.provider", pdf);
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(pdfURI, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            context.startActivity(intent); // Crashes on this line
+            context.startActivity(intent);
         }
     }
 
