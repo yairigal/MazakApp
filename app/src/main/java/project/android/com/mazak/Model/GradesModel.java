@@ -139,9 +139,9 @@ public class GradesModel {
             return 3;
         if (sem.equals("שנתי"))
             return 3;
-        if(sem.equals("מועד מיוחד") || sem.equals("מיוחד"))
+        if (sem.equals("מועד מיוחד") || sem.equals("מיוחד"))
             return 4;
-        if(sem.equals("ג"))
+        if (sem.equals("ג"))
             return 5;
         return 1;
     }
@@ -176,6 +176,8 @@ public class GradesModel {
         grades = removeDuplicatesOfGrades(grades);
         for (Grade g : grades.getList()) {
             try {
+                if(g.droppedOut.equals("true"))
+                    continue;
                 //replaceing grades like 36נ to 36.
                 g.finalGrade = g.finalGrade.replace("נ", "");
 
@@ -234,7 +236,7 @@ public class GradesModel {
      * @param grades
      * @return
      */
-    private static GradesList removeDuplicatesOfGrades(GradesList grades) {
+    public static GradesList removeDuplicatesOfGradesOld(GradesList grades) {
         HashMap<String, Grade> map = new HashMap<>();
         GradesList toRet = new GradesList();
         for (Grade g : grades.getList()) {
@@ -245,6 +247,31 @@ public class GradesModel {
         }
         for (Grade g : map.values())
             toRet.add(g);
+        return toRet;
+    }
+
+    /**
+     * removes duplicates of grades from the list.
+     *
+     * @param grades
+     * @return
+     */
+    public static GradesList removeDuplicatesOfGrades(GradesList grades) {
+        GradesList toRet = new GradesList();
+        for (Grade g : grades.getList()) {
+            if (g.name.equals(LimodeyKodesh))
+                toRet.add(g);
+            else {
+                for (Grade current : toRet) {
+                    if (current.name.equals(g.name)) {
+                        toRet.getList().remove(current);
+                        break;
+                    }
+                }
+                toRet.add(g);
+            }
+
+        }
         return toRet;
     }
 

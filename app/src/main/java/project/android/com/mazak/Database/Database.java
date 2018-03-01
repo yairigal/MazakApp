@@ -14,4 +14,6 @@ public interface Database extends IGrades,IIrurs,IStats,ISchedule,ITests,INotebo
     void clearDatabase();
     String getUpdateTime(String key);
     void tryLogin() throws Exception;
+
+    boolean isPreperation() throws Exception;
 }

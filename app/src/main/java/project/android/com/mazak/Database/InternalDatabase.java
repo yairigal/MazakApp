@@ -72,6 +72,11 @@ public class InternalDatabase implements Database {
         MazakAPI.login(activity);
     }
 
+    @Override
+    public boolean isPreperation() throws Exception {
+        return MazakAPI.checkForPreperation(activity);
+    }
+
 
     /**
      * deletes all the data from the database.

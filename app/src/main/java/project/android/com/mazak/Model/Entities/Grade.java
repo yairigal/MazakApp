@@ -29,6 +29,7 @@ public class Grade implements Serializable {
     public String StatLink;
     public ArrayList<Notebook> Notebook = new ArrayList<>();
     public String actualCourseID;
+    public String droppedOut;
 
     public Grade(String code, String name, String sem, String points, String min, String finalGrade) {
         this.code = code;

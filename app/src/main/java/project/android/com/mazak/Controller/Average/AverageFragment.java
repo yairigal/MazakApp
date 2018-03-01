@@ -177,6 +177,7 @@ public class AverageFragment extends Fragment implements IRefresh {
                     root.findViewById(R.id.mainLayoutAvg).setVisibility(View.GONE);
                     return;
                 }
+                grades = GradesModel.removeDuplicatesOfGrades(grades);
                 toggleSpinner(false,mBarChart,pb);
                 delegate.function(null);
             }
@@ -428,7 +429,7 @@ public class AverageFragment extends Fragment implements IRefresh {
      * @param grades
      */
     private void setupSemesters(View mainview, GradesList grades) {
-        HashMap<Integer, GradesList> map = GradesModel.sortBySemester(grades);
+        HashMap<Integer, GradesList> map = GradesModel.sortBySemester(GradesModel.removeDuplicatesOfGrades(grades));
         ((TextView) mainview.findViewById(R.id.CardTitle_Sem1Layout)).setText("סמסטר אלול");
         ((TextView) mainview.findViewById(R.id.averageInput_averageSem1)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(0)).get("avg")));
         ((TextView) mainview.findViewById(R.id.NZInput_averageSem1)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(0)).get("nz")));

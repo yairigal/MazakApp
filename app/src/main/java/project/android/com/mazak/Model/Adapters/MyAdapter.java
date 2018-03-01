@@ -3,6 +3,7 @@ package project.android.com.mazak.Model.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -140,23 +141,23 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             //Gholder.view.findViewById(R.id.statsBtn).setVisibility(View.VISIBLE);
             Gholder.view.findViewById(R.id.NZTV).setVisibility(View.VISIBLE);
             setNz(Gholder.Nz, current);
-            setName(Gholder.name, current.name);
-            setGrade(Gholder.grade,current.finalGrade);
+            setName(Gholder.name, current);
+            setGrade(Gholder.grade,current);
             setOnClick(Gholder.view, current);
             setStatsButton(current, Gholder.view);
             Gholder.view.findViewById(R.id.gradeCard).setBackgroundColor(Color.WHITE);
             setAnimation(Gholder.view, position);
         } else { // it is a title
             ViewHolderHeader Hholder = (ViewHolderHeader) holder;
-            setName(Hholder.TitleName, current.name);
+            setName(Hholder.TitleName, current);
             setNzGroup(Hholder.NzTv, getNz(current));
 
         }
     }
 
-    private void setGrade(TextView grade, String finalGrade) {
-        grade.setText(finalGrade);
-        setGradeColor(grade,finalGrade);
+    private void setGrade(TextView gradeTV, Grade grade) {
+        gradeTV.setText(grade.finalGrade);
+        setGradeColor(gradeTV,grade.finalGrade);
     }
 
     private void setGradeColor(TextView gradeView, String finalGrade) {
@@ -300,9 +301,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private void setName(View convertView, String name2) {
+    private void setName(View convertView, Grade grade) {
         TextView name = (TextView) convertView;
-        name.setText(name2);
+        if(grade.droppedOut != null && grade.droppedOut.equals("true"))
+            name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        name.setText(grade.name);
     }
 
     private void setOnClick(final View convertView, final Grade grade) {

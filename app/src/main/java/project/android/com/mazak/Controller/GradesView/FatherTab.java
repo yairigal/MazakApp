@@ -58,6 +58,7 @@ public class FatherTab extends Fragment implements ISearch {
     ProgressBar spinner;
     LinearLayout mainLayout;
     LoginDatabase loginDatabase;
+    boolean isPreperation;
 
     public FatherTab() {
         // Required empty public constructor
@@ -74,7 +75,7 @@ public class FatherTab extends Fragment implements ISearch {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if(view == null) {
+        if (view == null) {
             view = inflater.inflate(R.layout.fragment_father_tab, container, false);
             spinner = (ProgressBar) view.findViewById(R.id.FatherSpinner);
             mainLayout = (LinearLayout) view.findViewById(R.id.TabsFatherLayout);
@@ -92,6 +93,7 @@ public class FatherTab extends Fragment implements ISearch {
     /**
      * if options if null  - tries to get grades from database , if failed , gets grades from web.
      * if options is not null - gets the grades from that specific place.
+     *
      * @param view
      * @param options
      */
@@ -109,17 +111,21 @@ public class FatherTab extends Fragment implements ISearch {
 
             @Override
             protected Void doInBackground(Void... params) {
-                if(options == getOptions.fromWeb){
+                if (options == getOptions.fromWeb) {
                     getGradesFromWebOnly();
                 } else {
                     getGradesFromAnywhere();
                 }
 
-                if(error)
+                if (error)
                     return null;
 
                 gradesSorted = GradesModel.sortByYears(grades);
                 numOfYears = gradesSorted.size();
+                try {
+                    isPreperation = db.isPreperation();
+                } catch (Exception e) {
+                }
 
 /*                long time1 = System.currentTimeMillis();
                 try {
@@ -145,12 +151,13 @@ public class FatherTab extends Fragment implements ISearch {
                     toggleSpinner(false, mainLayout, spinner);
                 } else {
                     toggleSpinner(false, mainLayout, spinner);
-                    setupTabs(view);
+                    setupTabs(view, isPreperation);
                     String cal1 = db.getUpdateTime(InternalDatabase.gradesKey);
                     try {
                         if (view != null)
                             Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
-                    }catch (Exception ex){}
+                    } catch (Exception ex) {
+                    }
                 }
             }
 
@@ -170,8 +177,8 @@ public class FatherTab extends Fragment implements ISearch {
                 }
             }
 
-            private void getGradesFromWebOnly(){
-                try{
+            private void getGradesFromWebOnly() {
+                try {
                     grades = db.getGrades(getOptions.fromWeb);
                 } catch (Exception e) {
                     errorMsg = checkErrorTypeAndMessage(e);
@@ -197,11 +204,12 @@ public class FatherTab extends Fragment implements ISearch {
                 else
                     Snackbar.make(getView(), errorMsg, Snackbar.LENGTH_LONG).show();
             }
-        }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     /**
      * checks which error it is and returns the error message for that type.
+     *
      * @param e1
      * @return
      */
@@ -220,18 +228,19 @@ public class FatherTab extends Fragment implements ISearch {
 
     /**
      * set us the years tabs
+     *
      * @param v
      */
-    private void setupTabs(View v) {
+    private void setupTabs(View v, boolean Preparation) {
         TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tabLayout);
         if (numOfYears > 3)
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         for (int i = 0; i < numOfYears; i++)
-            tabLayout.addTab(tabLayout.newTab(),false);
+            tabLayout.addTab(tabLayout.newTab(), false);
 
         final ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewPager);
         tabLayout.setupWithViewPager(viewPager, true);
-        SamplePageAdapter mAdapter = new SamplePageAdapter(getFragmentManager(), (HashMap<Integer, GradesList>) gradesSorted.clone());
+        SamplePageAdapter mAdapter = new SamplePageAdapter(getFragmentManager(), (HashMap<Integer, GradesList>) gradesSorted.clone(), Preparation);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);
         //if(checkHebrew())
@@ -250,7 +259,7 @@ public class FatherTab extends Fragment implements ISearch {
 
     @Override
     public void Refresh() {
-        getGradesAsync(getView(),getOptions.fromWeb);
+        getGradesAsync(getView(), getOptions.fromWeb);
     }
 
     public static Fragment getInstance() {
@@ -259,14 +268,16 @@ public class FatherTab extends Fragment implements ISearch {
 
     private class SamplePageAdapter extends FragmentStatePagerAdapter {
         private final HashMap<Integer, GradesList> grades;
+        private final boolean preparation;
 
         @Override
         public void restoreState(Parcelable state, ClassLoader loader) {
         }
 
-        public SamplePageAdapter(FragmentManager fm,HashMap<Integer, GradesList> gradesSorted) {
+        public SamplePageAdapter(FragmentManager fm, HashMap<Integer, GradesList> gradesSorted, boolean Preparation) {
             super(fm);
             this.grades = gradesSorted;
+            this.preparation = Preparation;
         }
 
         @Override
@@ -284,8 +295,8 @@ public class FatherTab extends Fragment implements ISearch {
         @Override
         public CharSequence getPageTitle(int position) {
             if (checkHebrew())
-                return getYearTitle(position + 1);
-            return getYearTitle(position + 1);
+                return getYearTitle(position + 1, preparation);
+            return getYearTitle(position + 1, preparation);
         }
 
         @Override
@@ -303,6 +314,7 @@ public class FatherTab extends Fragment implements ISearch {
 
     /**
      * checks if the device is on hebrew.
+     *
      * @return
      */
     public static boolean checkHebrew() {
@@ -311,39 +323,64 @@ public class FatherTab extends Fragment implements ISearch {
 
     /**
      * gets the Title by the year number.
+     *
      * @param year
      * @return
      */
-    String getYearTitle(int year) {
+    String getYearTitle(int year, boolean Preparation) {
         String title = "";
-        switch (year) {
-            case 1:
-                title = "First Year";
-                break;
-            case 2:
-                title = "Second Year";
-                break;
-            case 3:
-                title = "Third Year";
-                break;
-            case 4:
-                title = "Fourth Year";
-                break;
-            case 5:
-                title = "Fifth Year";
-                break;
-            default:
-                title = "Other";
-                break;
+        if (!Preparation) {
+            switch (year) {
+                case 1:
+                    title = "First Year";
+                    break;
+                case 2:
+                    title = "Second Year";
+                    break;
+                case 3:
+                    title = "Third Year";
+                    break;
+                case 4:
+                    title = "Fourth Year";
+                    break;
+                case 5:
+                    title = "Fifth Year";
+                    break;
+                default:
+                    title = "Other";
+                    break;
+            }
+        }else{
+            switch (year) {
+                case 1:
+                    title = "Preparation Year";
+                    break;
+                case 2:
+                    title = "First Year";
+                    break;
+                case 3:
+                    title = "Second Year";
+                    break;
+                case 4:
+                    title = "Third Year";
+                    break;
+                case 5:
+                    title = "Fourth Year";
+                    break;
+                default:
+                    title = "Other";
+                    break;
+            }
         }
         return title;
     }
 
     /**
      * toggles the spinner (loading animation) true or false
-     * @param toggle toggle the spinner true or false
+     *
+     * @param toggle    toggle the spinner true or false
      * @param toDismiss the view to dismiss and hide
-     * @param toShow the view to show.
+     * @param toShow    the view to show.
      */
     public static void toggleSpinner(boolean toggle, View toDismiss, ProgressBar toShow) {
         if (toggle) {
@@ -359,6 +396,7 @@ public class FatherTab extends Fragment implements ISearch {
 
     /**
      * checks if network is available in the device.
+     *
      * @param ctx
      * @return
      */

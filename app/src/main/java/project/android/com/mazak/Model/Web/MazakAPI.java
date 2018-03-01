@@ -43,6 +43,7 @@ import project.android.com.mazak.Model.Entities.gradeIngerdiants;
 
 public class MazakAPI {
     private static final int BUFFER_SIZE = 4096;
+    private static String Mechina = "מכינה קדם אקדמית";
 
     /**
      * Reads username and password from LoginDatabase and tries to login to mazak.
@@ -239,6 +240,7 @@ public class MazakAPI {
             grade.points = ((JSONObject) items.get(i)).get("effectiveCredits").toString();
             grade.semester = ((JSONObject) items.get(i)).get("semesterName").toString();
             grade.actualCourseID = ((JSONObject) items.get(i)).get("actualCourseID").toString();
+            grade.droppedOut = ((JSONObject) items.get(i)).getString("isDroppedOut");
             grades.add(grade);
         }
         return grades;
@@ -255,7 +257,7 @@ public class MazakAPI {
         dataMap.put("semesterId", null);
         dataMap.put("pageSize", "9999999");
         JSONObject data = new JSONObject(dataMap);
-        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/Student/appeals.ashx?action=GetStudentClosedAppeals", data.toString(),"",cookies).x);
+        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/Student/appeals.ashx?action=GetStudentClosedAppeals", data.toString(), "", cookies).x);
         JSONArray items = r.getJSONArray("items");
         IrurList irurs = new IrurList();
         for (int i = 0; i < items.length(); i++) {
@@ -276,12 +278,12 @@ public class MazakAPI {
 
     public static CourseStatistics getStatistics(String actualCourseID, Context ctx) throws Exception {
         String cookies = login(ctx);
-        return tryGetStatistics(actualCourseID,cookies);
+        return tryGetStatistics(actualCourseID, cookies);
     }
 
     @NonNull
     private static CourseStatistics tryGetStatistics(String actualCourseID, String cookies) throws Exception {
-        JSONObject res = new JSONObject(POST("https://mazak.jct.ac.il/Student/GradesCharts.aspx?action=LoadData&ActualCourseID=" + actualCourseID, "","",cookies).x);
+        JSONObject res = new JSONObject(POST("https://mazak.jct.ac.il/Student/GradesCharts.aspx?action=LoadData&ActualCourseID=" + actualCourseID, "", "", cookies).x);
         JSONObject r = (JSONObject) res.get("courseAverage");
         CourseStatistics stats = new CourseStatistics();
         stats.setCourseName(res.get("courseName").toString());
@@ -312,14 +314,14 @@ public class MazakAPI {
 
     @NonNull
     private static ScheduleList tryGetSchedule(String cookies) throws Exception {
-        JSONObject res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadFilters", "{}", "https://mazak.jct.ac.il/Student/WeeklySchedule.aspx",cookies).x);
+        JSONObject res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadFilters", "{}", "https://mazak.jct.ac.il/Student/WeeklySchedule.aspx", cookies).x);
         String year = res.getString("selectedAcademicYear");
         String semester = res.getString("selectedSemester");
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("selectedAcademicYear", year);
         dataMap.put("selectedSemester", semester);
         JSONObject data = new JSONObject(dataMap);
-        res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadWeeklySchedule", data.toString(),"",cookies).x);
+        res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadWeeklySchedule", data.toString(), "", cookies).x);
         JSONArray meetings = res.getJSONArray("meetings");
         ScheduleList list = new ScheduleList();
         for (int i = 0; i < meetings.length(); ++i) {
@@ -348,7 +350,7 @@ public class MazakAPI {
         dataMap.put("selectedSemester", null);
         dataMap.put("pageSize", "9999999");
         JSONObject data = new JSONObject(dataMap);
-        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/student/Tests.ashx?action=LoadTests", data.toString(),"",cookies).x);
+        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/student/Tests.ashx?action=LoadTests", data.toString(), "", cookies).x);
         JSONArray items = r.getJSONArray("items");
         TestList tests = new TestList();
         for (int i = 0; i < items.length(); i++) {
@@ -368,11 +370,11 @@ public class MazakAPI {
         return tests;
     }
 
-    private static Tuple<ArrayList<gradeIngerdiants>,NotebookList> TryGetGradesDetails(Grade course, String cookies) throws Exception {
+    private static Tuple<ArrayList<gradeIngerdiants>, NotebookList> TryGetGradesDetails(Grade course, String cookies) throws Exception {
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("actualCourseId", course.actualCourseID);
         JSONObject data = new JSONObject(dataMap);
-        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/student/coursePartGrades.ashx?action=GetStudentCoursePartGrades", data.toString(),"",cookies).x);
+        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/student/coursePartGrades.ashx?action=GetStudentCoursePartGrades", data.toString(), "", cookies).x);
         ArrayList<gradeIngerdiants> parts = new ArrayList<>();
         JSONArray items = r.getJSONArray("partGrades");
         for (int i = 0; i < items.length(); ++i) {
@@ -394,20 +396,20 @@ public class MazakAPI {
             JSONObject current = notebooksJSON.getJSONObject(i);
             currentNote.code = course.code;
             currentNote.id = current.getString("id");
-            currentNote.link = "https://mazak.jct.ac.il/api/student/testNotebooks.ashx?action=DownloadNotebook&notebookId="+currentNote.id;
+            currentNote.link = "https://mazak.jct.ac.il/api/student/testNotebooks.ashx?action=DownloadNotebook&notebookId=" + currentNote.id;
             currentNote.moed = current.getString("testTimeTypeName");
             currentNote.time = current.getString("createdOn");
             notebooks.add(currentNote);
         }
-        return new Tuple<>(parts,notebooks);
+        return new Tuple<>(parts, notebooks);
     }
 
-    public static Tuple<ArrayList<gradeIngerdiants>,NotebookList> getGradesDetailsAndNotebooks(Grade course,Context ctx) throws Exception {
+    public static Tuple<ArrayList<gradeIngerdiants>, NotebookList> getGradesDetailsAndNotebooks(Grade course, Context ctx) throws Exception {
         String cookies = login(ctx);
-        return TryGetGradesDetails(course,cookies);
+        return TryGetGradesDetails(course, cookies);
     }
 
-    public static File downloadPDF(String sUrl, Notebook currentNotebook,Context ctx) throws Exception {
+    public static File downloadPDF(String sUrl, Notebook currentNotebook, Context ctx) throws Exception {
         String cookies = login(ctx);
         String saveOutputName = NotebookAdapter.getFileName(currentNotebook);
         URL obj = new URL(sUrl);
@@ -424,10 +426,9 @@ public class MazakAPI {
         conn.setRequestProperty("Accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        conn.setRequestProperty("Cookie",cookies);
+        conn.setRequestProperty("Cookie", cookies);
 
         int responseCode = conn.getResponseCode();
-
 
 
         if ("gzip".equals(conn.getContentEncoding())) {
@@ -457,6 +458,23 @@ public class MazakAPI {
 
 
         return new File(saveOutputName);
+    }
+
+    public static boolean checkForPreperation(Context ctx) throws Exception {
+        String cookies = login(ctx);
+        return tryCheckForPrepegation(cookies);
+    }
+
+    private static boolean tryCheckForPrepegation(String cookies) throws Exception {
+        Tuple<String, String> response = POST("https://mazak.jct.ac.il/api/student/Averages.ashx?action=LoadData", "", "", cookies);
+        JSONObject r = new JSONObject(response.x);
+        JSONArray items = r.getJSONArray("academicAverages");
+        for(int i =0;i<items.length();++i){
+            JSONObject current = items.getJSONObject(i);
+            if(current.getString("parentDepartmentName").equals(Mechina))
+                return true;
+        }
+        return false;
     }
 
     public static class Tuple<X, Y> {
