@@ -75,6 +75,7 @@ public class AverageFragment extends Fragment implements IRefresh {
     BarChart mBarChart;
     LinearLayout masterLayout;
     ScrollView mScrollView;
+    private boolean preperation;
 
 
     public AverageFragment() {
@@ -147,15 +148,17 @@ public class AverageFragment extends Fragment implements IRefresh {
         final ProgressBar pb = (ProgressBar) root.findViewById(R.id.averageProgressBar);
         new AsyncTask<Void, Void, Void>() {
             public boolean error;
+
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                toggleSpinner(true,mBarChart,pb);
+                toggleSpinner(true, mBarChart, pb);
             }
 
             @Override
             protected Void doInBackground(Void... params) {
                 try {
+                    preperation = db.isPreperation();
                     grades = db.getGrades(getOptions.fromMemory);
                 } catch (Exception e) {
                     try {
@@ -178,7 +181,7 @@ public class AverageFragment extends Fragment implements IRefresh {
                     return;
                 }
                 grades = GradesModel.removeDuplicatesOfGrades(grades);
-                toggleSpinner(false,mBarChart,pb);
+                toggleSpinner(false, mBarChart, pb);
                 delegate.function(null);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -252,7 +255,14 @@ public class AverageFragment extends Fragment implements IRefresh {
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
+                if (preperation) {
+                    if ((int) value == 0)
+                        return "Prep Year";
+                    else
+                        return "Year" + " #" + String.valueOf((int) value);
+                }
                 return "Year" + " #" + String.valueOf((int) value + 1);
+
             }
         });
 
@@ -414,7 +424,14 @@ public class AverageFragment extends Fragment implements IRefresh {
         ((ViewGroup) (root.findViewById(R.id.mainLayoutAverage))).removeAllViews();
         for (int i = 1; i <= map.size(); i++) {
             View Mainview = mainInflaytor.inflate(R.layout.average_year, null);
-            ((TextView) Mainview.findViewById(R.id.CardTitle_YearAverage)).setText("שנה " + i);
+            if (preperation)
+                if (i == 1)
+                    ((TextView) Mainview.findViewById(R.id.CardTitle_YearAverage)).setText("שנת מכינה");
+                else
+                    ((TextView) Mainview.findViewById(R.id.CardTitle_YearAverage)).setText("שנה " + (i - 1));
+            else
+                ((TextView) Mainview.findViewById(R.id.CardTitle_YearAverage)).setText("שנה " + i);
+
             ((TextView) Mainview.findViewById(R.id.NZInput_averageYear)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(i)).get("nz")));
             ((TextView) Mainview.findViewById(R.id.averageInput_averageYear)).setText(roundTo2OrLessAfterPoint(GradesModel.getAvg(map.get(i)).get("avg")));
             setupSemesters(Mainview, map.get(i));

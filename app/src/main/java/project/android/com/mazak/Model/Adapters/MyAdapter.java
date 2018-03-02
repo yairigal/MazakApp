@@ -68,26 +68,35 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void fillFullList() {
         this.fullList = new GradesList();
 
-        Grade sem0title = new Grade();
-        sem0title.name = "סמסטר אלול";
-        sem0title.code = "-1";
-        fullList.add(sem0title);
+        if (list0.size() != 0) {
+            Grade sem0title = new Grade();
+            sem0title.name = "סמסטר אלול";
+            sem0title.code = "-1";
+            fullList.add(sem0title);
 
-        fullList.addAll(list0);
 
-        Grade sem1title = new Grade();
-        sem1title.name = "סמסטר א";
-        sem1title.code = "-1";
-        fullList.add(sem1title);
+            fullList.addAll(list0);
+        }
 
-        fullList.addAll(list1);
 
-        Grade sem2title = new Grade();
-        sem2title.name = "סמסטר ב";
-        sem2title.code = "-1";
-        fullList.add(sem2title);
+        if (list1.size() != 0) {
+            Grade sem1title = new Grade();
+            sem1title.name = "סמסטר א";
+            sem1title.code = "-1";
+            fullList.add(sem1title);
 
-        fullList.addAll(list2);
+            fullList.addAll(list1);
+        }
+
+
+        if (list2.size() != 0) {
+            Grade sem2title = new Grade();
+            sem2title.name = "סמסטר ב";
+            sem2title.code = "-1";
+            fullList.add(sem2title);
+
+            fullList.addAll(list2);
+        }
     }
 
     public class ViewHolderGrade extends RecyclerView.ViewHolder {
@@ -102,7 +111,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Nz = (TextView) convertView.findViewById(R.id.NZTV);
             name = (TextView) convertView.findViewById(R.id.courseTv);
             //statsBtn = (Button) convertView.findViewById(R.id.statsBtn);
-            grade = (TextView)convertView.findViewById(R.id.GradeTV);
+            grade = (TextView) convertView.findViewById(R.id.GradeTV);
             view = convertView;
         }
 
@@ -142,7 +151,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Gholder.view.findViewById(R.id.NZTV).setVisibility(View.VISIBLE);
             setNz(Gholder.Nz, current);
             setName(Gholder.name, current);
-            setGrade(Gholder.grade,current);
+            setGrade(Gholder.grade, current);
             setOnClick(Gholder.view, current);
             setStatsButton(current, Gholder.view);
             Gholder.view.findViewById(R.id.gradeCard).setBackgroundColor(Color.WHITE);
@@ -157,31 +166,31 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void setGrade(TextView gradeTV, Grade grade) {
         gradeTV.setText(grade.finalGrade);
-        setGradeColor(gradeTV,grade.finalGrade);
+        setGradeColor(gradeTV, grade.finalGrade);
     }
 
     private void setGradeColor(TextView gradeView, String finalGrade) {
-        try{
+        try {
             float grade = Float.parseFloat(finalGrade);
-            if(grade <= 59)
+            if (grade <= 59)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[0]);
-            else if(grade <= 64)
+            else if (grade <= 64)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[1]);
-            else if(grade <= 69)
+            else if (grade <= 69)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[2]);
-            else if(grade <= 74)
+            else if (grade <= 74)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[3]);
-            else if(grade <= 79)
+            else if (grade <= 79)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[4]);
-            else if(grade <= 84)
+            else if (grade <= 84)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[5]);
-            else if(grade <= 89)
+            else if (grade <= 89)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[6]);
-            else if(grade <= 94)
+            else if (grade <= 94)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[7]);
-            else if(grade <= 100)
+            else if (grade <= 100)
                 gradeView.setTextColor(CourseStatisticsActivity.colors[8]);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             gradeView.setTextColor(Color.GRAY);
         }
     }
@@ -192,20 +201,26 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (current.name.contains("אלול")) {
             for (Grade g : list0) {
                 try {
-                    sum[0] += Float.parseFloat(g.points);
-                } catch (Exception ignored) {}
+                    if (!g.droppedOut.equals("true"))
+                        sum[0] += Float.parseFloat(g.points);
+                } catch (Exception ignored) {
+                }
             }
         } else if (current.name.contains("א")) {
             for (Grade g : list1) {
                 try {
-                    sum[0] += Float.parseFloat(g.points);
-                } catch (Exception ignored) {}
+                    if (!g.droppedOut.equals("true"))
+                        sum[0] += Float.parseFloat(g.points);
+                } catch (Exception ignored) {
+                }
             }
-        } else{
+        } else {
             for (Grade g : list2) {
                 try {
-                    sum[0] += Float.parseFloat(g.points);
-                } catch (Exception ignored) {}
+                    if (!g.droppedOut.equals("true"))
+                        sum[0] += Float.parseFloat(g.points);
+                } catch (Exception ignored) {
+                }
             }
         }
 
@@ -303,7 +318,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void setName(View convertView, Grade grade) {
         TextView name = (TextView) convertView;
-        if(grade.droppedOut != null && grade.droppedOut.equals("true"))
+        if (grade.droppedOut != null && grade.droppedOut.equals("true"))
             name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         name.setText(grade.name);
     }
@@ -348,9 +363,9 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     layout.expand();
 
                 }*/
-                Intent intet = new Intent(context,singleGradeView.class);
+                Intent intet = new Intent(context, singleGradeView.class);
                 intet.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                intet.putExtra("grade",grade);
+                intet.putExtra("grade", grade);
                 context.startActivity(intet);
             }
 

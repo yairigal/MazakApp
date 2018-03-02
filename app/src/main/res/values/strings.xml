@@ -27,4 +27,11 @@
     <string name="course_name">Course Name</string>
     <string name="gradeDetails">מרכיבי ציון</string>
     <string name="have_you_checked_our_telegram_bot"><![CDATA[ Have You Checked our Telegram bot? ]]></string>
+    <string name="first_year">First Year</string>
+    <string name="second_year">Second Year</string>
+    <string name="third_year">Third Year</string>
+    <string name="fourth_year">Fourth Year</string>
+    <string name="fifth_year">Fifth Year</string>
+    <string name="other">Other</string>
+    <string name="prep_year">Preparation Year</string>
 </resources>

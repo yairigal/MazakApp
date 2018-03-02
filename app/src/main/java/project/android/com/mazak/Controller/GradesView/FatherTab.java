@@ -328,47 +328,35 @@ public class FatherTab extends Fragment implements ISearch {
      * @return
      */
     String getYearTitle(int year, boolean Preparation) {
-        String title = "";
+        String title;
         if (!Preparation) {
             switch (year) {
                 case 1:
-                    title = "First Year";
+                    title = getString(R.string.first_year);
                     break;
                 case 2:
-                    title = "Second Year";
+                    title = getString(R.string.second_year);
                     break;
                 case 3:
-                    title = "Third Year";
+                    title = getString(R.string.third_year);
                     break;
                 case 4:
-                    title = "Fourth Year";
+                    title = getString(R.string.fourth_year);
                     break;
                 case 5:
-                    title = "Fifth Year";
+                    title = getString(R.string.fifth_year);
                     break;
                 default:
-                    title = "Other";
+                    title = getString(R.string.other);
                     break;
             }
-        }else{
+        } else {
             switch (year) {
                 case 1:
-                    title = "Preparation Year";
-                    break;
-                case 2:
-                    title = "First Year";
-                    break;
-                case 3:
-                    title = "Second Year";
-                    break;
-                case 4:
-                    title = "Third Year";
-                    break;
-                case 5:
-                    title = "Fourth Year";
+                    title = getString(R.string.prep_year);
                     break;
                 default:
-                    title = "Other";
+                    title = getYearTitle(year - 1, false);
                     break;
             }
         }
