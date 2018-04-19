@@ -283,7 +283,7 @@ public class MazakAPI {
 
     @NonNull
     private static CourseStatistics tryGetStatistics(String actualCourseID, String cookies) throws Exception {
-        JSONObject res = new JSONObject(POST("https://mazak.jct.ac.il/Student/GradesCharts.aspx?action=LoadData&ActualCourseID=" + actualCourseID, "", "", cookies).x);
+        JSONObject res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/GradesCharts.ashx?action=LoadData&ActualCourseID=" + actualCourseID, "", "", cookies).x);
         JSONObject r = (JSONObject) res.get("courseAverage");
         CourseStatistics stats = new CourseStatistics();
         stats.setCourseName(res.get("courseName").toString());

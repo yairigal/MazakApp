@@ -62,8 +62,15 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
         this.context = ctx;
         this.mScrollView = mScrollView;
+        setHasStableIds(true);
 
     }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
 
     private void fillFullList() {
         this.fullList = new GradesList();
@@ -144,6 +151,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Grade current = fullList.get(position);
         int itemtype = getItemViewType(position);
+        holder.setIsRecyclable(false);
         //its not a title
         if (itemtype == ITEM_TYPE_GRADE) {
             ViewHolderGrade Gholder = (ViewHolderGrade) holder;
