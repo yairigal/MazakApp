@@ -25,22 +25,15 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 import project.android.com.mazak.Controller.Login.LoginActivity;
-import project.android.com.mazak.Controller.Old.TabsFragment;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Database.LoginDatabase;
 import project.android.com.mazak.Model.Entities.GradesList;
-import project.android.com.mazak.Model.Entities.IrurList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.ISearch;

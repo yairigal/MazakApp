@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import project.android.com.mazak.Controller.GradesView.FatherTab;

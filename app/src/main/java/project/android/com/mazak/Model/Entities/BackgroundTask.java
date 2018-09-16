@@ -1,7 +1,6 @@
 package project.android.com.mazak.Model.Entities;
 
 import android.os.AsyncTask;
-import android.support.v4.os.AsyncTaskCompat;
 
 /**
  * Created by Yair on 2017-06-18.

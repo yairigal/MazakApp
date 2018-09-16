@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import project.android.com.mazak.Model.Entities.CourseStatistics;
-import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.R;
 

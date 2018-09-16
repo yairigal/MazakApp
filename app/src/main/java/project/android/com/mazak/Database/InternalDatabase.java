@@ -5,29 +5,17 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.io.File;
-import java.io.IOException;
-import java.lang.annotation.Documented;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.regex.Pattern;
 
 import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.IrurList;
-import project.android.com.mazak.Model.Entities.NameValuePair;
 import project.android.com.mazak.Model.Entities.Notebook;
 import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
@@ -35,8 +23,6 @@ import project.android.com.mazak.Model.Entities.TestList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.Entities.gradeIngerdiants;
 import project.android.com.mazak.Model.GradesModel;
-import project.android.com.mazak.Model.HtmlParser;
-import project.android.com.mazak.Model.Web.ConnectionData;
 import project.android.com.mazak.Model.Web.MazakAPI;
 import project.android.com.mazak.R;
 

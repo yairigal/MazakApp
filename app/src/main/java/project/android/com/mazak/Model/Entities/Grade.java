@@ -3,10 +3,8 @@ package project.android.com.mazak.Model.Entities;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.Serializable;

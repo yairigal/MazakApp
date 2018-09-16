@@ -26,7 +26,6 @@ import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Database.LoginDatabase;
 import project.android.com.mazak.Model.Entities.LoginException;
-import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.R;
 
 public class LoginActivity extends AppCompatActivity {

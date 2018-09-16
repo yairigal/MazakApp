@@ -1,8 +1,5 @@
 package project.android.com.mazak.Database;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.getOptions;
 

@@ -35,7 +35,7 @@ public class ConnectionData {
     public static final String ScheduleYearCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbAcademicYears";
     public static final String ScheduleSemesterCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbSemesters";
     public static final String ScheduleListTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdCoursesList_itemPlaceholderContainer";
-    public static final String TfilaTimesURL = "http://midrash.jct.ac.il/v2/";
+    public static final String TfilaTimesURL = "https://midrash.jct.ac.il/%D7%96%D7%9E%D7%A0%D7%99-%D7%94%D7%99%D7%95%D7%9D";
     public static final String TestsURL = "https://mazak.jct.ac.il/Student/Tests.aspx";
     public static final String TestsTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdStudentTests_itemPlaceholderContainer";
     public static final String GradeDetailsTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_dlgCoursePartGrades_tmpl_StudentCoursePartGradeUserControl_grdPartGrades_itemPlaceholderContainer";

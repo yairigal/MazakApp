@@ -1,10 +1,5 @@
 package project.android.com.mazak.Database;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-
-
 /**
  * Created by Yair on 2017-02-17.
  */

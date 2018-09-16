@@ -1,30 +1,11 @@
 package project.android.com.mazak.Controller;
 
-import android.Manifest;
-import android.app.DownloadManager;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.webkit.WebView;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
+import android.support.v7.app.AppCompatActivity;
 
 import project.android.com.mazak.Model.Entities.BackgroundTask;
 import project.android.com.mazak.Model.Entities.Delegate;
-import project.android.com.mazak.Model.Entities.NameValuePair;
-import project.android.com.mazak.Model.Web.ConnectionData;
 import project.android.com.mazak.R;
-
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class TestActivity extends AppCompatActivity {
 

@@ -1,7 +1,6 @@
 package project.android.com.mazak.Controller.TfilaTimes;
 
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

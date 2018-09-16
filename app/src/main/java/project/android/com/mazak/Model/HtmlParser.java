@@ -1,32 +1,25 @@
 package project.android.com.mazak.Model;
 
-import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Model.Entities.ClassEvent;
 import project.android.com.mazak.Model.Entities.CourseStatistics;
-import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.Irur;
 import project.android.com.mazak.Model.Entities.IrurList;
-import project.android.com.mazak.Model.Entities.Notebook;
-import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.Test;
 import project.android.com.mazak.Model.Entities.TestList;
@@ -43,12 +36,13 @@ import static project.android.com.mazak.Model.Entities.Grade.ParseToGrade;
 public class HtmlParser {
     /**
      * Parsing the html page and returning the grades from it
+     *
      * @param html
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public static  GradesList ParseToGrades(String html) throws ExecutionException, InterruptedException, JSONException {
+    public static GradesList ParseToGrades(String html) throws ExecutionException, InterruptedException, JSONException {
        /* AsyncTask<Void,Void,ArrayList<Grade>> as  = getAsyncTask(html);
         as.execute();
         return as.get();*/
@@ -62,48 +56,49 @@ public class HtmlParser {
         Elements el = el4.children();*/
         final JSONObject obj = new JSONObject(html);
         JSONArray items = obj.getJSONArray("items");
-        for(int i=0;i<items.length();i++)
+        for (int i = 0; i < items.length(); i++)
             grades.add(ParseToGrade(items.get(i)));
         return grades;
     }
 
     /**
      * arsing the html page and returning the irurs from it
+     *
      * @param html
      * @return
      */
-    public static IrurList ParseToIrurs(String html){
+    public static IrurList ParseToIrurs(String html) {
         IrurList irurs = new IrurList();
         Document doc = null;
         doc = Jsoup.parse(html);
         //right now appeals
         Elements tables = doc.select("table.table");
-        for (Element tab:tables)
-            addIrurs(tab,irurs);
+        for (Element tab : tables)
+            addIrurs(tab, irurs);
         return irurs;
     }
 
     /**
      * adds the irurs from the document to the list.
+     *
      * @param root
      * @param lst
      */
-    private static void addIrurs(Element root,IrurList lst){
-        if(root != null) {
+    private static void addIrurs(Element root, IrurList lst) {
+        if (root != null) {
             Elements el = root.children().get(1).children();
             for (int i = 0; i < el.size(); i++)
                 //checking its not a not sent irur
-                if(el.get(i).children().size()>10)
+                if (el.get(i).children().size() > 10)
                     lst.add(Irur.ParseToIrur(el.get(i)));
         }
     }
 
     /**
-     *
      * @param html
      * @return
      */
-    public static ArrayList<gradeIngerdiants> ParseToingerdiants(String html){
+    public static ArrayList<gradeIngerdiants> ParseToingerdiants(String html) {
         Document doc = null;
         doc = Jsoup.parse(html);
         Element elem = doc.getElementById(ConnectionData.IngredientsTableId);
@@ -113,10 +108,11 @@ public class HtmlParser {
 
     /**
      * arsing the html page and returning the statistics from it
+     *
      * @param html
      * @return
      */
-    public static CourseStatistics ParseToStats(String html){
+    public static CourseStatistics ParseToStats(String html) {
         CourseStatistics statistics = new CourseStatistics();
         Document doc = Jsoup.parse(html);
         Element avg = doc.getElementById(ConnectionData.StatsMeanID);
@@ -127,8 +123,8 @@ public class HtmlParser {
         statistics.setNumOfStudentsWithGrade(Integer.parseInt(num.text()));
         Elements elem = doc.select("table.table");
         Elements el = elem.get(0).child(1).children();
-        for(int i=0;i<9;i++) {
-            String freq = ((Element)el.get(i).childNode(3).childNode(1)).text();
+        for (int i = 0; i < 9; i++) {
+            String freq = ((Element) el.get(i).childNode(3).childNode(1)).text();
             Integer frq = Integer.parseInt(freq);
             statistics.getFreqs().add(frq);
         }
@@ -140,13 +136,14 @@ public class HtmlParser {
         Document doc = Jsoup.parse(html);
         Element elem = doc.getElementById(ConnectionData.ScheduleTableID);
         Elements el = elem.children().get(2).children();
-        for(int i=1;i<el.size();i++)
+        for (int i = 1; i < el.size(); i++)
             sched.add(ClassEvent.ParseToClassEvent1(el.get(i).getElementsByAttribute("title")));
         return sched;
     }
 
     /**
      * arsing the html page and returning the classes  from it
+     *
      * @param html
      * @return
      */
@@ -157,7 +154,7 @@ public class HtmlParser {
         List<Node> el = elem.childNode(3).childNodes();*/
         final JSONObject obj = new JSONObject(html);
         JSONArray items = obj.getJSONArray("groupsWithMeetings");
-        for(int i=0;i<items.length();i++)
+        for (int i = 0; i < items.length(); i++)
             //sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
             sched.add(ClassEvent.ParseToClassEvent(items.get(i)));
         return sched;
@@ -165,58 +162,71 @@ public class HtmlParser {
 
     /**
      * parses the html page to find the url to the schedule page that is in words and not pictures
+     *
      * @param html
      * @return
      */
     public static String getListScheudleURL(String html) {
-        String year=null,sem=null;
+        String year = null, sem = null;
         Document doc = Jsoup.parse(html);
         Element root = doc.getElementById(ConnectionData.ScheduleYearCBID);
         Elements childs = root.children();
-        for (Element e:childs) {
+        for (Element e : childs) {
             String Selected = "";
             Selected = e.getElementsByAttribute("selected").val();
-            if(!Selected.equals("")){
+            if (!Selected.equals("")) {
                 year = Selected;
                 break;
             }
         }
         root = doc.getElementById(ConnectionData.ScheduleSemesterCBID);
         childs = root.children();
-        for (Element e:childs) {
+        for (Element e : childs) {
             String Selected = "";
             Selected = e.getElementsByAttribute("selected").val();
-            if(!Selected.equals("")){
+            if (!Selected.equals("")) {
                 sem = Selected;
                 break;
             }
         }
-        return String.format("https://mazak.jct.ac.il/Student/ScheduleList.aspx?AcademicYearID=%s&SemesterID=%s",year,sem);
+        return String.format("https://mazak.jct.ac.il/Student/ScheduleList.aspx?AcademicYearID=%s&SemesterID=%s", year, sem);
     }
 
     /**
      * arsing the html page and returning the Tfila times from it
+     *
      * @param html
      * @return
      */
-    public static ArrayList<TfilaTime> ParseToTfilaTime(String html){
+    public static ArrayList<TfilaTime> ParseToTfilaTime(String html) throws ParseException {
         ArrayList<TfilaTime> times = new ArrayList<>();
         Document doc = Jsoup.parse(html);
-        Element elem = doc.getElementById("times");
-        Elements el = elem.children().get(0).children().get(0).children();
-        for(int i=1;i<el.size()-1;i++) {
-            Elements childs = el.get(i).children();
-            //sched.add(ClassEvent.ParseToClassEvent(el.get(i).getElementsByAttribute("title")));
-            boolean value = false;
-            if(!childs.get(0).text().equals(""))
-                value = true;
-            times.add(new TfilaTime(childs.get(1).text(),childs.get(2).text(),value));
+        Element elem = doc.getElementsByTag("dl").get(0);
+        Elements el = elem.children();
+        boolean closeTimeSelected = false;
+        for (int i = 0; i < el.size(); i += 2) {
+            boolean isSelected = false;
+            String TfilaTitle = el.get(i).text();
+            String TfilaTime = el.get(i + 1).text();
+            if (!closeTimeSelected) {
+                Calendar calendar = Calendar.getInstance();
+                int tHr = Integer.parseInt(TfilaTime.split(":")[0]);
+                int tMin = Integer.parseInt(TfilaTime.split(":")[1]);
+                int nHr = calendar.get( Calendar.HOUR_OF_DAY );
+                int nMin = calendar.get( Calendar.MINUTE );
+                if (tHr > nHr || (tHr == nHr && tMin > nMin)) {
+                    isSelected = true;
+                    closeTimeSelected = true;
+                }
+            }
+            times.add(new TfilaTime(TfilaTitle, TfilaTime, isSelected));
         }
         return times;
     }
 
     /**
      * arsing the html page and returning the tests from it
+     *
      * @param html
      * @return
      */
@@ -225,7 +235,7 @@ public class HtmlParser {
         Document doc = Jsoup.parse(html);
         Element elem = doc.select("table.table").get(0);
         Elements el = elem.children().get(1).children();
-        for(int i=1;i<el.size();i++) {
+        for (int i = 1; i < el.size(); i++) {
             times.add(Test.ParseToTest(el.get(i)));
         }
         return times;
@@ -233,13 +243,14 @@ public class HtmlParser {
 
     /**
      * a general function for all the parses by their keys.
+     *
      * @param html
      * @param key
      * @return
      * @throws Exception
      */
-    public static Object Parse(String html,String key) throws Exception {
-        switch (key){
+    public static Object Parse(String html, String key) throws Exception {
+        switch (key) {
             case InternalDatabase.gradesKey:
                 return ParseToGrades(html);
             case InternalDatabase.IrursKey:

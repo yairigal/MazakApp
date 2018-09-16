@@ -5,7 +5,6 @@ import java.io.File;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.Notebook;
 import project.android.com.mazak.Model.Entities.NotebookList;
-import project.android.com.mazak.Model.Entities.getOptions;
 
 /**
  * Created by Yair on 2017-08-03.

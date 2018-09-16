@@ -2,58 +2,38 @@ package project.android.com.mazak.Controller.Average;
 
 
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import project.android.com.mazak.Controller.Statistics.BarChartFragment;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Model.Entities.CourseStatistics;
 import project.android.com.mazak.Model.Entities.Delegate;
-import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
@@ -61,7 +41,6 @@ import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.R;
 
 import static project.android.com.mazak.Controller.GradesView.FatherTab.toggleSpinner;
-import static project.android.com.mazak.Controller.GradesView.singleGradeView.measureViewChildren;
 
 
 public class AverageFragment extends Fragment implements IRefresh {

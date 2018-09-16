@@ -1,14 +1,10 @@
 package project.android.com.mazak.Model.Entities;
 
-import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import project.android.com.mazak.Model.GradesModel;
 
 /**
  * Created by Yair on 2017-08-03.

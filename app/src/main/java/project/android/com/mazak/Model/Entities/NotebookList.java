@@ -1,7 +1,6 @@
 package project.android.com.mazak.Model.Entities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Yair on 2017-08-03.

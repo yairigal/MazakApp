@@ -1,9 +1,6 @@
 package project.android.com.mazak.Database;
 
-import android.content.Context;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import project.android.com.mazak.Model.Entities.Grade;

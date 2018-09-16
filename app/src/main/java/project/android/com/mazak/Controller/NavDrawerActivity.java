@@ -1,17 +1,12 @@
 package project.android.com.mazak.Controller;
 
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.LabeledIntent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.NavigationView;
-import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -35,9 +30,7 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import project.android.com.mazak.Controller.Appeals.IrurFragment;
 import project.android.com.mazak.Controller.Average.AverageFragment;
@@ -49,13 +42,11 @@ import project.android.com.mazak.Controller.TfilaTimes.MinyanFragment;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.LoginDatabase;
-import project.android.com.mazak.Model.Entities.BackgroundTask;
 import project.android.com.mazak.Model.Entities.Delegate;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.Model.Services.LoginService;
-import project.android.com.mazak.Model.Web.MazakAPI;
 import project.android.com.mazak.R;
 
 public class NavDrawerActivity extends AppCompatActivity

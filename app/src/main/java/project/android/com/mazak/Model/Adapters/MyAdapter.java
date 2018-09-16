@@ -18,15 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.utils.ColorTemplate;
-
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import org.w3c.dom.Text;
-
-import java.util.function.Consumer;
-
-import project.android.com.mazak.Controller.GradesView.gradesViewFragment;
 import project.android.com.mazak.Controller.GradesView.singleGradeView;
 import project.android.com.mazak.Controller.Statistics.CourseStatisticsActivity;
 import project.android.com.mazak.Database.Factory;

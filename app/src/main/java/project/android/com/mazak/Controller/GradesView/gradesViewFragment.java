@@ -1,15 +1,8 @@
 package project.android.com.mazak.Controller.GradesView;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,46 +10,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.TextView;
-
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.function.Consumer;
 
 import project.android.com.mazak.Controller.Statistics.CourseStatisticsActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
-import project.android.com.mazak.Model.Adapters.DetailAdapter;
 import project.android.com.mazak.Model.Adapters.MyAdapter;
-import project.android.com.mazak.Model.Entities.BackgroundTask;
-import project.android.com.mazak.Model.Entities.Delegate;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
-import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.Entities.gradeIngerdiants;
 import project.android.com.mazak.Model.Filter;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.ISearch;
-import project.android.com.mazak.Model.Utility;
 import project.android.com.mazak.R;
-
-import static project.android.com.mazak.Controller.GradesView.FatherTab.toggleSpinner;
-import static project.android.com.mazak.R.id.courseTv;
 
 public class gradesViewFragment extends Fragment implements ISearch {
 
