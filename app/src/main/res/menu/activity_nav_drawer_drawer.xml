@@ -43,6 +43,10 @@
             android:id="@+id/feedback_menu_item"
             android:icon="@mipmap/icon_email"
             android:title="Feedback" />
+        <item
+            android:id="@+id/policy_menu_item"
+            android:icon="@drawable/privacy_policy_icon"
+            android:title="Privacy Policy" />
     </group>
 
     <!--    <item android:title="Communicate">

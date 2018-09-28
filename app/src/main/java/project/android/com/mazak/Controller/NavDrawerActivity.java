@@ -52,6 +52,7 @@ import project.android.com.mazak.R;
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String FLURRY_API_KEY = "F3Q9JV89QJSSB3YK27RY";
+    private static final String policyLink = "http://htmlpreview.github.io/?https://github.com/yairigal/MazakApp/blob/master/privacy_policy.html";
     int settingsId = 15;
     String username, password;
     String myEmailAdd = "yigalyairn@gmail.com";
@@ -261,6 +262,10 @@ public class NavDrawerActivity extends AppCompatActivity
                 break;
             case R.id.TestsItem: // Tests
                 navigateTo(new TestsFragment(),"Tests");
+                break;
+            case R.id.policy_menu_item: // Tests
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(policyLink));
+                startActivity(browserIntent);
                 break;
             default: //logout
                 popUpLogoutDialog();

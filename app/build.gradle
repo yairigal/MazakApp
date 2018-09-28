@@ -6,9 +6,9 @@ android {
     defaultConfig {
         applicationId "project.android.com.mazak"
         minSdkVersion 21
-        targetSdkVersion 24
-        versionCode 37
-        versionName "3.2"
+        targetSdkVersion 26
+        versionCode 39
+        versionName "3.4"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
