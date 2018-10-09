@@ -328,7 +328,7 @@ public class MazakAPI {
             JSONObject current = (JSONObject) meetings.get(i);
             ClassEvent event = new ClassEvent();
             event.setclass(current.getJSONArray("fullView").get(3).toString());
-            event.setDay(ClassEvent.getDay(current.getString("dayShortName")));
+            event.setDay(Integer.parseInt(current.getString("dayId")) - 1);
             event.setEndTime(current.getString("endTime").replaceAll(":00$", ""));
             event.setName(current.getJSONArray("fullView").get(0).toString());
             event.setStartTime(current.getString("startTime").replaceAll(":00$", ""));
