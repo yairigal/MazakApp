@@ -33,12 +33,20 @@
     <group
         android:id="@+id/group2">
         <item
+            android:id="@+id/Settings"
+            android:icon="@drawable/icon_settings"
+            android:title="Settings" />
+        <item
             android:id="@+id/Logout"
             android:icon="@mipmap/icon_logout"
             android:title="Logout" />
     </group>
     <group
         android:id="@+id/group3">
+        <item
+            android:id="@+id/telegram_bot_menu"
+            android:icon="@drawable/icon_telegram_bot"
+            android:title="Telegram bot" />
         <item
             android:id="@+id/feedback_menu_item"
             android:icon="@mipmap/icon_email"

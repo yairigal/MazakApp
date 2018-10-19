@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,13 +31,17 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 import project.android.com.mazak.Controller.Appeals.IrurFragment;
 import project.android.com.mazak.Controller.Average.AverageFragment;
 import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Controller.Schedule.ScheduleHost;
+import project.android.com.mazak.Controller.Settings.SettingsFragment;
 import project.android.com.mazak.Controller.Tests.TestsFragment;
 import project.android.com.mazak.Controller.TfilaTimes.MinyanFragment;
 import project.android.com.mazak.Database.Database;
@@ -53,7 +58,6 @@ public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String FLURRY_API_KEY = "F3Q9JV89QJSSB3YK27RY";
     private static final String policyLink = "http://htmlpreview.github.io/?https://github.com/yairigal/MazakApp/blob/master/privacy_policy.html";
-    int settingsId = 15;
     String username, password;
     String myEmailAdd = "yigalyairn@gmail.com";
     Menu menu;
@@ -69,6 +73,8 @@ public class NavDrawerActivity extends AppCompatActivity
     private AsyncTask<Void, Void, Void> getGrades;
     ProgressBar pb;
 
+
+    public static ArrayList<Pair<String, Integer>> screens = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,31 +112,39 @@ public class NavDrawerActivity extends AppCompatActivity
 
         //setupNavigationDrawerItems(menu);
 
+        Factory.getInstance(getApplicationContext());
 
-
-
+        screens.add(new Pair<>("Grades", R.id.grades));
+        screens.add(new Pair<>("Appeals", R.id.irurs));
+        screens.add(new Pair<>("Average", R.id.avgItem));
+        screens.add(new Pair<>("Schedule", R.id.ScheudleItem));
+        screens.add(new Pair<>("Tfila Times", R.id.TfilaTimesItem));
+        screens.add(new Pair<>("Tests", R.id.TestsItem));
 
         //this checkup if for opening the appeals fragment from the service.
-        String whereToNav = getIntent().getStringExtra("fragment");
-        if(whereToNav != null) {
-            //came from service.
-            if (whereToNav.equals("appeals"))
-                onNavigationItemSelected(menu.findItem(R.id.irurs));
-                //activity starts normally.
-            else
-                onNavigationItemSelected(menu.findItem(R.id.grades));
-        } else
-            onNavigationItemSelected(menu.findItem(R.id.grades));
+        //String whereToNav = getIntent().getStringExtra("fragment");
+        // navigate to selected fragment in the settings
+        onNavigationItemSelected(menu.findItem(getScreenIdByName(SettingsFragment.readSettings(current))));
 
         setupGoogleAnalyticsTracker();
 
+
+
+    }
+
+    private Integer getScreenIdByName(String name) {
+        for (int i = 0; i < screens.size(); ++i) {
+            if (screens.get(i).first.equals(name))
+                return screens.get(i).second;
+        }
+        return screens.get(0).second;
     }
 
     /**
      * sets up all google analytics tracer stuff
      */
-    private void setupGoogleAnalyticsTracker(){
-        if(mTracker == null) {
+    private void setupGoogleAnalyticsTracker() {
+        if (mTracker == null) {
             mTracker = GoogleAnalytics.getInstance(this).newTracker("UA-96616811-1");
         }
     }
@@ -146,7 +160,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     @Override
     protected void onNewIntent(Intent intent) {
-        fromWeb = intent.getBooleanExtra("refresh",false);
+        fromWeb = intent.getBooleanExtra("refresh", false);
         if (fromWeb)
             currentFragment.Refresh();
     }
@@ -172,6 +186,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     /**
      * sends to google analytics the page that was accessed
+     *
      * @param ScreenName
      */
     private void sendGoogleAnalyticsData(String ScreenName) {
@@ -182,6 +197,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     /**
      * gets the database factory.
+     *
      * @throws Exception
      */
     private void getDatabasesFactory() throws Exception {
@@ -227,8 +243,8 @@ public class NavDrawerActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id==R.id.action_refresh){
-            if(currentFragment != null)
+        if (id == R.id.action_refresh) {
+            if (currentFragment != null)
                 currentFragment.Refresh();
         }
         //noinspection SimplifiableIfStatement
@@ -241,27 +257,35 @@ public class NavDrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.grades: // grades
-                navigateTo(FatherTab.getInstance(),"Grades");
+                navigateTo(FatherTab.getInstance(), "Grades");
                 break;
             case R.id.irurs: // appeals
-                navigateTo(IrurFragment.getInstance(),"Appeals");
+                navigateTo(IrurFragment.getInstance(), "Appeals");
                 break;
             case R.id.feedback_menu_item: // feedback
                 sendFeedbackWithLog();
                 break;
             case R.id.avgItem: // average
-                navigateTo(AverageFragment.getInstance(),"Average");
+                navigateTo(AverageFragment.getInstance(), "Average");
                 break;
             case R.id.ScheudleItem: // average
-                navigateTo(ScheduleHost.getInstance(),"Schedule");
+                navigateTo(ScheduleHost.getInstance(), "Schedule");
                 break;
             case R.id.TfilaTimesItem: // Tfila times
-                navigateTo(new MinyanFragment(),"Tfila Times");
+                navigateTo(new MinyanFragment(), "Tfila Times");
                 break;
             case R.id.TestsItem: // Tests
-                navigateTo(new TestsFragment(),"Tests");
+                navigateTo(new TestsFragment(), "Tests");
+                break;
+            case R.id.Settings:
+                navigateTo(new SettingsFragment(), "Settings");
+                break;
+            case R.id.telegram_bot_menu:
+                Intent telegram = new Intent(Intent.ACTION_VIEW);
+                telegram.setData(Uri.parse("https://t.me/mazakjct_bot"));
+                startActivity(telegram);
                 break;
             case R.id.policy_menu_item: // Tests
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(policyLink));
@@ -292,15 +316,17 @@ public class NavDrawerActivity extends AppCompatActivity
 
         adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
-            } });
+            }
+        });
 
 
         adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-            } });
+            }
+        });
         adb.show();
     }
 
@@ -333,19 +359,20 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private void openAppChooser() {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto:"+myEmailAdd));
+        emailIntent.setData(Uri.parse("mailto:" + myEmailAdd));
 
         Intent telegram = new Intent(Intent.ACTION_VIEW);
         telegram.setData(Uri.parse("https://t.me/YairYigal"));
 
-        Intent chooser = new Intent(Intent.createChooser(telegram,"title"));
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{emailIntent});
+        Intent chooser = new Intent(Intent.createChooser(telegram, "title"));
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{emailIntent});
         startActivity(chooser);
     }
 
     /**
      * It shows the chooser app to send the message. It filters out other apps
      * on the chooser dialog and shows only Messaging and whatsapp apps.
+     *
      * @param message
      */
 
@@ -365,6 +392,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     /**
      * Navigates the frame to the current fragment with the current title.
+     *
      * @param fgmt
      * @param title
      */
@@ -378,14 +406,15 @@ public class NavDrawerActivity extends AppCompatActivity
 
     /**
      * Resetes and setup all Navigation drawer items (Year1, Year2 Year3)...
+     *
      * @param menu
      */
     void setupNavigationDrawerItems(Menu menu) {
         //clear the nav drawer
         menu.clear();
         //add the All Tab
-/*        menu.add(R.id.group1,R.id.allitem,Menu.NONE,"Grades").setIcon(R.mipmap.nav_year_icons);
-*//*        //Add all years tab
+        /*        menu.add(R.id.group1,R.id.allitem,Menu.NONE,"Grades").setIcon(R.mipmap.nav_year_icons);
+         *//*        //Add all years tab
         for (int i = 0; i < grades.size(); i++)
             menu.add(R.id.group2, Menu.NONE, Menu.NONE, getYearTitle(i + 1)).setIcon(R.mipmap.all_tab_icon);*//*
         menu.add(R.id.group1,R.id.irurs,Menu.NONE,"Appeals").setIcon(R.mipmap.all_tab_icon);
@@ -413,6 +442,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     /**
      * this function executes when the user presses the email.
+     *
      * @param view
      */
     public void onEmailClick(View view) {
@@ -479,7 +509,7 @@ public class NavDrawerActivity extends AppCompatActivity
                         lst = db.getGrades(getOptions.fromWeb);
                     else
                         lst = db.getGrades(getOptions.fromMemory);
-                    if(isCancelled())
+                    if (isCancelled())
                         return null;
                 } catch (Exception e) {
                     errorMsg = e.getMessage();
@@ -500,7 +530,8 @@ public class NavDrawerActivity extends AppCompatActivity
                 }
             }
         };
-        getGrades.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );;
+        getGrades.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        ;
         //endregion
     }
 
