@@ -66,7 +66,7 @@ public class DayFragment extends Fragment {
     public void addEvent(ClassEvent aEvent){
         LinearLayout main = (LinearLayout) root.findViewById(R.id.DayMainLayout);
         View Mainview = mainInflater.inflate(R.layout.class_event,null);
-        ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setText(aEvent.name);
+        ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setText(aEvent.name + " ("+ aEvent.Type +")");
         ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setText(aEvent.Class);
         ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setText(aEvent.startTime +" - "+aEvent.endTime);
         ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setText(aEvent.lecturer);

@@ -322,6 +322,8 @@ public class MazakAPI {
         dataMap.put("selectedSemester", semester);
         JSONObject data = new JSONObject(dataMap);
         res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadWeeklySchedule", data.toString(), "", cookies).x);
+        JSONArray getLecturer = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadScheduleList", data.toString(), "", cookies).x).getJSONArray("groupsWithMeetings");
+        //courseGroupLecturers
         JSONArray meetings = res.getJSONArray("meetings");
         ScheduleList list = new ScheduleList();
         for (int i = 0; i < meetings.length(); ++i) {
@@ -333,7 +335,7 @@ public class MazakAPI {
             event.setName(current.getJSONArray("fullView").get(0).toString());
             event.setStartTime(current.getString("startTime").replaceAll(":00$", ""));
             event.setType(current.getString("groupType"));
-            event.setLecturer(event.getType());
+            event.setLecturer(((JSONObject)getLecturer.get(i)).getString("courseGroupLecturers"));
             list.add(event);
         }
         return list;
