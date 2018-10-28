@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -335,10 +337,30 @@ public class MazakAPI {
             event.setName(current.getJSONArray("fullView").get(0).toString());
             event.setStartTime(current.getString("startTime").replaceAll(":00$", ""));
             event.setType(current.getString("groupType"));
-            event.setLecturer(((JSONObject)getLecturer.get(i)).getString("courseGroupLecturers"));
+            // find corresponding lecturer by courseID
+            String courseID = current.getJSONArray("fullView").get(1).toString();
+            for (int k = 0; k < getLecturer.length(); ++k) {
+                JSONObject currentLecturer = (JSONObject) getLecturer.get(k);
+                String currentLecturerID = currentLecturer.get("groupFullNumber").toString();
+                if (currentLecturerID.equals(courseID)){
+                    event.setLecturer(currentLecturer.getString("courseGroupLecturers"));
+                    break;
+                }
+            }
             list.add(event);
         }
         return list;
+    }
+
+    private static String getAbsoluteCourseID(String originalCourseID){
+        String[] segs = originalCourseID.split("\\.");
+        StringBuilder newCourseID = new StringBuilder();
+        newCourseID.append(segs[0]);
+        for (int i=1;i<segs.length-1;++i){
+            newCourseID.append(".");
+            newCourseID.append(segs[i]);
+        }
+        return newCourseID.toString();
     }
 
     public static TestList getTests(Context ctx) throws Exception {

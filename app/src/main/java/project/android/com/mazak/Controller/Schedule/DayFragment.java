@@ -103,6 +103,7 @@ public class DayFragment extends Fragment {
         float sum = 0;
         for (ClassEvent e: events)
             sum+=getHours(e);
+        sum = Math.round(sum);
         return String.valueOf(sum);
     }
 
