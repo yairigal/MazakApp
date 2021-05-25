@@ -8,13 +8,13 @@
     android:orientation="vertical"
     tools:context="project.android.com.mazak.Controller.Old.SettingsActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="Settings"
         android:elevation="4dp" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/loginCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,5 +34,5 @@
                 android:textSize="17dp" />
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

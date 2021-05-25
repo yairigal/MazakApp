@@ -1,7 +1,7 @@
 package project.android.com.mazak.Model.Web;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,8 +15,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.zip.GZIPInputStream;

@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
 
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerYear"
         android:layout_weight="9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:id="@+id/tabLayoutYear"
         android:layout_weight="1"

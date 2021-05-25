@@ -64,7 +64,7 @@
         android:layout_below="@id/mainText"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,10 +78,10 @@
                 android:layout_height="match_parent"
                 android:hint="Username"
                 android:inputType="textPersonName" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="22dp"
@@ -93,7 +93,7 @@
                 android:layout_height="match_parent"
                 android:hint="Password"
                 android:inputType="textPassword" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/loginBtn"

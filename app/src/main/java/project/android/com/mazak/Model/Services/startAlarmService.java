@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Yair on 2017-03-11.

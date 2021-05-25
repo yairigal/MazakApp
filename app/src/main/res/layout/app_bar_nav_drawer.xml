@@ -8,23 +8,23 @@
     android:orientation="vertical"
     tools:context="project.android.com.mazak.Controller.NavDrawerActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorAccent"
             app:theme="@style/AppTheme"
             app:titleTextColor="?android:attr/colorBackground">
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
 
 
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_nav_drawer" />
 

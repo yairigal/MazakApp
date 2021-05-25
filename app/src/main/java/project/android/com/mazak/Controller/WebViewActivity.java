@@ -1,7 +1,7 @@
 package project.android.com.mazak.Controller;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import project.android.com.mazak.R;
 

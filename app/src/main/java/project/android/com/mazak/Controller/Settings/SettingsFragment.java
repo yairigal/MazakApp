@@ -5,18 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Pair;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Model.IRefresh;
