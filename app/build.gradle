@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion '25.0.3'
     defaultConfig {
         applicationId "project.android.com.mazak"
         minSdkVersion 24
-        targetSdkVersion 29
-        versionCode 44
-        versionName "3.8"
+        targetSdkVersion 30
+        versionCode 47
+        versionName "3.9.2"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
