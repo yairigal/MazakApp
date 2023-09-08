@@ -91,7 +91,7 @@ public class Grade implements Serializable {
             n.moed = e.child(2).text().trim();
             n.time = e.child(3).text().trim();
             n.time = n.time.replace(" ","_").replace(":","").replace("/","");
-            n.link = "https://mazak.jct.ac.il"+e.child(0).child(0).attr("href");
+            n.link = "https://levnet.jct.ac.il"+e.child(0).child(0).attr("href");
             this.Notebook.add(n);
         }
 
@@ -129,14 +129,14 @@ public class Grade implements Serializable {
         JSONObject object = (JSONObject) root;
         Grade grade = new Grade();
         grade.actualCourseID = object.getString("actualCourseID");
-        grade.subDetailsID = "https://mazak.jct.ac.il/Student/Modals/StudentCoursePartGradePage.aspx?actualCourseID="+grade.actualCourseID;
+        grade.subDetailsID = "https://levnet.jct.ac.il/Student/Modals/StudentCoursePartGradePage.aspx?actualCourseID="+grade.actualCourseID;
         grade.code = object.getString("actualCourseFullNumber");
         grade.name = object.getString("courseName");
         grade.semester = object.getString("semesterName");
         grade.points = object.getString("effectiveCredits");
         grade.minGrade = object.getString("effectiveMinGrade");
         grade.finalGrade = object.getString("finalGradeName");
-        grade.StatLink = "https://mazak.jct.ac.il/Student/GradesCharts.aspx?ActualCourseID="+grade.actualCourseID;
+        grade.StatLink = "https://levnet.jct.ac.il/Student/GradesCharts.aspx?ActualCourseID="+grade.actualCourseID;
         return grade;
     }
 }

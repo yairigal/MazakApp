@@ -54,7 +54,7 @@ public class MazakAPI {
     public static String login(Context ctx) throws Exception {
         HashMap<String, String> data = LoginDatabase.getInstance(ctx).getLoginDataFromMemory();
         String loginData = getLoginData(data.get("username"), data.get("password"));
-        Tuple<String, String> res = POST("https://mazak.jct.ac.il/api/home/login.ashx?action=TryLogin", loginData, "", "");
+        Tuple<String, String> res = POST("https://levnet.jct.ac.il/api/home/login.ashx?action=TryLogin", loginData, "", "");
         String cookies = res.y;
         String JSONresposne = res.x;
         JSONObject response = new JSONObject(JSONresposne);
@@ -67,6 +67,7 @@ public class MazakAPI {
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("username", username);
         dataMap.put("password", password);
+        dataMap.put("defaultLanguage", null);
         JSONObject data = new JSONObject(dataMap);
         return data.toString();
     }
@@ -227,7 +228,7 @@ public class MazakAPI {
         dataMap.put("pageSize", "999");
         JSONObject data = new JSONObject(dataMap);
         String sData = data.toString();
-        Tuple<String, String> response = POST("https://mazak.jct.ac.il/api/student/grades.ashx?action=LoadGrades", sData, "", cookies);
+        Tuple<String, String> response = POST("https://levnet.jct.ac.il/api/student/grades.ashx?action=LoadGrades", sData, "", cookies);
         JSONObject r = new JSONObject(response.x);
         JSONArray items = r.getJSONArray("items");
         GradesList grades = new GradesList();
@@ -257,7 +258,7 @@ public class MazakAPI {
         dataMap.put("semesterId", null);
         dataMap.put("pageSize", "9999999");
         JSONObject data = new JSONObject(dataMap);
-        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/Student/appeals.ashx?action=GetStudentClosedAppeals", data.toString(), "", cookies).x);
+        JSONObject r = new JSONObject(POST("https://levnet.jct.ac.il/api/Student/appeals.ashx?action=GetStudentClosedAppeals", data.toString(), "", cookies).x);
         JSONArray items = r.getJSONArray("items");
         IrurList irurs = new IrurList();
         for (int i = 0; i < items.length(); i++) {
@@ -283,7 +284,7 @@ public class MazakAPI {
 
     @NonNull
     private static CourseStatistics tryGetStatistics(String actualCourseID, String cookies) throws Exception {
-        JSONObject res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/GradesCharts.ashx?action=LoadData&ActualCourseID=" + actualCourseID, "", "", cookies).x);
+        JSONObject res = new JSONObject(POST("https://levnet.jct.ac.il/api/student/GradesCharts.ashx?action=LoadData&ActualCourseID=" + actualCourseID, "", "", cookies).x);
         JSONObject r = (JSONObject) res.get("courseAverage");
         CourseStatistics stats = new CourseStatistics();
         stats.setCourseName(res.get("courseName").toString());
@@ -314,15 +315,15 @@ public class MazakAPI {
 
     @NonNull
     private static ScheduleList tryGetSchedule(String cookies) throws Exception {
-        JSONObject res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadFilters", "{}", "https://mazak.jct.ac.il/Student/WeeklySchedule.aspx", cookies).x);
+        JSONObject res = new JSONObject(POST("https://levnet.jct.ac.il/api/student/schedule.ashx?action=LoadFilters", "{}", "https://levnet.jct.ac.il/Student/WeeklySchedule.aspx", cookies).x);
         String year = res.getString("selectedAcademicYear");
         String semester = res.getString("selectedSemester");
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("selectedAcademicYear", year);
         dataMap.put("selectedSemester", semester);
         JSONObject data = new JSONObject(dataMap);
-        res = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadWeeklySchedule", data.toString(), "", cookies).x);
-        JSONArray getLecturer = new JSONObject(POST("https://mazak.jct.ac.il/api/student/schedule.ashx?action=LoadScheduleList", data.toString(), "", cookies).x).getJSONArray("groupsWithMeetings");
+        res = new JSONObject(POST("https://levnet.jct.ac.il/api/student/schedule.ashx?action=LoadWeeklySchedule", data.toString(), "", cookies).x);
+        JSONArray getLecturer = new JSONObject(POST("https://levnet.jct.ac.il/api/student/schedule.ashx?action=LoadScheduleList", data.toString(), "", cookies).x).getJSONArray("groupsWithMeetings");
         //courseGroupLecturers
         JSONArray meetings = res.getJSONArray("meetings");
         ScheduleList list = new ScheduleList();
@@ -372,7 +373,7 @@ public class MazakAPI {
         dataMap.put("selectedSemester", null);
         dataMap.put("pageSize", "9999999");
         JSONObject data = new JSONObject(dataMap);
-        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/student/Tests.ashx?action=LoadTests", data.toString(), "", cookies).x);
+        JSONObject r = new JSONObject(POST("https://levnet.jct.ac.il/api/student/Tests.ashx?action=LoadTests", data.toString(), "", cookies).x);
         JSONArray items = r.getJSONArray("items");
         TestList tests = new TestList();
         for (int i = 0; i < items.length(); i++) {
@@ -396,7 +397,7 @@ public class MazakAPI {
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("actualCourseId", course.actualCourseID);
         JSONObject data = new JSONObject(dataMap);
-        JSONObject r = new JSONObject(POST("https://mazak.jct.ac.il/api/student/coursePartGrades.ashx?action=GetStudentCoursePartGrades", data.toString(), "", cookies).x);
+        JSONObject r = new JSONObject(POST("https://levnet.jct.ac.il/api/student/coursePartGrades.ashx?action=GetStudentCoursePartGrades", data.toString(), "", cookies).x);
         ArrayList<gradeIngerdiants> parts = new ArrayList<>();
         JSONArray items = r.getJSONArray("partGrades");
         for (int i = 0; i < items.length(); ++i) {
@@ -418,7 +419,7 @@ public class MazakAPI {
             JSONObject current = notebooksJSON.getJSONObject(i);
             currentNote.code = course.code;
             currentNote.id = current.getString("id");
-            currentNote.link = "https://mazak.jct.ac.il/api/student/testNotebooks.ashx?action=DownloadNotebook&notebookId=" + currentNote.id;
+            currentNote.link = "https://levnet.jct.ac.il/api/student/testNotebooks.ashx?action=DownloadNotebook&notebookId=" + currentNote.id;
             currentNote.moed = current.getString("testTimeTypeName");
             currentNote.time = current.getString("createdOn");
             notebooks.add(currentNote);
@@ -488,7 +489,7 @@ public class MazakAPI {
     }
 
     private static boolean tryCheckForPrepegation(String cookies) throws Exception {
-        Tuple<String, String> response = POST("https://mazak.jct.ac.il/api/student/Averages.ashx?action=LoadData", "", "", cookies);
+        Tuple<String, String> response = POST("https://levnet.jct.ac.il/api/student/Averages.ashx?action=LoadData", "", "", cookies);
         JSONObject r = new JSONObject(response.x);
         JSONArray items = r.getJSONArray("academicAverages");
         for(int i =0;i<items.length();++i){

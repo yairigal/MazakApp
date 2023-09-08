@@ -213,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String checkErrorTypeAndMessage(Exception e1) {
         String errorMsg;
         if (e1 instanceof UnknownHostException)
-            errorMsg = "'mazak.jct.ac.il' might be down";
+            errorMsg = "'levnet.jct.ac.il' might be down";
         else if (e1 instanceof NullPointerException)
             errorMsg = "Wrong username or password";
         else if (e1 instanceof NetworkErrorException)

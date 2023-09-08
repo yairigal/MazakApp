@@ -123,7 +123,7 @@ public class Test {
         else {
             String link = childs.get(4).child(0).attr("href");
             if (link != null) {
-                t.setMoedBLink("https://mazak.jct.ac.il/Student/" + link);
+                t.setMoedBLink("https://levnet.jct.ac.il/Student/" + link);
                 t.setIsMoedB(MoedB.CanSign);
             } else {
                 t.setIsMoedB(MoedB.Signed);

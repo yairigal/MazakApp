@@ -120,7 +120,7 @@ public class Irur {
         Elements el = root.children();
             Irur irur = new Irur();
             try {
-                irur.linkToFull = "https://mazak.jct.ac.il/Student/" + el.get(0).child(0).attr("href");
+                irur.linkToFull = "https://levnet.jct.ac.il/Student/" + el.get(0).child(0).attr("href");
                 irur.courseNum = el.get(1).text();
                 irur.gradeDetail = el.get(3).text();
                 irur.irurType = el.get(4).text();

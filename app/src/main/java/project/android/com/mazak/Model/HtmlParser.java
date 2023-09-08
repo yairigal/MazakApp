@@ -189,7 +189,7 @@ public class HtmlParser {
                 break;
             }
         }
-        return String.format("https://mazak.jct.ac.il/Student/ScheduleList.aspx?AcademicYearID=%s&SemesterID=%s", year, sem);
+        return String.format("https://levnet.jct.ac.il/Student/ScheduleList.aspx?AcademicYearID=%s&SemesterID=%s", year, sem);
     }
 
     /**

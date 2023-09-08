@@ -10,18 +10,18 @@ import project.android.com.mazak.Model.Entities.NameValuePair;
  */
 
 public class ConnectionData {
-    public static final String GradesURL = "https://mazak.jct.ac.il/Student/Grades.aspx";
-    public static final String GradesURL2 = "https://mazak.jct.ac.il/Student/Grades.aspx?AcademicYearID=&SemesterID=";
-    public static final String LoginUrl = "https://mazak.jct.ac.il/api/home/login.ashx?action=TryLogin";
-    public static final String GradeURL2 = "https://mazak.jct.ac.il/Login/Login.aspx?ReturnUrl=%2fStudent%2fGrades.aspx";
-    public static final String afterLoginGrades = "https://mazak.jct.ac.il/Student/Grades.aspx?AcademicYearID=&SemesterID=";
+    public static final String GradesURL = "https://levnet.jct.ac.il/Student/Grades.aspx";
+    public static final String GradesURL2 = "https://levnet.jct.ac.il/Student/Grades.aspx?AcademicYearID=&SemesterID=";
+    public static final String LoginUrl = "https://levnet.jct.ac.il/api/home/login.ashx?action=TryLogin";
+    public static final String GradeURL2 = "https://levnet.jct.ac.il/Login/Login.aspx?ReturnUrl=%2fStudent%2fGrades.aspx";
+    public static final String afterLoginGrades = "https://levnet.jct.ac.il/Student/Grades.aspx?AcademicYearID=&SemesterID=";
     public static final String USERNAMEID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_LoginControl_UserName";
     public static final String PASSWORDID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_LoginControl_Password";
     public static final String BUTTONID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_LoginControl_LoginButton";
     public static final String GradesTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdGrades_itemPlaceholderContainer";
     public static final String imageId = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdGrades_ctrl3_btnInformation";
     public static final String IngredientsTableId = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_dlgCoursePartGrades_tmpl_StudentCoursePartGradeUserControl_grdPartGrades_itemPlaceholderContainer";
-    public static final String IrurURL = "https://mazak.jct.ac.il/Student/Appeals.aspx";
+    public static final String IrurURL = "https://levnet.jct.ac.il/Student/Appeals.aspx";
     public static final String IrurTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_ucOpenAppealsGrid_grdAppeals_itemPlaceholderContainer";
     public static final String IrurTableHeadID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_OpenSecondAppealsGridUserControl_grdSecondAppeals_ctrl0_Table1";
     public static final String IrurTableHeadID2 = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_OpenSecondAppealsGridUserControl_grdSecondAppeals_Table2";
@@ -31,19 +31,19 @@ public class ConnectionData {
     public static final String StatsMeanID = "lTotalCourseAverage";
     public static final String StatsMedianID = "lPassedCourseMadian";
     public static final String ScheduleTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_ScheduleView";
-    public static final String ScheduleURL = "https://mazak.jct.ac.il/Student/ScheduleList.aspx";
+    public static final String ScheduleURL = "https://levnet.jct.ac.il/Student/ScheduleList.aspx";
     public static final String ScheduleYearCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbAcademicYears";
     public static final String ScheduleSemesterCBID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_cmbSemesters";
     public static final String ScheduleListTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdCoursesList_itemPlaceholderContainer";
     public static final String TfilaTimesURL = "https://midrash.jct.ac.il/%D7%96%D7%9E%D7%A0%D7%99-%D7%94%D7%99%D7%95%D7%9D";
-    public static final String TestsURL = "https://mazak.jct.ac.il/Student/Tests.aspx";
+    public static final String TestsURL = "https://levnet.jct.ac.il/Student/Tests.aspx";
     public static final String TestsTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdStudentTests_itemPlaceholderContainer";
     public static final String GradeDetailsTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_dlgCoursePartGrades_tmpl_StudentCoursePartGradeUserControl_grdPartGrades_itemPlaceholderContainer";
-    public static final String NotebookURL = "https://mazak.jct.ac.il/Student/TestNotebooks.aspx";
+    public static final String NotebookURL = "https://levnet.jct.ac.il/Student/TestNotebooks.aspx";
     public static String NotebookTableID = "ctl00_ctl00_ContentPlaceHolder1_ContentPlaceHolder1_grdStudentNotebooks_itemPlaceholderContainer";
 
     /**
-     * returns the POST arguments for the mazak.jct.ac.il login
+     * returns the POST arguments for the levnet.jct.ac.il login
      *
      * @param username
      * @param pass

@@ -5,6 +5,8 @@
         <trust-anchors>
             <certificates src="@raw/digicert"/>
             <certificates src="@raw/digicert2"/>
+            <certificates src="@raw/midrash"/>
+            <certificates src="@raw/aaa"/>
         </trust-anchors>
     </domain-config>
 </network-security-config>
