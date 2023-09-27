@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:background="@android:drawable/screen_background_light_transparent">
+    android:background="@android:drawable/screen_background_light_transparent"
+    android:layoutDirection="rtl">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -149,8 +149,9 @@ public class FatherTab extends Fragment implements ISearch {
                     setupTabs(view, isPreperation);
                     String cal1 = db.getUpdateTime(InternalDatabase.gradesKey);
                     try {
-                        if (view != null)
+                        if (view != null) {
                             Snackbar.make(view, "Last Update  " + cal1, Snackbar.LENGTH_SHORT).show();
+                        }
                     } catch (Exception ex) {
                     }
                 }
@@ -312,30 +313,31 @@ public class FatherTab extends Fragment implements ISearch {
      */
     String getYearTitle(int year, boolean Preparation) {
         String title;
+
         if (!Preparation) {
             switch (year) {
                 case 1:
-                    title = getString(R.string.first_year);
+                    title = getResources().getString(R.string.first_year);
                     break;
                 case 2:
-                    title = getString(R.string.second_year);
+                    title = getResources().getString(R.string.second_year);
                     break;
                 case 3:
-                    title = getString(R.string.third_year);
+                    title = getResources().getString(R.string.third_year);
                     break;
                 case 4:
-                    title = getString(R.string.fourth_year);
+                    title =getResources().getString(R.string.fourth_year);
                     break;
                 case 5:
-                    title = getString(R.string.fifth_year);
+                    title = getResources().getString(R.string.fifth_year);
                     break;
                 default:
-                    title = getString(R.string.other);
+                    title = getResources().getString(R.string.other);
                     break;
             }
         } else {
             if (year == 1) {
-                title = getString(R.string.prep_year);
+                title = getResources().getString(R.string.prep_year);
             } else {
                 title = getYearTitle(year - 1, false);
             }

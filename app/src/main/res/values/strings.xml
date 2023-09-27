@@ -71,7 +71,7 @@
     <string name="loading_data">Loading data</string>
     <string name="information">Information</string>
     <string name="students">Students:</string>
-    <string name="average">Average:</string>
+    <string name="average"> Average</string>
     <string name="median">Median:</string>
     <string name="final_grade">Final Grade:</string>
     <string name="year">Year:</string>
@@ -145,7 +145,7 @@
     <string name="holy">Judaics</string>
     <string name="weight">Weight</string>
     <string name="min_grade">Minimum grade</string>
-    <string name="credits">Credits:</string>
+    <string name="credits"> Credits</string>
 
 
 <!--    Charts-->
@@ -156,7 +156,7 @@
 <!--    keys-->
     <string name="username_key" translatable="false">username</string>
     <string name="password_key" translatable="false">password</string>
-
+    <string name="stats">STATS</string>
 
 
 </resources>

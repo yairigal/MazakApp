@@ -8,17 +8,20 @@
     <color name="darkerGray">#b0acac</color>
     <color name="Blue">#1c2ac9</color>
 
-<!--    required for some layouts-->
-	<color name="common_google_signin_btn_text_dark_pressed">@android:color/white</color>
+    <!--    required for some layouts-->
+    <color name="common_google_signin_btn_text_dark_pressed">@android:color/white</color>
 
-<!--    former hardcoded colors-->
+    <!--    former hardcoded colors-->
     <color name="targilBack">#FFFF80</color>
     <color name="white">#ffffff</color>
     <color name="green">#2ecc71</color>
     <color name="red">#e74c3c</color>
     <color name="tfila">#CC4566</color>
 
-<!--    misc-->
+    <color name="lesson">#00C000</color>
+    <color name="lab">#FFA500</color>
+
+    <!--    misc-->
     <color name="black">#000000</color>
 
 </resources>

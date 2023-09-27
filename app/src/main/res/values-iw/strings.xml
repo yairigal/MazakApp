@@ -18,6 +18,8 @@
     <string name="fifth_year">שנה ה\'</string>
     <string name="other">אחר</string>
     <string name="prep_year">שנת הכנה</string>
+    <string name="opened_file">פתחת קובץ</string>
+    <string name="pick_a_pdf_viewer">בחר קורא PDF</string>
     <string name="password">סיסמא</string>
     <string name="username">שם משתמש</string>
     <string name="this_is_not_an_official_jct_app">"- אפליקציה של מרכז האקדמי לב לא רשמי -"</string>
@@ -81,6 +83,13 @@
     <string name="special_test">מועד מיוחד</string>
     <string name="moed_c">מועד ג</string>
     <string name="test_notebook">מחברת בחינה</string>
+    <string name="wrong_user_pass">שם משתמש או סיסמא שגוי</string>
+    <string name="check_network">בדק את חיבור האינטרנט</string>
+    <string name="missing_fields">אנא מלא את כל השדות</string>
+    <string name="error">שגיאה</string>
+    <string name="levnet_down">" 'levnet.jct.ac.il' בעיה בחיבור לאתר"</string>
+    <string name="notebook_error_try_refreshing">שגיאה בקבלת מחברת, תנסו שנית</string>
+    <string name="error_getting_grades">שגיאה בקבלת ציונים</string>
     <string name="notebook_error">לא נמצאו מחברות</string>
     <string name="refresh_notebook_list">Refresh notebook list</string>
     <string name="bar_chart">גרף עמודות</string>

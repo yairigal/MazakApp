@@ -347,10 +347,12 @@ public class singleGradeView extends AppCompatActivity {
             b.putSerializable("stats", current);
             Fragment fragment;
 
-            if (position == 0)
+            if (position == 0) {
                 fragment = new BarChartFragment();
-            else
+            }
+            else {
                 fragment = new PieChartFragment();
+            }
 
             fragment.setArguments(b);
             currentFragmet = (IRefresh) fragment;
@@ -375,7 +377,9 @@ public class singleGradeView extends AppCompatActivity {
     private void setGradeDetailsAndNotebooks() {
         //((TextView) convertView.findViewById(R.id.nameDetails)).setText(gd.name);
         ((TextView) findViewById(R.id.courseIdDetails)).setText(currentGrade.code);
-        ((TextView) findViewById(R.id.courseFinalGrade)).setText("ציון סופי " + currentGrade.finalGrade);
+        String form = String.format(getString(R.string.course_final_grade), currentGrade.finalGrade);
+        ((TextView) findViewById(R.id.courseFinalGrade)).setText(form);
+//        ((TextView) findViewById(R.id.courseFinalGrade)).setText("ציון סופי " + currentGrade.finalGrade);
 
         ((TextView) findViewById(R.id.Type_details)).setTypeface(null, Typeface.BOLD);
         ((TextView) findViewById(R.id.Weight_details)).setTypeface(null, Typeface.BOLD);
