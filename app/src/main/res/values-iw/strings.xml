@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MazakJCT</string>
+    <string name="navigation_drawer_open">פתח את מגירת הניווט</string>
+    <string name="navigation_drawer_open">פתיחת מגירת ניווט</string>
+    <string name="navigation_drawer_close">סגור את מגירת הניווט</string>
+    <string name="title_activity_settings">הגדרות</string>
+    <string name="title_activity_settings">הגדרות</string>
+    <string name="no_grades_error">לא ניתן למצוא ציונים</string>
+    <string name="no_grades_error">לא ניתן למצוא ציונים</string>
+    <string name="no_appeals_found">לא נמצאו ערעורים</string>
+    <string name="no_schedule_error">לא נמצא לוח זמנים</string>
+    <string name="no_tests_error">שגיאה בקבלת מבחנים</string>
+    <string name="no_tests_error">שגיאה בקבלת בדיקות</string>
+    <string name="web_error">שגיאת אינטרנט</string>
+    <string name="FiveNz">5 נ\\\'\\\'ז</string>
+    <string name="FiveNz">5 נ\\\'\\\'ז</string>
+    <string name="course_name">שם הקורס</string>
+    <string name="course_name">שם הקורס</string>
+    <string name="gradeDetails">מרכיבי ציון</string>
+    <string name="gradeDetails">מצ</string>
+    <string name="first_year">שנה א\'</string>
+    <string name="second_year">שנה ב\'</string>
+    <string name="third_year">שנה ג\'</string>
+    <string name="fourth_year">שנה ד\'</string>
+    <string name="fifth_year">שנה ה\'</string>
+    <string name="other">אחר</string>
+    <string name="prep_year">שנת הכנה</string>
+</resources>

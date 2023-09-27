@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MazakJCT</string>
-    <string name="title_activity_nav_drawer">NavDrawerActivity</string>
+    <string name="title_activity_nav_drawer" translatable="false">NavDrawerActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -14,19 +14,17 @@
 
     <!-- Example settings for Notifications -->
 
-    <string name="no_grades_error">Cannot find grades</string>
-
     <string name="no_appeals_found">No appeals found</string>
-    <string name="myEmail">yigalyairn@gmail.com</string>
+    <string name="myEmail" translatable="false">yigalyairn@gmail.com</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="no_schedule_error">No schedule found</string>
     <string name="no_tests_error">Error getting tests</string>
     <string name="web_error">web error</string>
     <string name="FiveNz">5 credits</string>
     <string name="course_name">Course name</string>
     <string name="gradeDetails">Grade details</string>
-    <string name="have_you_checked_our_telegram_bot"><![CDATA[ Have You Checked our Telegram bot? ]]></string>
+    <string name="have_you_checked_our_telegram_bot" translatable="false"><![CDATA[ Have You Checked our Telegram bot? ]]></string>
     <string name="first_year">First Year</string>
     <string name="second_year">Second Year</string>
     <string name="third_year">Third Year</string>
@@ -34,4 +32,5 @@
     <string name="fifth_year">Fifth Year</string>
     <string name="other">Other</string>
     <string name="prep_year">Preparation Year</string>
+    <string name="no_grades_error">Cannot find grades</string>
 </resources>
