@@ -19,4 +19,8 @@
     <string name="fifth_year">שנה ה\'</string>
     <string name="other">אחר</string>
     <string name="prep_year">שנת הכנה</string>
+    <string name="password">סיסמא</string>
+    <string name="username">שם משתמש</string>
+    <string name="this_is_not_an_official_jct_app">"- אפליקציה של מרכז האקדמי לב לא רשמי -"</string>
+    <string name="enter">כניסה</string>
 </resources>

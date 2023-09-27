@@ -22,12 +22,12 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.flurry.android.FlurryAgent;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+//import com.flurry.android.FlurryAgent;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
+//import com.google.android.gms.analytics.GoogleAnalytics;
+//import com.google.android.gms.analytics.HitBuilders;
+//import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,11 +63,11 @@ public class NavDrawerActivity extends AppCompatActivity
     Database db;
     IRefresh currentFragment;
     LoginDatabase loginDatabase;
-    AdView adView;
+//    AdView adView;
     public static NavDrawerActivity current;
     private boolean fromSettings,
             fromWeb = false;
-    Tracker mTracker;
+//    Tracker mTracker;
     private AsyncTask<Void, Void, Void> getGrades;
     ProgressBar pb;
 
@@ -91,7 +91,7 @@ public class NavDrawerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setupAnalytics();
+//        setupAnalytics();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -124,7 +124,7 @@ public class NavDrawerActivity extends AppCompatActivity
         // navigate to selected fragment in the settings
         onNavigationItemSelected(menu.findItem(getScreenIdByName(SettingsFragment.readSettings(current))));
 
-        setupGoogleAnalyticsTracker();
+//        setupGoogleAnalyticsTracker();
 
 
 
@@ -141,20 +141,20 @@ public class NavDrawerActivity extends AppCompatActivity
     /**
      * sets up all google analytics tracer stuff
      */
-    private void setupGoogleAnalyticsTracker() {
-        if (mTracker == null) {
-            mTracker = GoogleAnalytics.getInstance(this).newTracker("UA-96616811-1");
-        }
-    }
+//    private void setupGoogleAnalyticsTracker() {
+//        if (mTracker == null) {
+//            mTracker = GoogleAnalytics.getInstance(this).newTracker("UA-96616811-1");
+//        }
+//    }
 
     /**
      * sets up flurry analytics
      */
-    private void setupAnalytics() {
-        new FlurryAgent.Builder()
-                .withLogEnabled(false)
-                .build(this, FLURRY_API_KEY);
-    }
+//    private void setupAnalytics() {
+//        new FlurryAgent.Builder()
+//                .withLogEnabled(false)
+//                .build(this, FLURRY_API_KEY);
+//    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -167,14 +167,14 @@ public class NavDrawerActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        sendGoogleAnalyticsData("Grades");
+//        sendGoogleAnalyticsData("Grades");
 
         try {
             Intent toLogin = new Intent(NavDrawerActivity.this, LoginService.class);
             toLogin.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startService(toLogin);
 
-            setupAd();
+//            setupAd();
             //fromWeb = getIntent().getExtras() == null ? false : getIntent().getExtras().getBoolean("refresh");
             getDatabasesFactory();
         } catch (Exception e) {
@@ -187,11 +187,11 @@ public class NavDrawerActivity extends AppCompatActivity
      *
      * @param ScreenName
      */
-    private void sendGoogleAnalyticsData(String ScreenName) {
-        setupGoogleAnalyticsTracker();
-        mTracker.setScreenName(ScreenName);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-    }
+//    private void sendGoogleAnalyticsData(String ScreenName) {
+//        setupGoogleAnalyticsTracker();
+//        mTracker.setScreenName(ScreenName);
+//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//    }
 
     /**
      * gets the database factory.
@@ -209,13 +209,13 @@ public class NavDrawerActivity extends AppCompatActivity
     /**
      * sets up the google ads ad
      */
-    private void setupAd() {
-        adView = (AdView) findViewById(R.id.adView);
-        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-        // Optionally populate the ad request builder.
-        adRequestBuilder.addKeyword("Cars");
-        adView.loadAd(adRequestBuilder.build());
-    }
+//    private void setupAd() {
+//        adView = (AdView) findViewById(R.id.adView);
+//        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+//        // Optionally populate the ad request builder.
+//        adRequestBuilder.addKeyword("Cars");
+//        adView.loadAd(adRequestBuilder.build());
+//    }
 
     @Override
     public void onBackPressed() {
@@ -399,7 +399,7 @@ public class NavDrawerActivity extends AppCompatActivity
         currentFragment = (IRefresh) fgmt;
         getSupportFragmentManager().beginTransaction().replace(R.id.frameNav, fgmt).commit();
         this.setTitle(title);
-        sendGoogleAnalyticsData(title);
+//        sendGoogleAnalyticsData(title);
     }
 
     /**
