@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MazakJCT</string>
     <string name="navigation_drawer_open">פתח את מגירת הניווט</string>
     <string name="navigation_drawer_close">סגור את מגירת הניווט</string>
     <string name="title_activity_settings">הגדרות</string>
@@ -23,4 +22,80 @@
     <string name="username">שם משתמש</string>
     <string name="this_is_not_an_official_jct_app">"- אפליקציה של מרכז האקדמי לב לא רשמי -"</string>
     <string name="enter">כניסה</string>
+    <string name="db_error">שגיאה במסד נתונים</string>
+    <string name="loading_data">טוען נתונים</string>
+    <string name="information">מידע</string>
+    <string name="students">סטודנטים:</string>
+    <string name="average">ממוצע:</string>
+    <string name="median">חציון:</string>
+    <string name="final_grade">ציון סופי</string>
+    <string name="year">שנה:</string>
+    <string name="semester">סמסטר:</string>
+    <string name="change_login_information">שנה פרטי התחברות</string>
+    <string name="credits">נ\'\'ז :</string>
+    <string name="holy">קודש</string>
+    <string name="lecturer">מצרה</string>
+    <string name="test">מבחן</string>
+    <string name="type">סוג</string>
+    <string name="weight">משקל</string>
+    <string name="min_grade">ציון מינימלי</string>
+    <string name="appeal_name">שם הערעור</string>
+    <string name="downloading">מוריד</string>
+    <string name="starting_page">דף פתיחה</string>
+    <string name="test_time_and_date">זמן ותאריך למבחן</string>
+    <string name="test_moed">תאריך מבחן</string>
+    <string name="test_name">שם מבחן</string>
+    <string name="grades">ציונים</string>
+    <string name="appeals">ערעורים</string>
+    <string name="average_heading">ממוצע</string>
+    <string name="schedule">לו\"ז</string>
+    <string name="tests">מבחנים</string>
+    <string name="logout">התנתקות</string>
+    <string name="feedback">משוב</string>
+    <string name="privacy_policy">מדיניות הפרטיות</string>
+    <string name="telegram_bot">בוט טלגרם</string>
+    <string name="tfila_times">זמני תפילה</string>
+    <string name="refresh">רענן</string>
+    <string name="open">פתח</string>
+    <string name="statistics">סטטיסטיקה</string>
+    <string name="three_half_credits">3.5 נ\'\'ז</string>
+
+    <string name="start">התחלה:</string>
+    <string name="end">סיום:</string>
+    <string name="course_hours">שעות לימוד:</string>
+
+    <string name="academic">אקדמי</string>
+    <string name="elul">סמסטר אלול</string>
+    <string name="first_sem">סמסטר א\'</string>
+    <string name="second_sem">סמסטר ב\'</string>
+    <string name="in_progress">בטיפול</string>
+    <string name="received">התקבלו</string>
+    <string name="partial_credit">התקבלו חלקית</string>
+    <string name="declined">נדחו</string>
+    <string name="test_time">תאריך ושעת מבחן</string>
+    <string name="test_date">מועד</string>
+
+
+    <string name="moed_a">מועד א</string>
+    <string name="moed_b">מועד ב</string>
+    <string name="special_test">מועד מיוחד</string>
+    <string name="moed_c">מועד ג</string>
+    <string name="test_notebook">מחברת בחינה</string>
+    <string name="notebook_error">לא נמצאו מחברות</string>
+    <string name="refresh_notebook_list">Refresh notebook list</string>
+    <string name="bar_chart">גרף עמודות</string>
+    <string name="pie_chart">תרשים עוגה</string>
+    <string name="data_error">לא נמצאו נתונים</string>
+
+
+    <!--    logout-->
+    <string name="cancel">ביטול</string>
+    <string name="logout_message">האם הנך בטוח שברצונך להתנתק?</string>
+    <string name="ok">כן</string>
+
+
+    <string name="course_final_grade">ציון סופי %s</string>
+    <string name="nz_label">%.0f נ\'\'ז</string>
+
+
 </resources>

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Yair on 2017-02-19.
  */
 
-public class gradeIngerdiants implements Serializable {
+public class gradeIngredients implements Serializable {
     public String type;
     public String minGrade;
     public String weight;
@@ -15,7 +15,7 @@ public class gradeIngerdiants implements Serializable {
     public String moedSpecial;
     public String moedC;
 
-    public gradeIngerdiants(String type, String minGrade, String weight, String moedA, String moedB, String moedSpecial, String moedC) {
+    public gradeIngredients(String type, String minGrade, String weight, String moedA, String moedB, String moedSpecial, String moedC) {
         this.type = type;
         this.minGrade = minGrade;
         this.weight = weight;
@@ -24,5 +24,5 @@ public class gradeIngerdiants implements Serializable {
         this.moedSpecial = moedSpecial;
         this.moedC = moedC;
     }
-    public gradeIngerdiants(){}
+    public gradeIngredients(){}
 }

@@ -101,7 +101,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setItemIconTintList(null);
+//        navigationView.setItemIconTintList(null);
 
         //AsyncGetGrades();
         //adding to the nav drawer in runtime
@@ -112,12 +112,12 @@ public class NavDrawerActivity extends AppCompatActivity
 
         Factory.getInstance(getApplicationContext());
 
-        screens.add(new Pair<>("Grades", R.id.grades));
-        screens.add(new Pair<>("Appeals", R.id.irurs));
-        screens.add(new Pair<>("Average", R.id.avgItem));
-        screens.add(new Pair<>("Schedule", R.id.ScheudleItem));
-        screens.add(new Pair<>("Tfila Times", R.id.TfilaTimesItem));
-        screens.add(new Pair<>("Tests", R.id.TestsItem));
+        screens.add(new Pair<>(getString(R.string.grades), R.id.grades));
+        screens.add(new Pair<>(getString(R.string.appeals), R.id.irurs));
+        screens.add(new Pair<>(getString(R.string.average_heading), R.id.avgItem));
+        screens.add(new Pair<>(getString(R.string.schedule), R.id.ScheudleItem));
+        screens.add(new Pair<>(getString(R.string.tfila_times), R.id.TfilaTimesItem));
+        screens.add(new Pair<>(getString(R.string.tests), R.id.TestsItem));
 
         //this checkup if for opening the appeals fragment from the service.
         //String whereToNav = getIntent().getStringExtra("fragment");
@@ -252,49 +252,36 @@ public class NavDrawerActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.grades: // grades
-                navigateTo(FatherTab.getInstance(), "Grades");
-                break;
-            case R.id.irurs: // appeals
-                navigateTo(IrurFragment.getInstance(), "Appeals");
-                break;
-            case R.id.feedback_menu_item: // feedback
-                sendFeedbackWithLog();
-                break;
-            case R.id.avgItem: // average
-                navigateTo(AverageFragment.getInstance(), "Average");
-                break;
-            case R.id.ScheudleItem: // average
-                navigateTo(ScheduleHost.getInstance(), "Schedule");
-                break;
-            case R.id.TfilaTimesItem: // Tfila times
-                navigateTo(new MinyanFragment(), "Tfila Times");
-                break;
-            case R.id.TestsItem: // Tests
-                navigateTo(new TestsFragment(), "Tests");
-                break;
-            case R.id.Settings:
-                navigateTo(new SettingsFragment(), "Settings");
-                break;
-            case R.id.telegram_bot_menu:
-                Intent telegram = new Intent(Intent.ACTION_VIEW);
-                telegram.setData(Uri.parse("https://t.me/mazakjct_bot"));
-                startActivity(telegram);
-                break;
-            case R.id.policy_menu_item: // Tests
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(policyLink));
-                startActivity(browserIntent);
-                break;
-            default: //logout
-                popUpLogoutDialog();
-                break;
+        if (id == R.id.grades) {
+            navigateTo(FatherTab.getInstance(), getString(R.string.grades));
+        } else if (id == R.id.irurs) {
+            navigateTo(IrurFragment.getInstance(), getString(R.string.appeals));
+        } else if (id == R.id.feedback_menu_item) {
+            sendFeedbackWithLog();
+        } else if (id == R.id.avgItem) {
+            navigateTo(AverageFragment.getInstance(), getString(R.string.average_heading));
+        } else if (id == R.id.ScheudleItem) {
+            navigateTo(ScheduleHost.getInstance(), getString(R.string.schedule));
+        } else if (id == R.id.TfilaTimesItem) {
+            navigateTo(new MinyanFragment(), getString(R.string.tfila_times));
+        } else if (id == R.id.TestsItem) {
+            navigateTo(new TestsFragment(), getString(R.string.tests));
+        } else if (id == R.id.Settings) {
+            navigateTo(new SettingsFragment(), getString(R.string.title_activity_settings));
+        } else if (id == R.id.telegram_bot_menu) {
+            Intent telegram = new Intent(Intent.ACTION_VIEW);
+            telegram.setData(Uri.parse("https://t.me/mazakjct_bot"));
+            startActivity(telegram);
+        } else if (id == R.id.policy_menu_item) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(policyLink));
+            startActivity(browserIntent);
+        } else {
+            popUpLogoutDialog();
         }
 
-        /*else if(id == R.id.menu_item_Schedule){
+           /*else if(id == R.id.menu_item_Schedule){
             navigateTo(new ScheduleFragment(),"Schedule",null);
         }*/
 
@@ -302,17 +289,16 @@ public class NavDrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     /**
      * pops up the logout dialog
      */
     private void popUpLogoutDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-        adb.setTitle("Are you sure you want to logout?");
+        adb.setTitle(getString(R.string.logout_message));
 
 
-        adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        adb.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
@@ -320,7 +306,7 @@ public class NavDrawerActivity extends AppCompatActivity
         });
 
 
-        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        adb.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
@@ -486,7 +472,7 @@ public class NavDrawerActivity extends AppCompatActivity
     public void AsyncGetGrades(final Delegate after) {
         //final SearchView search = (SearchView) findViewById(R.id.searchView);
         toggleSpinner(true, frame, pb);
-        this.setTitle("Loading...");
+        this.setTitle(getString(R.string.loading_data));
         //search.setEnabled(false);
         try {
             GradesList lst;
@@ -503,16 +489,20 @@ public class NavDrawerActivity extends AppCompatActivity
             protected Void doInBackground(Void... params) {
                 try {
                     //db.clearDatabase();
-                    if (fromWeb)
+                    if (fromWeb) {
                         lst = db.getGrades(getOptions.fromWeb);
-                    else
+                    }
+                    else {
                         lst = db.getGrades(getOptions.fromMemory);
-                    if (isCancelled())
+                    }
+                    if (isCancelled()) {
                         return null;
+                    }
                 } catch (Exception e) {
                     errorMsg = e.getMessage();
-                    if (!errorMsg.equals(String.valueOf(R.string.no_grades_error)))
-                        errorMsg = "Wrong Username or Password";
+                    if (!errorMsg.equalsIgnoreCase(String.valueOf(R.string.no_grades_error))) {
+                        errorMsg = getString(R.string.wrong_user_pass);
+                    }
                 }
                 return null;
             }
@@ -520,8 +510,9 @@ public class NavDrawerActivity extends AppCompatActivity
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                if (errorMsg == null)
+                if (errorMsg == null) {
                     after.function(lst);
+                }
                 else {
                     showException(errorMsg);
                     finish();

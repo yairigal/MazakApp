@@ -146,7 +146,8 @@ public class AverageFragment extends Fragment implements IRefresh {
                         grades = db.getGrades(getOptions.fromWeb);
                     } catch (Exception e1) {
                         error = true;
-                        Snackbar.make(root, "Error getting grades", Snackbar.LENGTH_LONG).show();
+
+                        Snackbar.make(root, R.string.error_getting_grades, Snackbar.LENGTH_LONG).show();
                         e1.printStackTrace();
                     }
                 }
@@ -195,7 +196,7 @@ public class AverageFragment extends Fragment implements IRefresh {
         int startYear = 0;
         int endYear = startYear + groupCount;
 
-        BarDataSet set0 = new BarDataSet(sem0, "Semester Alul");
+        BarDataSet set0 = new BarDataSet(sem0, "Semester Elul");
         set0.setColor(getColor(0));
         BarDataSet set1 = new BarDataSet(sem1, "Semester A");
         set1.setColor(getColor(1));

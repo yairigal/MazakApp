@@ -4,7 +4,7 @@
         android:id="@+id/group1">
         <item
             android:id="@+id/grades"
-            android:icon="@mipmap/all_tab_icon"
+            android:icon="@drawable/all_tab_icon"
             android:title="@string/grades" />
         <item
             android:id="@+id/irurs"

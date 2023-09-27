@@ -28,12 +28,14 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Locale;
 
+import project.android.com.mazak.Controller.Constants;
 import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Database.InternalDatabase;
 import project.android.com.mazak.Database.LoginDatabase;
 import project.android.com.mazak.Model.Entities.GradesList;
+import project.android.com.mazak.Model.Entities.LoginException;
 import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.ISearch;
@@ -148,7 +150,7 @@ public class FatherTab extends Fragment implements ISearch {
                     String cal1 = db.getUpdateTime(InternalDatabase.gradesKey);
                     try {
                         if (view != null)
-                            Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                            Snackbar.make(view, "Last Update  " + cal1, Snackbar.LENGTH_SHORT).show();
                     } catch (Exception ex) {
                     }
                 }
@@ -159,12 +161,14 @@ public class FatherTab extends Fragment implements ISearch {
                     grades = db.getGrades(getOptions.fromMemory);
                 } catch (Exception e) {
                     try {
-                        if (isNetworkAvailable(getContext()))
+                        if (isNetworkAvailable(getContext())) {
                             grades = db.getGrades(getOptions.fromWeb);
-                        else
+                        }
+                        else {
                             throw new NetworkErrorException();
+                        }
                     } catch (Exception e1) {
-                        errorMsg = checkErrorTypeAndMessage(e1);
+                        errorMsg = Constants.checkErrorTypeAndMessage(e1, getContext());
                         error = true;
                     }
                 }
@@ -174,7 +178,7 @@ public class FatherTab extends Fragment implements ISearch {
                 try {
                     grades = db.getGrades(getOptions.fromWeb);
                 } catch (Exception e) {
-                    errorMsg = checkErrorTypeAndMessage(e);
+                    errorMsg = Constants.checkErrorTypeAndMessage(e,getContext());
                     error = true;
                 }
             }
@@ -200,24 +204,9 @@ public class FatherTab extends Fragment implements ISearch {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    /**
-     * checks which error it is and returns the error message for that type.
-     *
-     * @param e1
-     * @return
-     */
-    public static String checkErrorTypeAndMessage(Exception e1) {
-        String errorMsg;
-        if (e1 instanceof UnknownHostException)
-            errorMsg = "'levnet.jct.ac.il' might be down";
-        else if (e1 instanceof NullPointerException)
-            errorMsg = "An Error Occurred";
-        else if (e1 instanceof NetworkErrorException)
-            errorMsg = "Check your internet connection";
-        else
-            errorMsg = "Database Error";
-        return errorMsg;
-    }
+
+
+
 
     /**
      * set us the years tabs
@@ -287,8 +276,9 @@ public class FatherTab extends Fragment implements ISearch {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (checkHebrew())
+            if (checkHebrew()) {
                 return getYearTitle(position + 1, preparation);
+            }
             return getYearTitle(position + 1, preparation);
         }
 
@@ -344,13 +334,10 @@ public class FatherTab extends Fragment implements ISearch {
                     break;
             }
         } else {
-            switch (year) {
-                case 1:
-                    title = getString(R.string.prep_year);
-                    break;
-                default:
-                    title = getYearTitle(year - 1, false);
-                    break;
+            if (year == 1) {
+                title = getString(R.string.prep_year);
+            } else {
+                title = getYearTitle(year - 1, false);
             }
         }
         return title;

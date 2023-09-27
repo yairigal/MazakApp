@@ -9,8 +9,9 @@ public class Factory {
     private static Database ourInstance;
 
     public static Database getInstance() throws Exception {
-        if(ourInstance == null)
-            throw new Exception("No Instance found");
+        if(ourInstance == null) {
+            throw new Exception("No instance found");
+        }
         return ourInstance;
     }
 

@@ -139,6 +139,7 @@ public class DayFragment extends Fragment {
                 mainview.setBackgroundColor(ColorTemplate.rgb("00C000"));
                 break;
             case "תרגיל":
+                mainview.setBackgroundColor(getResources().getColor(R.color.targilBack));
                 mainview.setBackgroundColor(ColorTemplate.rgb("FFFF80"));
                 ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ColorTemplate.rgb("000000"));
                 ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ColorTemplate.rgb("000000"));

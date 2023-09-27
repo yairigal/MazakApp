@@ -55,7 +55,7 @@ public class LoginService extends Service {
                 SharedPreferences sharedPref = getSharedPreferences("version", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putInt("version",BuildConfig.VERSION_CODE);
-                editor.commit();
+                editor.apply();
             }
 
         }

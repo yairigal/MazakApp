@@ -26,17 +26,17 @@ public class IrurList extends ObjectList<Irur> {
         return new IrurList((ArrayList<Irur>)((ArrayList<Irur>)list).clone(),reversed);
     }
 
-    public boolean equal(IrurList lst2){
-        if(list.size() != lst2.getList().size())
+    public boolean equal(IrurList lst2) {
+        if (list.size() != lst2.getList().size())
             return false;
         boolean found = false;
-        for (int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             found = false;
-            for (int j =0;j<lst2.getList().size();j++){
-                if(list.get(i).equals(lst2.get(j)))
+            for (int j = 0; j < lst2.getList().size(); j++) {
+                if (list.get(i).equals(lst2.get(j)))
                     found = true;
             }
-            if(!found)
+            if (!found)
                 return false;
         }
         return true;

@@ -35,7 +35,6 @@ public class BarChartFragment extends Fragment implements IRefresh {
     BarChart bar;
     //Grade currentGrade;
     CourseStatistics current;
-    private String noDataText = "No Data Found";
 
     @Nullable
     @Override
@@ -66,7 +65,7 @@ public class BarChartFragment extends Fragment implements IRefresh {
 
         mChart.getDescription().setEnabled(false);
 
-        mChart.setNoDataText(noDataText);
+        mChart.setNoDataText(getString(R.string.data_error));
 
         // if more than 60 entries are displayed in the chart, no values will be
         // drawn

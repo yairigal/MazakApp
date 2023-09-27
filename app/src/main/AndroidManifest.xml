@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -32,7 +33,7 @@
             android:name=".Controller.NavDrawerActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true">
             <intent-filter>
@@ -74,7 +75,7 @@
         <activity
             android:name=".Controller.Statistics.CourseStatisticsActivity"
             android:parentActivityName=".Controller.NavDrawerActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controller.NavDrawerActivity" />
@@ -97,7 +98,7 @@
             -->
         </activity>
         <activity android:name=".Controller.GradesView.singleGradeView" />
-        <activity android:name=".Controller.WebViewActivity"></activity>
+        <activity android:name=".Controller.WebViewActivity"/>
 
         <provider
             android:name=".Model.Services.NotebookProvider"

@@ -32,7 +32,6 @@ public class PieChartFragment extends Fragment implements IRefresh {
     Grade currentGrade;
     CourseStatistics current;
     View root;
-    private String noDataText = "No Data Found";
 
     @Nullable
     @Override
@@ -57,7 +56,7 @@ public class PieChartFragment extends Fragment implements IRefresh {
         mChart.getDescription().setEnabled(false);
         mChart.setExtraOffsets(5, 10, 5, 5);
         //mChart.setDescription("");
-        mChart.setNoDataText(noDataText);
+        mChart.setNoDataText(getString(R.string.data_error));
 
         mChart.setCenterText(coursename);
 

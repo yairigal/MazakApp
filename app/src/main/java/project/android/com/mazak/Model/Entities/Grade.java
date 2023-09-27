@@ -23,7 +23,7 @@ public class Grade implements Serializable {
     public String minGrade;
     public String finalGrade;
     public String subDetailsID;
-    public ArrayList<gradeIngerdiants> ingerdiantses = new ArrayList<>();
+    public ArrayList<gradeIngredients> ingredients = new ArrayList<>();
     public String StatLink;
     public ArrayList<Notebook> Notebook = new ArrayList<>();
     public String actualCourseID;
@@ -41,7 +41,7 @@ public class Grade implements Serializable {
         this.Notebook = null;
     }
 
-    public Grade(String code, String name, String sem, String points, String min, String finalGrade, ArrayList<gradeIngerdiants> ing) {
+    public Grade(String code, String name, String sem, String points, String min, String finalGrade, ArrayList<gradeIngredients> ing) {
         this.code = code;
         this.name = name;
         this.semester = sem;
@@ -50,11 +50,11 @@ public class Grade implements Serializable {
         this.finalGrade = finalGrade;
         this.subDetailsID = "";
         this.StatLink = "";
-        this.ingerdiantses = ing;
+        this.ingredients = ing;
         this.Notebook = null;
     }
 
-    public Grade(String code, String name, String sem, String points, String min, String finalGrade, ArrayList<gradeIngerdiants> ing, ArrayList<Notebook> notebookLink) {
+    public Grade(String code, String name, String sem, String points, String min, String finalGrade, ArrayList<gradeIngredients> ing, ArrayList<Notebook> notebookLink) {
         this.code = code;
         this.name = name;
         this.semester = sem;
@@ -63,7 +63,7 @@ public class Grade implements Serializable {
         this.finalGrade = finalGrade;
         this.subDetailsID = "";
         this.StatLink = "";
-        this.ingerdiantses = ing;
+        this.ingredients = ing;
         this.Notebook = (ArrayList<project.android.com.mazak.Model.Entities.Notebook>) notebookLink.clone();
     }
 
@@ -97,8 +97,8 @@ public class Grade implements Serializable {
 
     }
 
-    public static ArrayList<gradeIngerdiants> ParseGradeDetails(String html) {
-        ArrayList<gradeIngerdiants> ing = new ArrayList<>();
+    public static ArrayList<gradeIngredients> ParseGradeDetails(String html) {
+        ArrayList<gradeIngredients> ing = new ArrayList<>();
         Document doc = Jsoup.parse(html);
         Elements elem = doc.getAllElements();
         Elements currents = null;
@@ -111,7 +111,7 @@ public class Grade implements Serializable {
         Elements el = currents;
         for (int i = 0; i < el.size(); i++) {
             Elements current = el.get(i).getAllElements();
-            gradeIngerdiants toAdd = new gradeIngerdiants();
+            gradeIngredients toAdd = new gradeIngredients();
             toAdd.type = current.get(1).text();
             toAdd.minGrade = current.get(2).text();
             toAdd.weight = current.get(3).text();

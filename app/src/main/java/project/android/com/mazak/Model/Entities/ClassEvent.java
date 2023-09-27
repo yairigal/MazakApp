@@ -154,6 +154,8 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
         return toRet;
     }
 
+    /** @noinspection HardCodedStringLiteral*/
+    //works by parsing date from API
     public static int getDay(String group) {
         switch (group){
             case "יום א":

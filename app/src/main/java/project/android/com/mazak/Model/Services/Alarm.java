@@ -17,8 +17,8 @@ public class Alarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
-        wl.acquire();
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mazakJCT:mywakelocktag");
+        wl.acquire(10*60*1000L /*10 minutes*/);
         context.startService(new Intent(context, getGradesInBackground.class));
         wl.release();
     }

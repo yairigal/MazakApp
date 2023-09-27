@@ -83,7 +83,7 @@ public class IrurFragment extends Fragment implements ISearch {
         try {
             db = Factory.getInstance();
         } catch (Exception e) {
-            showSnackException("Database error");
+            showSnackException(getString(R.string.db_error));
         }
         AsyncTask<Void, Void, IrurList> task = new AsyncTask<Void, Void, IrurList>() {
             IrurList newList = new IrurList();
@@ -130,7 +130,7 @@ public class IrurFragment extends Fragment implements ISearch {
                 //progressBar.setVisibility(VISIBLE);
                 if (db != null && view != null) {
                     String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
-                    Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Last Update  " + cal1, Snackbar.LENGTH_SHORT).show();
                 }
             }
         };
@@ -161,7 +161,7 @@ public class IrurFragment extends Fragment implements ISearch {
         try {
             db = Factory.getInstance();
         } catch (Exception e) {
-            showSnackException("Database error");
+            showSnackException(getString(R.string.db_error));
         }
         AsyncTask<Void, Void, IrurList> task = new AsyncTask<Void, Void, IrurList>() {
             IrurList newList = new IrurList();
@@ -201,7 +201,7 @@ public class IrurFragment extends Fragment implements ISearch {
                 String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
                 try {
                     if (view != null)
-                        Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                        Snackbar.make(view, "Last Update  " + cal1, Snackbar.LENGTH_SHORT).show();
                 } catch (Exception ex) {
                 }
                 ;
@@ -274,9 +274,11 @@ public class IrurFragment extends Fragment implements ISearch {
      */
     private IrurList getIrurWithStatus(IrurList irurs, String status) {
         IrurList toReturn = new IrurList();
-        for (Irur r : irurs.getList())
-            if (r.getStatus().equals(status))
+        for (Irur r : irurs.getList()) {
+            if (r.getStatus().equals(status)) {
                 toReturn.add(r);
+            }
+        }
         return toReturn;
     }
 

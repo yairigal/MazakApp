@@ -18,6 +18,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
+import project.android.com.mazak.Controller.Constants;
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
@@ -39,7 +40,7 @@ public class CourseStatisticsActivity extends AppCompatActivity{
             ColorTemplate.rgb("AFD77F"), // blue
             ColorTemplate.rgb("8ACA7E"), // bright green
             ColorTemplate.rgb("63BD7D")}; // green
-    String noDataText = "No Data Found";
+//    String noDataText = "No Data Found";
     IRefresh currentFragmet;
     CourseStatistics current;
     Grade currentGrade;
@@ -219,10 +220,7 @@ public class CourseStatisticsActivity extends AppCompatActivity{
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if(position == 0)
-                return "Bar Chart";
-            else
-                return "Cake Chart";
+            return Constants.getChartType(position, getApplicationContext());
         }
 
         @Override

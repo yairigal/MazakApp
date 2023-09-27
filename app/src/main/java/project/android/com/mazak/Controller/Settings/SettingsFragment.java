@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment implements IRefresh {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(startingPageKey,page);
-        editor.commit();
+        editor.apply();
     }
 
 

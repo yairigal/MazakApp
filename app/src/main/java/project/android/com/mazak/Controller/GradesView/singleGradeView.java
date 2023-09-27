@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import project.android.com.mazak.Controller.Constants;
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Controller.Statistics.BarChartFragment;
 import project.android.com.mazak.Controller.Statistics.PieChartFragment;
@@ -45,7 +46,7 @@ import project.android.com.mazak.Model.Entities.Delegate;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.Notebook;
 import project.android.com.mazak.Model.Entities.NotebookList;
-import project.android.com.mazak.Model.Entities.gradeIngerdiants;
+import project.android.com.mazak.Model.Entities.gradeIngredients;
 import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.Model.Utility;
 import project.android.com.mazak.Model.Web.MazakAPI;
@@ -88,8 +89,9 @@ public class singleGradeView extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (NotebookAdapter != null)
+        if (NotebookAdapter != null) {
             NotebookAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -166,7 +168,7 @@ public class singleGradeView extends AppCompatActivity {
                     public void function(Object obj) {
                         toggleSpinner(false, notebookLayout, spinner);
                         if (error[0]) {
-                            Toast.makeText(getApplicationContext(), "Notebook error, Try refreshing", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.notebook_error_try_refreshing, Toast.LENGTH_LONG).show();
                             error[0] = false;
                             return;
                         }
@@ -357,10 +359,7 @@ public class singleGradeView extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0)
-                return "Bar Chart";
-            else
-                return "Cake Chart";
+           return Constants.getChartType(position, getApplicationContext());
         }
 
         @Override
@@ -388,7 +387,7 @@ public class singleGradeView extends AppCompatActivity {
 
         final ListView detailsListView = (ListView) findViewById(R.id.detailsListView);
         final ProgressBar spinner = (ProgressBar) findViewById(R.id.detailsProgressBar);
-        final ArrayList<gradeIngerdiants> ing = new ArrayList<>();
+        final ArrayList<gradeIngredients> ing = new ArrayList<>();
         final ArrayAdapter adp = new DetailAdapter(this, R.layout.grade_detail, ing);
         final View notebookLayout = findViewById(R.id.NotebookLayout);
         final ProgressBar spinnerNotebooks = (ProgressBar) findViewById(R.id.NotebooksProgressBar);
@@ -404,7 +403,7 @@ public class singleGradeView extends AppCompatActivity {
             @Override
             public void function(Object obj) {
                 try {
-                    MazakAPI.Tuple<ArrayList<gradeIngerdiants>, NotebookList> data = db.getGradesDetailsAndNotebooks(currentGrade);
+                    MazakAPI.Tuple<ArrayList<gradeIngredients>, NotebookList> data = db.getGradesDetailsAndNotebooks(currentGrade);
                     ing.clear();
                     ing.addAll(data.x);
                     currentGrade.Notebook.clear();

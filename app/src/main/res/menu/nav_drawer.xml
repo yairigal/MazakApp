@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_refresh"
-        android:title="refresh"
+        android:title="@string/refresh"
         android:icon="@android:drawable/stat_notify_sync"
         app:showAsAction="always" />
 </menu>

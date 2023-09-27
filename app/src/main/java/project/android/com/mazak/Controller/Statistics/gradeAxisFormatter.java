@@ -17,26 +17,29 @@ public class gradeAxisFormatter extends ValueFormatter {
         this.mChart = mChart;
     }
 
+    //switch statement should be faster
     @Override
     public String getFormattedValue(float value) {
         int val = (int) value;
-        if(val == 0)
-            return "0-59";
-        if(val == 1)
-            return "60-64";
-        if(val == 2)
-            return "65-69";
-        if(val == 3)
-            return "70-74";
-        if(val == 4)
-            return "75-79";
-        if(val == 5)
-            return "80-84";
-        if(val == 6)
-            return "85-89";
-        if(val == 7)
-            return "90-94";
-        else
-            return "95-100";
+        switch (val) {
+            case 0:
+                return "0-59";
+            case 1:
+                return "60-64";
+            case 2:
+                return "65-69";
+            case 3:
+                return "70-74";
+            case 4:
+                return "75-79";
+            case 5:
+                return "80-84";
+            case 6:
+                return "85-89";
+            case 7:
+                return "90-94";
+            default:
+                return "95-100";
+        }
     }
 }

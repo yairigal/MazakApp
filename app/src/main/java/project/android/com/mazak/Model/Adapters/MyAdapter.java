@@ -51,9 +51,9 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.list0 = sem0List;
         this.list1 = sem1List;
         this.list2 = list;
-        fillFullList();
-        notifyDataSetChanged();
         this.context = ctx;
+        fillFullList(ctx);
+        notifyDataSetChanged();
         this.mScrollView = mScrollView;
         setHasStableIds(true);
 
@@ -65,12 +65,13 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    private void fillFullList() {
+    private void fillFullList(Context ctx) {
         this.fullList = new GradesList();
 
         if (list0.size() != 0) {
             Grade sem0title = new Grade();
-            sem0title.name = "סמסטר אלול";
+
+            sem0title.name = ctx.getString(R.string.elul);
             sem0title.code = "-1";
             fullList.add(sem0title);
 
@@ -81,7 +82,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (list1.size() != 0) {
             Grade sem1title = new Grade();
-            sem1title.name = "סמסטר א";
+            sem1title.name = ctx.getString(R.string.first_sem);
             sem1title.code = "-1";
             fullList.add(sem1title);
 
@@ -91,7 +92,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (list2.size() != 0) {
             Grade sem2title = new Grade();
-            sem2title.name = "סמסטר ב";
+            sem2title.name = context.getString(R.string.second_sem);
             sem2title.code = "-1";
             fullList.add(sem2title);
 
@@ -250,7 +251,9 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setDetails(final View convertView, final Grade gd) {
         //((TextView) convertView.findViewById(R.id.nameDetails)).setText(gd.name);
         ((TextView) convertView.findViewById(R.id.courseIdDetails)).setText(gd.code);
-        ((TextView) convertView.findViewById(R.id.courseFinalGrade)).setText("ציון סופי " + gd.finalGrade);
+
+        String formattedString = context.getString(R.string.course_final_grade, gd.finalGrade);
+        ((TextView) convertView.findViewById(R.id.courseFinalGrade)).setText(formattedString);
 
         ((TextView) convertView.findViewById(R.id.Type_details)).setTypeface(null, Typeface.BOLD);
         ((TextView) convertView.findViewById(R.id.Weight_details)).setTypeface(null, Typeface.BOLD);
@@ -262,7 +265,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         final ListView detailsListView = (ListView) convertView.findViewById(R.id.detailsListView);
         final ProgressBar spinner = (ProgressBar) convertView.findViewById(R.id.detailsProgressBar);
-        final ArrayAdapter adp = new DetailAdapter(context, R.layout.grade_detail, gd.ingerdiantses);
+        final ArrayAdapter adp = new DetailAdapter(context, R.layout.grade_detail, gd.ingredients);
         detailsListView.setAdapter(adp);
 
         new BackgroundTask(new Delegate() {
@@ -274,7 +277,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void function(Object obj) {
                 try {
-                    gd.ingerdiantses = Factory.getInstance().getGradesParts(gd);
+                    gd.ingredients = Factory.getInstance().getGradesParts(gd);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -307,13 +310,21 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setNzGroup(View convertView, float nz) {
         TextView Nz = (TextView) convertView;
         float num = nz;
+        String formattedString;
+        int newNum;
         try {
-            if (num == (int) num)
-                Nz.setText((int) num + " נ''ז");
-            else
-                Nz.setText(num + " נ''ז");
+            if (num == (int) num) {
+                newNum = (int) num;
+                formattedString = context.getString(R.string.nz_label, newNum);
+                Nz.setText(formattedString);
+            }
+            else {
+                formattedString = context.getString(R.string.nz_label, num);
+                Nz.setText(formattedString);
+            }
         } catch (Exception e) {
-            Nz.setText(num + " נ''ז");
+            formattedString = context.getString(R.string.nz_label, num);
+            Nz.setText(formattedString);
         }
     }
 
@@ -373,7 +384,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             private void scollDown() {
                 mScrollView.post(new Runnable() {
                     public void run() {
-                        mScrollView.fullScroll(mScrollView.FOCUS_DOWN);
+                        mScrollView.fullScroll(View.FOCUS_DOWN);
                     }
                 });
             }
@@ -399,7 +410,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
-        if (holder instanceof ViewHolderGrade)
+        if (holder instanceof ViewHolderGrade) {
             ((ViewHolderGrade) holder).clearAnimation();
+        }
     }
 }
