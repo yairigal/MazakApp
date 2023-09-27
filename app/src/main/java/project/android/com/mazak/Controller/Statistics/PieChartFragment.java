@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -141,10 +142,17 @@ public class PieChartFragment extends Fragment implements IRefresh {
         set.setSliceSpace(3f);
         set.setSelectionShift(5f);
 
-        set.setValueFormatter(new IValueFormatter() {
+        set.setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+//                return String.valueOf((int) value);
+//            }
+
             @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            public String getFormattedValue(float value) {
                 return String.valueOf((int) value);
+
+//                return super.getFormattedValue(value);
             }
         });
 

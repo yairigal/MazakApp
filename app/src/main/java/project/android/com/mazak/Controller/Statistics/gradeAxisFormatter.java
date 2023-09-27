@@ -3,13 +3,14 @@ package project.android.com.mazak.Controller.Statistics;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 /**
  * Created by Yair on 2017-04-04.
  * This class is for the X axis of the bar chart.
  */
 
-public class gradeAxisFormatter implements IAxisValueFormatter {
+public class gradeAxisFormatter extends ValueFormatter {
     private final BarChart mChart;
 
     public gradeAxisFormatter(BarChart mChart) {
@@ -17,7 +18,7 @@ public class gradeAxisFormatter implements IAxisValueFormatter {
     }
 
     @Override
-    public String getFormattedValue(float value, AxisBase axis) {
+    public String getFormattedValue(float value) {
         int val = (int) value;
         if(val == 0)
             return "0-59";

@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -47,14 +49,14 @@ public class AverageFragment extends Fragment implements IRefresh {
 
     private static final int MAX_SEM = 3;
     private static AverageFragment instance;
-    private View root;
-    Database db;
-    GradesList grades;
+    private static View root;
+    static Database db;
+    static GradesList grades;
     private LayoutInflater mainInflaytor;
-    BarChart mBarChart;
+    static BarChart mBarChart;
     LinearLayout masterLayout;
     ScrollView mScrollView;
-    private boolean preperation;
+    private static boolean preperation;
 
 
     public AverageFragment() {
@@ -123,7 +125,7 @@ public class AverageFragment extends Fragment implements IRefresh {
     }*/
 
 
-    private void getGradesAsync(final Delegate delegate) {
+    private static void getGradesAsync(final Delegate delegate) {
         final ProgressBar pb = (ProgressBar) root.findViewById(R.id.averageProgressBar);
         new AsyncTask<Void, Void, Void>() {
             public boolean error;
@@ -231,9 +233,10 @@ public class AverageFragment extends Fragment implements IRefresh {
         XAxis xAxis = mChart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setCenterAxisLabels(true);
-        xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+        xAxis.setValueFormatter(new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value, AxisBase axis) {
+            public String getFormattedValue(float value) {
                 if (preperation) {
                     if ((int) value == 0)
                         return "Prep Year";
@@ -244,6 +247,19 @@ public class AverageFragment extends Fragment implements IRefresh {
 
             }
         });
+//        xAxis.setValueFormatter(new IAxisValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//                if (preperation) {
+//                    if ((int) value == 0)
+//                        return "Prep Year";
+//                    else
+//                        return "Year" + " #" + String.valueOf((int) value);
+//                }
+//                return "Year" + " #" + String.valueOf((int) value + 1);
+//
+//            }
+//        });
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setValueFormatter(new LargeValueFormatter());
