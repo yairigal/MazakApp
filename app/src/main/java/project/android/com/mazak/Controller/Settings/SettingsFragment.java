@@ -54,7 +54,7 @@ public class SettingsFragment extends Fragment implements IRefresh {
                 }
             });
 
-            String selectedPage = readSettings(getActivity());
+            String selectedPage = readSettings(requireActivity());
             for (int i=0;i<NavDrawerActivity.screens.size();++i) {
                 String page = NavDrawerActivity.screens.get(i).first;
                 RadioButton button = new RadioButton(getContext());

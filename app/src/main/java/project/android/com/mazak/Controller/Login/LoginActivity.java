@@ -118,8 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        dialog.setTitle("Logging in...");
-                        dialog.setMessage("Authenticating credentials");
+                        dialog.setTitle(getString(R.string.logging));
+                        dialog.setMessage(getString(R.string.authentication));
                         dialog.setCancelable(false);
                         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         dialog.show();

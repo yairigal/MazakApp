@@ -140,8 +140,10 @@ public class DayFragment extends Fragment {
         Context ctx = getContext();
         boolean colors = ctx != null;
 
-        if(!colors)
-            Toast.makeText(ctx, "Colors not working", Toast.LENGTH_SHORT).show();
+        if(!colors) {
+            //TODO remove toast
+            Toast.makeText(requireContext(), "Colors not working", Toast.LENGTH_SHORT).show();
+        }
         type = type.toLowerCase();
 
         switch (type){
@@ -149,28 +151,21 @@ public class DayFragment extends Fragment {
             case "Lab":
                 if(colors) {
                     mainview.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.lab));
-                    ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
-                    ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
-                    ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
-                    ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+
                 }
                 break;
             case "שעור":
             case "Lesson":
                 if(colors) {
                     mainview.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.lesson));
-                    ((TextView) Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                    ((TextView) Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                    ((TextView) Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                    ((TextView) Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+
                 }
                 break;
             case "תרגיל":
             case "Exercise":
                 mainview.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.targilBack));
-//                mainview.setBackgroundColor(ColorTemplate.rgb("FFFF80"));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ContextCompat.getColor(requireContext(),R.color.white));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ContextCompat.getColor(requireContext(),R.color.white));
                 ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
                 ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
                 break;
@@ -189,6 +184,7 @@ public class DayFragment extends Fragment {
                 ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
                 ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
                 ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                //TODO remove toast
                 Toast.makeText(ctx, "DEFAULT COLOR", Toast.LENGTH_SHORT).show();
                 break;
         }

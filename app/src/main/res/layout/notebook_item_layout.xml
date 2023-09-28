@@ -43,7 +43,7 @@
                 android:layout_margin="5dp"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
-                app:srcCompat="@drawable/icon_download" />
+                app:srcCompat="@drawable/download" />
 
             <Button
                 android:visibility="visible"

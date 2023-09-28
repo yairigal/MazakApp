@@ -1,6 +1,7 @@
 package project.android.com.mazak.Model.Adapters;
 
 import android.content.Context;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,8 +38,9 @@ public class DetailAdapter extends ArrayAdapter<gradeIngredients> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         try {
-            if (convertView == null)
+            if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.grade_detail, parent, false);
+            }
             gradeIngredients current = list.get(position);
             ((TextView) convertView.findViewById(R.id.Type_details)).setText(current.type);
             int calulatedWeightValue = (int) (float) Float.parseFloat(current.weight);
@@ -70,15 +72,16 @@ public class DetailAdapter extends ArrayAdapter<gradeIngredients> {
         String mc = moedc.getText().toString();
         String ms = moeds.getText().toString();
         int mingrade = Integer.parseInt(minGrade);
-        if (!mc.equals(""))
+        if (!mc.equals("")) {
             color(moedc, mingrade);
-        else // mc = null
-            if (!ms.equals(""))
+        } else // mc = null
+            if (!ms.equals("")) {
                 color(moeds, mingrade);
-            else if (!mb.equals(""))
+            } else if (!mb.equals("")) {
                 color(moedb, mingrade);
-            else
+            } else {
                 color(moeda, mingrade);
+            }
 
 
     }
@@ -88,10 +91,9 @@ public class DetailAdapter extends ArrayAdapter<gradeIngredients> {
             int grade = Integer.parseInt(moed.getText().toString());
             if (grade >= mingrade) {
                 moed.setTextColor(ContextCompat.getColor(getContext(), R.color.green)); // green
-                 }
-            else {
+            } else {
                 moed.setTextColor(ContextCompat.getColor(getContext(), R.color.red)); // red
-                }
+            }
         } catch (Exception ex) {
             Toast.makeText(getContext(), getContext().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }

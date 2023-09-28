@@ -64,9 +64,8 @@ public class NavDrawerActivity extends AppCompatActivity
     IRefresh currentFragment;
     LoginDatabase loginDatabase;
 //    AdView adView;
-    public static NavDrawerActivity current;
-    private boolean fromSettings,
-            fromWeb = false;
+    public NavDrawerActivity current;
+    private boolean fromWeb = false;
 //    Tracker mTracker;
     private AsyncTask<Void, Void, Void> getGrades;
     ProgressBar pb;
@@ -81,7 +80,7 @@ public class NavDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_nav_drawer);
         //startActivity(new Intent(this,MinyanTimesActivity.class));
 
-        fromSettings = false;
+        boolean fromSettings = false;
         pb = (ProgressBar) findViewById(R.id.spinner);
         frame = (FrameLayout) findViewById(R.id.frameNav);
 
@@ -132,8 +131,9 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private Integer getScreenIdByName(String name) {
         for (int i = 0; i < screens.size(); ++i) {
-            if (screens.get(i).first.equals(name))
+            if (screens.get(i).first.equals(name)) {
                 return screens.get(i).second;
+            }
         }
         return screens.get(0).second;
     }
@@ -159,8 +159,10 @@ public class NavDrawerActivity extends AppCompatActivity
     @Override
     protected void onNewIntent(Intent intent) {
         fromWeb = intent.getBooleanExtra("refresh", false);
-        if (fromWeb)
+        if (fromWeb) {
             currentFragment.Refresh();
+        }
+        super.onNewIntent(intent);
     }
 
     @Override
@@ -272,7 +274,7 @@ public class NavDrawerActivity extends AppCompatActivity
             navigateTo(new SettingsFragment(), getString(R.string.title_activity_settings));
         } else if (id == R.id.telegram_bot_menu) {
             Intent telegram = new Intent(Intent.ACTION_VIEW);
-            telegram.setData(Uri.parse("https://t.me/mazakjct_bot"));
+            telegram.setData(Uri.parse(getString(R.string.bot_link)));
             startActivity(telegram);
         } else if (id == R.id.policy_menu_item) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(policyLink));
@@ -343,7 +345,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private void openAppChooser() {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto:" + myEmailAdd));
+        emailIntent.setData(Uri.parse("mailto:" + getString(R.string.myEmail)));
 
         Intent telegram = new Intent(Intent.ACTION_VIEW);
         telegram.setData(Uri.parse("https://t.me/YairYigal"));

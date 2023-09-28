@@ -43,7 +43,7 @@ import project.android.com.mazak.R;
 
 public class FatherTab extends Fragment implements ISearch {
 
-    private static FatherTab instnace;
+//    private FatherTab instnace;
     private ISearch currentFragmet;
     View view;
     Database db;
@@ -162,7 +162,7 @@ public class FatherTab extends Fragment implements ISearch {
                     grades = db.getGrades(getOptions.fromMemory);
                 } catch (Exception e) {
                     try {
-                        if (isNetworkAvailable(getContext())) {
+                        if (isNetworkAvailable(requireContext())) {
                             grades = db.getGrades(getOptions.fromWeb);
                         }
                         else {

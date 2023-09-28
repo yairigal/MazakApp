@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -112,7 +114,7 @@ public class singleGradeView extends AppCompatActivity {
     }
 
     private void setBackButtonColor() {
-        final Drawable upArrow = this.getDrawable(R.drawable.abc_ic_ab_back_material);
+        final Drawable upArrow =  AppCompatResources.getDrawable(this,R.drawable.abc_ic_ab_back_material);
         upArrow.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
     }

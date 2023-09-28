@@ -33,11 +33,13 @@ public class IrurList extends ObjectList<Irur> {
         for (int i = 0; i < list.size(); i++) {
             found = false;
             for (int j = 0; j < lst2.getList().size(); j++) {
-                if (list.get(i).equals(lst2.get(j)))
+                if (list.get(i).equals(lst2.get(j))) {
                     found = true;
+                }
             }
-            if (!found)
+            if (!found) {
                 return false;
+            }
         }
         return true;
     }

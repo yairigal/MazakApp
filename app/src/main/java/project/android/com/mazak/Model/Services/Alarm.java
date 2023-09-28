@@ -27,13 +27,13 @@ public class Alarm extends BroadcastReceiver {
     public void setAlarm(Context context) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, Alarm.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_IMMUTABLE);
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 *CHECKUP_MINUTES* CHECKUP_HOURS, pi); // Millisec * Second * Minute
     }
 
     public void cancelAlarm(Context context) {
         Intent intent = new Intent(context, Alarm.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
     }

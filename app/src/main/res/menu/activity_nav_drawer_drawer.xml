@@ -8,52 +8,52 @@
             android:title="@string/grades" />
         <item
             android:id="@+id/irurs"
-            android:icon="@mipmap/nav_year_icons"
+            android:icon="@drawable/nav_year_icons"
             android:title="@string/appeals" />
         <item
             android:id="@+id/avgItem"
-            android:icon="@mipmap/icon_student"
+            android:icon="@drawable/icon_student"
             android:title="@string/average_heading" />
         <item
             android:id="@+id/ScheudleItem"
-            android:icon="@mipmap/icon_schedule"
+            android:icon="@drawable/icon_schedule"
             android:title="@string/schedule" />
         <item
             android:id="@+id/TestsItem"
-            android:icon="@mipmap/icon_test"
+            android:icon="@drawable/icon_test"
             android:title="@string/tests" />
     </group>
     <group
         android:id="@+id/group4">
         <item
             android:id="@+id/TfilaTimesItem"
-            android:icon="@mipmap/icon_tfila"
+            android:icon="@drawable/star_david"
             android:title="@string/tfila_times" />
     </group>
     <group
         android:id="@+id/group2">
         <item
             android:id="@+id/Settings"
-            android:icon="@drawable/icon_settings"
+            android:icon="@drawable/settings"
             android:title="@string/title_activity_settings" />
         <item
             android:id="@+id/Logout"
-            android:icon="@mipmap/icon_logout"
+            android:icon="@drawable/logout"
             android:title="@string/logout" />
     </group>
     <group
         android:id="@+id/group3">
         <item
             android:id="@+id/telegram_bot_menu"
-            android:icon="@drawable/icon_telegram_bot"
+            android:icon="@drawable/telegram"
             android:title="@string/telegram_bot" />
         <item
             android:id="@+id/feedback_menu_item"
-            android:icon="@mipmap/icon_email"
+            android:icon="@drawable/icon_email"
             android:title="@string/feedback" />
         <item
             android:id="@+id/policy_menu_item"
-            android:icon="@drawable/privacy_policy_icon"
+            android:icon="@drawable/privacy"
             android:title="@string/privacy_policy" />
     </group>
 

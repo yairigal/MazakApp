@@ -153,8 +153,9 @@ public class ScheduleHost extends Fragment implements IRefresh {
                         setupTabs(view);
                         String cal1 = db.getUpdateTime(InternalDatabase.ScheduleKey);
                         try {
-                            if (view != null)
+                            if (view != null) {
                                 Snackbar.make(view, "Last Update  " + cal1, Snackbar.LENGTH_SHORT).show();
+                            }
                         } catch (Exception ex) {
                         }
                     }
@@ -171,7 +172,7 @@ public class ScheduleHost extends Fragment implements IRefresh {
                         list = db.getScheudle(getOptions.fromMemory);
                     } catch (Exception e) {
                         try {
-                            if (FatherTab.isNetworkAvailable(getContext()))
+                            if (FatherTab.isNetworkAvailable(requireContext()))
                                 list = db.getScheudle(getOptions.fromWeb);
                             else
                                 throw new NetworkErrorException();

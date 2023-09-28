@@ -56,6 +56,8 @@
     <string name="pick_a_pdf_viewer">Pick a PDF Viewer</string>
 
 <!--    Login page-->
+    <string name="authentication">Authenticating credentials</string>
+    <string name="logging">"Logging in…"</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="this_is_not_an_official_jct_app">- This is not an official JCT app -</string>
@@ -92,7 +94,7 @@
     <string name="classroomplace" translatable="false">ClassRoomPlace</string>
     <string name="startdate_enddate" translatable="false">StartDate - EndDate</string>
 
-    <string name="academic">אקדמי</string>
+    <string name="academic">Secular</string>
 
     <string name="elul">Summer Semester</string>
     <string name="first_sem">First Semester</string>

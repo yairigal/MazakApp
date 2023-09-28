@@ -50,8 +50,9 @@ public class LoginService extends Service {
                 dataVersion = sharedPref.getInt("version", 0);
             } catch (Exception ignored) {
             } finally {
-                if (dataVersion < BuildConfig.VERSION_CODE)
+                if (dataVersion < BuildConfig.VERSION_CODE) {
                     Factory.getInstance(this).clearDatabase();
+                }
                 SharedPreferences sharedPref = getSharedPreferences("version", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putInt("version",BuildConfig.VERSION_CODE);

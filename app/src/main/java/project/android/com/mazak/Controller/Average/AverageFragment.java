@@ -196,11 +196,11 @@ public class AverageFragment extends Fragment implements IRefresh {
         int startYear = 0;
         int endYear = startYear + groupCount;
 
-        BarDataSet set0 = new BarDataSet(sem0, "Semester Elul");
+        BarDataSet set0 = new BarDataSet(sem0, getString(R.string.elul));
         set0.setColor(getColor(0));
-        BarDataSet set1 = new BarDataSet(sem1, "Semester A");
+        BarDataSet set1 = new BarDataSet(sem1, getString(R.string.first_sem));
         set1.setColor(getColor(1));
-        BarDataSet set2 = new BarDataSet(sem2, "Semester B");
+        BarDataSet set2 = new BarDataSet(sem2, getString(R.string.second_sem));
         set2.setColor(getColor(2));
 
 
@@ -240,7 +240,7 @@ public class AverageFragment extends Fragment implements IRefresh {
             public String getFormattedValue(float value) {
                 if (preperation) {
                     if ((int) value == 0)
-                        return "Prep Year";
+                        return getString(R.string.prep_year);
                     else
                         return "Year" + " #" + String.valueOf((int) value);
                 }
