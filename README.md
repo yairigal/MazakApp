@@ -6,14 +6,13 @@ This app makes it easier to access the mazak from your android smartphone.
 
 * Removed ads and analytics
   
-
 * Added the new Certificate for Tfila Times
 
-*  WIP: Added I18N for better hebrew support as well as english
+* Updated libraries and SDKs (including MPCharts)
 
-* WIP: fixes for some UI and design issues
-  
-* WIP: more settings for the app
+* Fixed layout and other incompatible issues
+
+
   
 ## Download
 The original application can be downloaded from the Play store(https://play.google.com/store/apps/details?id=project.android.com.mazak).
