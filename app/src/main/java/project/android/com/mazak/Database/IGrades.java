@@ -7,7 +7,7 @@ import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.getOptions;
-import project.android.com.mazak.Model.Entities.gradeIngerdiants;
+import project.android.com.mazak.Model.Entities.gradeIngredients;
 import project.android.com.mazak.Model.Web.MazakAPI;
 
 /**
@@ -21,7 +21,7 @@ public interface IGrades {
     GradesList FilterByName(String name);
     void deleteGrades();
 
-    ArrayList<gradeIngerdiants> getGradesParts(Grade currentGrade) throws Exception;
+    ArrayList<gradeIngredients> getGradesParts(Grade currentGrade) throws Exception;
 
-    MazakAPI.Tuple<ArrayList<gradeIngerdiants>,NotebookList> getGradesDetailsAndNotebooks(Grade course) throws Exception;
+    MazakAPI.Tuple<ArrayList<gradeIngredients>,NotebookList> getGradesDetailsAndNotebooks(Grade course) throws Exception;
 }

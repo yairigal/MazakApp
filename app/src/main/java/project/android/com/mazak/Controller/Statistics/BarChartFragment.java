@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.text.DecimalFormat;
@@ -34,7 +35,6 @@ public class BarChartFragment extends Fragment implements IRefresh {
     BarChart bar;
     //Grade currentGrade;
     CourseStatistics current;
-    private String noDataText = "No Data Found";
 
     @Nullable
     @Override
@@ -65,7 +65,7 @@ public class BarChartFragment extends Fragment implements IRefresh {
 
         mChart.getDescription().setEnabled(false);
 
-        mChart.setNoDataText(noDataText);
+        mChart.setNoDataText(getString(R.string.data_error));
 
         // if more than 60 entries are displayed in the chart, no values will be
         // drawn
@@ -77,8 +77,9 @@ public class BarChartFragment extends Fragment implements IRefresh {
         mChart.setDrawGridBackground(false);
         // mChart.setDrawYLabels(false);
 
-        IAxisValueFormatter xAxisFormatter = new gradeAxisFormatter(mChart);
-
+        ValueFormatter xAxisFormatter = new gradeAxisFormatter(mChart);
+//        fix the issue with IAXIS deprecated
+//        ValueFormatter xAxisFormatter = new gradeAxisFormatter(mChart);
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         //xAxis.setTypeface(mTfLight);
@@ -153,7 +154,7 @@ public class BarChartFragment extends Fragment implements IRefresh {
                 end++;
         }
         BarDataSet set = new BarDataSet(entries,coursename);
-        set.setValueFormatter(new IValueFormatter() {
+        set.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 float percentage = value/current.getNumOfStudentsWithGrade() * 100;

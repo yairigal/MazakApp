@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import project.android.com.httpstest.Model.Entities.Delegate;
 import project.android.com.httpstest.Model.Entities.Grade;
-import project.android.com.httpstest.Model.Entities.gradeIngerdiants;
+import project.android.com.httpstest.Model.Entities.gradeIngredients;
 import project.android.com.httpstest.Model.HtmlParser;
 
 */
@@ -162,8 +162,8 @@ public class WebViewConnection {
         }
     }
 
-    private ArrayList<gradeIngerdiants> getGradesDetails(Grade g) {
-        ArrayList<gradeIngerdiants> ret = new ArrayList<>();
+    private ArrayList<gradeIngredients> getGradesDetails(Grade g) {
+        ArrayList<gradeIngredients> ret = new ArrayList<>();
         String htmlOutput = getWindow(g.subDetailsID);
         return HtmlParser.ParseToingerdiants(html);
     }

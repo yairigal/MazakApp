@@ -11,7 +11,7 @@ import project.android.com.mazak.Controller.Login.LoginActivity;
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Database.LoginDatabase;
 import project.android.com.mazak.R;
-
+@Deprecated
 public class SettingsActivity extends AppCompatActivity {
 
     private static String username = "";

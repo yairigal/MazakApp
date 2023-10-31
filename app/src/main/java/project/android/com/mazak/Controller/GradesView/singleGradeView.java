@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -32,6 +34,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import project.android.com.mazak.Controller.Constants;
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Controller.Statistics.BarChartFragment;
 import project.android.com.mazak.Controller.Statistics.PieChartFragment;
@@ -45,7 +48,7 @@ import project.android.com.mazak.Model.Entities.Delegate;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.Notebook;
 import project.android.com.mazak.Model.Entities.NotebookList;
-import project.android.com.mazak.Model.Entities.gradeIngerdiants;
+import project.android.com.mazak.Model.Entities.gradeIngredients;
 import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.Model.Utility;
 import project.android.com.mazak.Model.Web.MazakAPI;
@@ -88,8 +91,9 @@ public class singleGradeView extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (NotebookAdapter != null)
+        if (NotebookAdapter != null) {
             NotebookAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -110,7 +114,7 @@ public class singleGradeView extends AppCompatActivity {
     }
 
     private void setBackButtonColor() {
-        final Drawable upArrow = this.getDrawable(R.drawable.abc_ic_ab_back_material);
+        final Drawable upArrow =  AppCompatResources.getDrawable(this,R.drawable.abc_ic_ab_back_material);
         upArrow.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
     }
@@ -166,7 +170,7 @@ public class singleGradeView extends AppCompatActivity {
                     public void function(Object obj) {
                         toggleSpinner(false, notebookLayout, spinner);
                         if (error[0]) {
-                            Toast.makeText(getApplicationContext(), "Notebook error, Try refreshing", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.notebook_error_try_refreshing, Toast.LENGTH_LONG).show();
                             error[0] = false;
                             return;
                         }
@@ -345,10 +349,12 @@ public class singleGradeView extends AppCompatActivity {
             b.putSerializable("stats", current);
             Fragment fragment;
 
-            if (position == 0)
+            if (position == 0) {
                 fragment = new BarChartFragment();
-            else
+            }
+            else {
                 fragment = new PieChartFragment();
+            }
 
             fragment.setArguments(b);
             currentFragmet = (IRefresh) fragment;
@@ -357,10 +363,7 @@ public class singleGradeView extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0)
-                return "Bar Chart";
-            else
-                return "Cake Chart";
+           return Constants.getChartType(position, getApplicationContext());
         }
 
         @Override
@@ -376,7 +379,9 @@ public class singleGradeView extends AppCompatActivity {
     private void setGradeDetailsAndNotebooks() {
         //((TextView) convertView.findViewById(R.id.nameDetails)).setText(gd.name);
         ((TextView) findViewById(R.id.courseIdDetails)).setText(currentGrade.code);
-        ((TextView) findViewById(R.id.courseFinalGrade)).setText("ציון סופי " + currentGrade.finalGrade);
+        String form = String.format(getString(R.string.course_final_grade), currentGrade.finalGrade);
+        ((TextView) findViewById(R.id.courseFinalGrade)).setText(form);
+//        ((TextView) findViewById(R.id.courseFinalGrade)).setText("ציון סופי " + currentGrade.finalGrade);
 
         ((TextView) findViewById(R.id.Type_details)).setTypeface(null, Typeface.BOLD);
         ((TextView) findViewById(R.id.Weight_details)).setTypeface(null, Typeface.BOLD);
@@ -388,7 +393,7 @@ public class singleGradeView extends AppCompatActivity {
 
         final ListView detailsListView = (ListView) findViewById(R.id.detailsListView);
         final ProgressBar spinner = (ProgressBar) findViewById(R.id.detailsProgressBar);
-        final ArrayList<gradeIngerdiants> ing = new ArrayList<>();
+        final ArrayList<gradeIngredients> ing = new ArrayList<>();
         final ArrayAdapter adp = new DetailAdapter(this, R.layout.grade_detail, ing);
         final View notebookLayout = findViewById(R.id.NotebookLayout);
         final ProgressBar spinnerNotebooks = (ProgressBar) findViewById(R.id.NotebooksProgressBar);
@@ -404,7 +409,7 @@ public class singleGradeView extends AppCompatActivity {
             @Override
             public void function(Object obj) {
                 try {
-                    MazakAPI.Tuple<ArrayList<gradeIngerdiants>, NotebookList> data = db.getGradesDetailsAndNotebooks(currentGrade);
+                    MazakAPI.Tuple<ArrayList<gradeIngredients>, NotebookList> data = db.getGradesDetailsAndNotebooks(currentGrade);
                     ing.clear();
                     ing.addAll(data.x);
                     currentGrade.Notebook.clear();

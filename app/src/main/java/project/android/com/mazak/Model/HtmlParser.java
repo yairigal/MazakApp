@@ -11,7 +11,6 @@ import org.jsoup.select.Elements;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 import project.android.com.mazak.Database.InternalDatabase;
@@ -24,7 +23,7 @@ import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.Test;
 import project.android.com.mazak.Model.Entities.TestList;
 import project.android.com.mazak.Model.Entities.TfilaTime;
-import project.android.com.mazak.Model.Entities.gradeIngerdiants;
+import project.android.com.mazak.Model.Entities.gradeIngredients;
 import project.android.com.mazak.Model.Web.ConnectionData;
 
 import static project.android.com.mazak.Model.Entities.Grade.ParseToGrade;
@@ -98,7 +97,7 @@ public class HtmlParser {
      * @param html
      * @return
      */
-    public static ArrayList<gradeIngerdiants> ParseToingerdiants(String html) {
+    public static ArrayList<gradeIngredients> ParseToingerdiants(String html) {
         Document doc = null;
         doc = Jsoup.parse(html);
         Element elem = doc.getElementById(ConnectionData.IngredientsTableId);

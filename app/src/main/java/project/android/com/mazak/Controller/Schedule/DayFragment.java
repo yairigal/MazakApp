@@ -1,13 +1,17 @@
 package project.android.com.mazak.Controller.Schedule;
 
 
+import android.content.Context;
 import android.os.Bundle;
+
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -19,7 +23,6 @@ import project.android.com.mazak.R;
  * A simple {@link Fragment} subclass.
  */
 public class DayFragment extends Fragment {
-
 
     private View root;
     LayoutInflater mainInflater;
@@ -81,10 +84,12 @@ public class DayFragment extends Fragment {
         //LinearLayout main = (LinearLayout) root.findViewById(R.id.DayMainLayout);
         //View Mainview = mainInflater.inflate(R.layout.day_details,null);
         String start="",end="",total="";
-        if(events.size()!=0)
-             start = events.get(0).startTime;
-        if(events.size()!=0)
-            end = events.get(events.size()-1).endTime;
+        if(events.size()!=0) {
+            start = events.get(0).startTime;
+        }
+        if(events.size()!=0) {
+            end = events.get(events.size() - 1).endTime;
+        }
 
         total = getTotalHours(events);
 
@@ -101,8 +106,9 @@ public class DayFragment extends Fragment {
      */
     private String getTotalHours(ScheduleList events) {
         float sum = 0;
-        for (ClassEvent e: events)
-            sum+=getHours(e);
+        for (ClassEvent e: events) {
+            sum += getHours(e);
+        }
         sum = Math.round(sum);
         return String.valueOf(sum);
     }
@@ -131,28 +137,55 @@ public class DayFragment extends Fragment {
      */
     private void colorByType(View Mainview, String type) {
         View mainview = Mainview.findViewById(R.id.cardLayout_ClassEvent);
+        Context ctx = getContext();
+        boolean colors = ctx != null;
+
+        if(!colors) {
+            //TODO remove toast
+            Toast.makeText(requireContext(), "Colors not working", Toast.LENGTH_SHORT).show();
+        }
+        type = type.toLowerCase();
+
         switch (type){
             case "מעבדה":
-                mainview.setBackgroundColor(ColorTemplate.rgb("FFA500"));
+            case "Lab":
+                if(colors) {
+                    mainview.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.lab));
+
+                }
                 break;
             case "שעור":
-                mainview.setBackgroundColor(ColorTemplate.rgb("00C000"));
+            case "Lesson":
+                if(colors) {
+                    mainview.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.lesson));
+
+                }
                 break;
             case "תרגיל":
-                mainview.setBackgroundColor(ColorTemplate.rgb("FFFF80"));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ColorTemplate.rgb("000000"));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ColorTemplate.rgb("000000"));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ColorTemplate.rgb("000000"));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ColorTemplate.rgb("000000"));
+            case "Exercise":
+                mainview.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.targilBack));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ContextCompat.getColor(requireContext(),R.color.white));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ContextCompat.getColor(requireContext(),R.color.white));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
                 break;
             case "פרויקט":
-                mainview.setBackgroundColor(ColorTemplate.rgb("00C0C0"));
+            case "Project":
+                if(colors) {
+                    mainview.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.lesson));
+                    ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                    ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                    ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                    ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                }
                 break;
             default:
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ColorTemplate.rgb("000000"));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ColorTemplate.rgb("000000"));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ColorTemplate.rgb("000000"));
-                ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ColorTemplate.rgb("000000"));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_CourseName)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_ClassRoomPlace)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_Date)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                ((TextView)Mainview.findViewById(R.id.ClassEvent_Lecturer)).setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                //TODO remove toast
+                Toast.makeText(ctx, "DEFAULT COLOR", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

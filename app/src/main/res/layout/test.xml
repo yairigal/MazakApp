@@ -26,7 +26,7 @@
             android:background="@android:color/transparent" />-->
 
         <TextView
-            android:text="Test Time And Date"
+            android:text="@string/test_time_and_date"
             android:layout_margin="15dp"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -37,7 +37,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:text="Test Moed"
+            android:text="@string/test_moed"
             android:layout_margin="15dp"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -48,7 +48,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:text="Test Name"
+            android:text="@string/test_name"
             android:layout_margin="15dp"
             android:layout_width="0dp"
             android:layout_weight="1"

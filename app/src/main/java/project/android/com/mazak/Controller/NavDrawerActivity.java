@@ -22,12 +22,12 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.flurry.android.FlurryAgent;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+//import com.flurry.android.FlurryAgent;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
+//import com.google.android.gms.analytics.GoogleAnalytics;
+//import com.google.android.gms.analytics.HitBuilders;
+//import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,11 +63,10 @@ public class NavDrawerActivity extends AppCompatActivity
     Database db;
     IRefresh currentFragment;
     LoginDatabase loginDatabase;
-    AdView adView;
-    public static NavDrawerActivity current;
-    private boolean fromSettings,
-            fromWeb = false;
-    Tracker mTracker;
+//    AdView adView;
+    public NavDrawerActivity current;
+    private boolean fromWeb = false;
+//    Tracker mTracker;
     private AsyncTask<Void, Void, Void> getGrades;
     ProgressBar pb;
 
@@ -81,7 +80,7 @@ public class NavDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_nav_drawer);
         //startActivity(new Intent(this,MinyanTimesActivity.class));
 
-        fromSettings = false;
+        boolean fromSettings = false;
         pb = (ProgressBar) findViewById(R.id.spinner);
         frame = (FrameLayout) findViewById(R.id.frameNav);
 
@@ -91,7 +90,7 @@ public class NavDrawerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setupAnalytics();
+//        setupAnalytics();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -101,7 +100,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setItemIconTintList(null);
+//        navigationView.setItemIconTintList(null);
 
         //AsyncGetGrades();
         //adding to the nav drawer in runtime
@@ -112,19 +111,19 @@ public class NavDrawerActivity extends AppCompatActivity
 
         Factory.getInstance(getApplicationContext());
 
-        screens.add(new Pair<>("Grades", R.id.grades));
-        screens.add(new Pair<>("Appeals", R.id.irurs));
-        screens.add(new Pair<>("Average", R.id.avgItem));
-        screens.add(new Pair<>("Schedule", R.id.ScheudleItem));
-        screens.add(new Pair<>("Tfila Times", R.id.TfilaTimesItem));
-        screens.add(new Pair<>("Tests", R.id.TestsItem));
+        screens.add(new Pair<>(getString(R.string.grades), R.id.grades));
+        screens.add(new Pair<>(getString(R.string.appeals), R.id.irurs));
+        screens.add(new Pair<>(getString(R.string.average_heading), R.id.avgItem));
+        screens.add(new Pair<>(getString(R.string.schedule), R.id.ScheudleItem));
+        screens.add(new Pair<>(getString(R.string.tfila_times), R.id.TfilaTimesItem));
+        screens.add(new Pair<>(getString(R.string.tests), R.id.TestsItem));
 
         //this checkup if for opening the appeals fragment from the service.
         //String whereToNav = getIntent().getStringExtra("fragment");
         // navigate to selected fragment in the settings
         onNavigationItemSelected(menu.findItem(getScreenIdByName(SettingsFragment.readSettings(current))));
 
-        setupGoogleAnalyticsTracker();
+//        setupGoogleAnalyticsTracker();
 
 
 
@@ -132,8 +131,9 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private Integer getScreenIdByName(String name) {
         for (int i = 0; i < screens.size(); ++i) {
-            if (screens.get(i).first.equals(name))
+            if (screens.get(i).first.equals(name)) {
                 return screens.get(i).second;
+            }
         }
         return screens.get(0).second;
     }
@@ -141,40 +141,42 @@ public class NavDrawerActivity extends AppCompatActivity
     /**
      * sets up all google analytics tracer stuff
      */
-    private void setupGoogleAnalyticsTracker() {
-        if (mTracker == null) {
-            mTracker = GoogleAnalytics.getInstance(this).newTracker("UA-96616811-1");
-        }
-    }
+//    private void setupGoogleAnalyticsTracker() {
+//        if (mTracker == null) {
+//            mTracker = GoogleAnalytics.getInstance(this).newTracker("UA-96616811-1");
+//        }
+//    }
 
     /**
      * sets up flurry analytics
      */
-    private void setupAnalytics() {
-        new FlurryAgent.Builder()
-                .withLogEnabled(false)
-                .build(this, FLURRY_API_KEY);
-    }
+//    private void setupAnalytics() {
+//        new FlurryAgent.Builder()
+//                .withLogEnabled(false)
+//                .build(this, FLURRY_API_KEY);
+//    }
 
     @Override
     protected void onNewIntent(Intent intent) {
         fromWeb = intent.getBooleanExtra("refresh", false);
-        if (fromWeb)
+        if (fromWeb) {
             currentFragment.Refresh();
+        }
+        super.onNewIntent(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        sendGoogleAnalyticsData("Grades");
+//        sendGoogleAnalyticsData("Grades");
 
         try {
             Intent toLogin = new Intent(NavDrawerActivity.this, LoginService.class);
             toLogin.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startService(toLogin);
 
-            setupAd();
+//            setupAd();
             //fromWeb = getIntent().getExtras() == null ? false : getIntent().getExtras().getBoolean("refresh");
             getDatabasesFactory();
         } catch (Exception e) {
@@ -187,11 +189,11 @@ public class NavDrawerActivity extends AppCompatActivity
      *
      * @param ScreenName
      */
-    private void sendGoogleAnalyticsData(String ScreenName) {
-        setupGoogleAnalyticsTracker();
-        mTracker.setScreenName(ScreenName);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-    }
+//    private void sendGoogleAnalyticsData(String ScreenName) {
+//        setupGoogleAnalyticsTracker();
+//        mTracker.setScreenName(ScreenName);
+//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+//    }
 
     /**
      * gets the database factory.
@@ -209,13 +211,13 @@ public class NavDrawerActivity extends AppCompatActivity
     /**
      * sets up the google ads ad
      */
-    private void setupAd() {
-        adView = (AdView) findViewById(R.id.adView);
-        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-        // Optionally populate the ad request builder.
-        adRequestBuilder.addKeyword("Cars");
-        adView.loadAd(adRequestBuilder.build());
-    }
+//    private void setupAd() {
+//        adView = (AdView) findViewById(R.id.adView);
+//        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+//        // Optionally populate the ad request builder.
+//        adRequestBuilder.addKeyword("Cars");
+//        adView.loadAd(adRequestBuilder.build());
+//    }
 
     @Override
     public void onBackPressed() {
@@ -252,49 +254,36 @@ public class NavDrawerActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.grades: // grades
-                navigateTo(FatherTab.getInstance(), "Grades");
-                break;
-            case R.id.irurs: // appeals
-                navigateTo(IrurFragment.getInstance(), "Appeals");
-                break;
-            case R.id.feedback_menu_item: // feedback
-                sendFeedbackWithLog();
-                break;
-            case R.id.avgItem: // average
-                navigateTo(AverageFragment.getInstance(), "Average");
-                break;
-            case R.id.ScheudleItem: // average
-                navigateTo(ScheduleHost.getInstance(), "Schedule");
-                break;
-            case R.id.TfilaTimesItem: // Tfila times
-                navigateTo(new MinyanFragment(), "Tfila Times");
-                break;
-            case R.id.TestsItem: // Tests
-                navigateTo(new TestsFragment(), "Tests");
-                break;
-            case R.id.Settings:
-                navigateTo(new SettingsFragment(), "Settings");
-                break;
-            case R.id.telegram_bot_menu:
-                Intent telegram = new Intent(Intent.ACTION_VIEW);
-                telegram.setData(Uri.parse("https://t.me/mazakjct_bot"));
-                startActivity(telegram);
-                break;
-            case R.id.policy_menu_item: // Tests
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(policyLink));
-                startActivity(browserIntent);
-                break;
-            default: //logout
-                popUpLogoutDialog();
-                break;
+        if (id == R.id.grades) {
+            navigateTo(FatherTab.getInstance(), getString(R.string.grades));
+        } else if (id == R.id.irurs) {
+            navigateTo(IrurFragment.getInstance(), getString(R.string.appeals));
+        } else if (id == R.id.feedback_menu_item) {
+            sendFeedbackWithLog();
+        } else if (id == R.id.avgItem) {
+            navigateTo(AverageFragment.getInstance(), getString(R.string.average_heading));
+        } else if (id == R.id.ScheudleItem) {
+            navigateTo(ScheduleHost.getInstance(), getString(R.string.schedule));
+        } else if (id == R.id.TfilaTimesItem) {
+            navigateTo(new MinyanFragment(), getString(R.string.tfila_times));
+        } else if (id == R.id.TestsItem) {
+            navigateTo(new TestsFragment(), getString(R.string.tests));
+        } else if (id == R.id.Settings) {
+            navigateTo(new SettingsFragment(), getString(R.string.title_activity_settings));
+        } else if (id == R.id.telegram_bot_menu) {
+            Intent telegram = new Intent(Intent.ACTION_VIEW);
+            telegram.setData(Uri.parse(getString(R.string.bot_link)));
+            startActivity(telegram);
+        } else if (id == R.id.policy_menu_item) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(policyLink));
+            startActivity(browserIntent);
+        } else {
+            popUpLogoutDialog();
         }
 
-        /*else if(id == R.id.menu_item_Schedule){
+           /*else if(id == R.id.menu_item_Schedule){
             navigateTo(new ScheduleFragment(),"Schedule",null);
         }*/
 
@@ -302,17 +291,16 @@ public class NavDrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     /**
      * pops up the logout dialog
      */
     private void popUpLogoutDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-        adb.setTitle("Are you sure you want to logout?");
+        adb.setTitle(getString(R.string.logout_message));
 
 
-        adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        adb.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
@@ -320,7 +308,7 @@ public class NavDrawerActivity extends AppCompatActivity
         });
 
 
-        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        adb.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
@@ -357,7 +345,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private void openAppChooser() {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto:" + myEmailAdd));
+        emailIntent.setData(Uri.parse("mailto:" + getString(R.string.myEmail)));
 
         Intent telegram = new Intent(Intent.ACTION_VIEW);
         telegram.setData(Uri.parse("https://t.me/YairYigal"));
@@ -399,7 +387,7 @@ public class NavDrawerActivity extends AppCompatActivity
         currentFragment = (IRefresh) fgmt;
         getSupportFragmentManager().beginTransaction().replace(R.id.frameNav, fgmt).commit();
         this.setTitle(title);
-        sendGoogleAnalyticsData(title);
+//        sendGoogleAnalyticsData(title);
     }
 
     /**
@@ -486,7 +474,7 @@ public class NavDrawerActivity extends AppCompatActivity
     public void AsyncGetGrades(final Delegate after) {
         //final SearchView search = (SearchView) findViewById(R.id.searchView);
         toggleSpinner(true, frame, pb);
-        this.setTitle("Loading...");
+        this.setTitle(getString(R.string.loading_data));
         //search.setEnabled(false);
         try {
             GradesList lst;
@@ -503,16 +491,20 @@ public class NavDrawerActivity extends AppCompatActivity
             protected Void doInBackground(Void... params) {
                 try {
                     //db.clearDatabase();
-                    if (fromWeb)
+                    if (fromWeb) {
                         lst = db.getGrades(getOptions.fromWeb);
-                    else
+                    }
+                    else {
                         lst = db.getGrades(getOptions.fromMemory);
-                    if (isCancelled())
+                    }
+                    if (isCancelled()) {
                         return null;
+                    }
                 } catch (Exception e) {
                     errorMsg = e.getMessage();
-                    if (!errorMsg.equals(String.valueOf(R.string.no_grades_error)))
-                        errorMsg = "Wrong Username or Password";
+                    if (!errorMsg.equalsIgnoreCase(String.valueOf(R.string.no_grades_error))) {
+                        errorMsg = getString(R.string.wrong_user_pass);
+                    }
                 }
                 return null;
             }
@@ -520,8 +512,9 @@ public class NavDrawerActivity extends AppCompatActivity
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                if (errorMsg == null)
+                if (errorMsg == null) {
                     after.function(lst);
+                }
                 else {
                     showException(errorMsg);
                     finish();

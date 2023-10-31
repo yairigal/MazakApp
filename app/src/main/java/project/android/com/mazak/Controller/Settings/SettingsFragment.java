@@ -54,7 +54,7 @@ public class SettingsFragment extends Fragment implements IRefresh {
                 }
             });
 
-            String selectedPage = readSettings(getActivity());
+            String selectedPage = readSettings(requireActivity());
             for (int i=0;i<NavDrawerActivity.screens.size();++i) {
                 String page = NavDrawerActivity.screens.get(i).first;
                 RadioButton button = new RadioButton(getContext());
@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment implements IRefresh {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(startingPageKey,page);
-        editor.commit();
+        editor.apply();
     }
 
 

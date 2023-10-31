@@ -34,10 +34,12 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
     }
 
     public void setStartTime(String startTime) {
-        if (startTime != null)
+        if (startTime != null) {
             this.startTime = startTime;
-        else
+        }
+        else {
             this.startTime = "12:00";
+        }
     }
 
     public String getEndTime() {
@@ -45,10 +47,12 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
     }
 
     public void setEndTime(String endTime) {
-        if (endTime != null)
+        if (endTime != null) {
             this.endTime = endTime;
-        else
+        }
+        else {
             this.endTime = "12:00";
+        }
     }
 
     public String getName() {
@@ -154,6 +158,8 @@ public class ClassEvent implements Serializable,Comparable<ClassEvent> {
         return toRet;
     }
 
+    /** @noinspection HardCodedStringLiteral*/
+    //works by parsing date from API
     public static int getDay(String group) {
         switch (group){
             case "יום א":

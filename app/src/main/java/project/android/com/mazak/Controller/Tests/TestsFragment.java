@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import project.android.com.mazak.Controller.Constants;
 import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Database.Database;
 import project.android.com.mazak.Database.Factory;
@@ -31,7 +32,6 @@ import project.android.com.mazak.Model.Entities.getOptions;
 import project.android.com.mazak.Model.IRefresh;
 import project.android.com.mazak.R;
 
-import static project.android.com.mazak.Controller.GradesView.FatherTab.checkErrorTypeAndMessage;
 import static project.android.com.mazak.Controller.GradesView.FatherTab.isNetworkAvailable;
 
 /**
@@ -59,7 +59,7 @@ public class TestsFragment extends Fragment implements IRefresh {
         try {
             database = Factory.getInstance();
         } catch (Exception e) {
-
+            Toast.makeText(getContext(), getString(R.string.no_tests_error), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -129,7 +129,7 @@ public class TestsFragment extends Fragment implements IRefresh {
                     String cal1 = database.getUpdateTime(InternalDatabase.TestKey);
                     try {
                         if (view != null)
-                            Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                            Snackbar.make(view, "Last Update  " + cal1, Snackbar.LENGTH_SHORT).show();
                     } catch (Exception ex) {
                     }
                     //setupTabs(view);
@@ -146,7 +146,7 @@ public class TestsFragment extends Fragment implements IRefresh {
                         else
                             throw new NetworkErrorException();
                     } catch (Exception e1) {
-                        errorMsg = checkErrorTypeAndMessage(e1);
+                        errorMsg = Constants.checkErrorTypeAndMessage(e1, getContext());
                         error = true;
                     }
                 }
@@ -156,7 +156,7 @@ public class TestsFragment extends Fragment implements IRefresh {
                 try {
                     grades = database.getTests(getOptions.fromWeb).clone();
                 } catch (Exception e) {
-                    errorMsg = checkErrorTypeAndMessage(e);
+                    errorMsg = Constants.checkErrorTypeAndMessage(e, getContext());
                     error = true;
                 }
             }
@@ -294,8 +294,9 @@ public class TestsFragment extends Fragment implements IRefresh {
 
         @Override
         public int getCount() {
-            if (list != null)
+            if (list != null) {
                 return list.size();
+            }
             return 0;
         }
     }

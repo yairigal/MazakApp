@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -31,7 +32,6 @@ public class PieChartFragment extends Fragment implements IRefresh {
     Grade currentGrade;
     CourseStatistics current;
     View root;
-    private String noDataText = "No Data Found";
 
     @Nullable
     @Override
@@ -56,7 +56,7 @@ public class PieChartFragment extends Fragment implements IRefresh {
         mChart.getDescription().setEnabled(false);
         mChart.setExtraOffsets(5, 10, 5, 5);
         //mChart.setDescription("");
-        mChart.setNoDataText(noDataText);
+        mChart.setNoDataText(getString(R.string.data_error));
 
         mChart.setCenterText(coursename);
 
@@ -141,10 +141,17 @@ public class PieChartFragment extends Fragment implements IRefresh {
         set.setSliceSpace(3f);
         set.setSelectionShift(5f);
 
-        set.setValueFormatter(new IValueFormatter() {
+        set.setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+//                return String.valueOf((int) value);
+//            }
+
             @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            public String getFormattedValue(float value) {
                 return String.valueOf((int) value);
+
+//                return super.getFormattedValue(value);
             }
         });
 

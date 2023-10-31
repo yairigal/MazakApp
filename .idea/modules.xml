@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MazakApp.iml" filepath="$PROJECT_DIR$/.idea/modules/MazakApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MazakApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MazakApp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ogMazak.iml" filepath="$PROJECT_DIR$/.idea/modules/ogMazak.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ogMazak.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ogMazak.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ogMazak.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ogMazak.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ogMazak.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ogMazak.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ogMazak.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ogMazak.app.unitTest.iml" />
     </modules>
   </component>
 </project>

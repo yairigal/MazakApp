@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import project.android.com.mazak.Controller.Constants;
 import project.android.com.mazak.Controller.GradesView.FatherTab;
 import project.android.com.mazak.Controller.NavDrawerActivity;
 import project.android.com.mazak.Database.Database;
@@ -84,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 final String pw = PasswordET.getText().toString().trim();
 
                 if (un.equals("") || pw.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please fill up all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.missing_fields), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String time = db.getUpdateTime(InternalDatabase.gradesKey);
@@ -117,8 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        dialog.setTitle("Logging in...");
-                        dialog.setMessage("Authenticating credentials");
+                        dialog.setTitle(getString(R.string.logging));
+                        dialog.setMessage(getString(R.string.authentication));
                         dialog.setCancelable(false);
                         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         dialog.show();
@@ -200,34 +201,16 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         }catch (Exception ex){
             ex.printStackTrace();
-            errormsg = checkErrorTypeAndMessage(ex);
+            errormsg = Constants.checkErrorTypeAndMessage(ex, ctx);
             return false;
         }
     }
 
-    /**
-     * checks the error type and returns the corresponds message
-     * @param e1
-     * @return
-     */
-    public static String checkErrorTypeAndMessage(Exception e1) {
-        String errorMsg;
-        if (e1 instanceof UnknownHostException)
-            errorMsg = "'levnet.jct.ac.il' might be down";
-        else if (e1 instanceof NullPointerException)
-            errorMsg = "Wrong username or password";
-        else if (e1 instanceof NetworkErrorException)
-            errorMsg = "Check your internet connection";
-        else if (e1 instanceof LoginException)
-            errorMsg = "Wrong username or password";
-        else
-            errorMsg = "Database Error";
-        return errorMsg;
-    }
+
 
     public void onBotClicked(View view) {
         Intent telegram = new Intent(Intent.ACTION_VIEW);
-        telegram.setData(Uri.parse("https://t.me/mazakjct_bot"));
+        telegram.setData(Uri.parse(getString(R.string.bot_link)));
         startActivity(telegram);
     }
 }

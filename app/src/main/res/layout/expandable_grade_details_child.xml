@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:text="111111.00.5777"
+        android:text="@string/_111111_00_5777"
         android:textSize="24sp"
         android:textStyle="normal|bold" />
 
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:text="Final Grade 100"
+        android:text="@string/final_grade_100"
         android:textSize="24sp"
         android:textStyle="normal|bold" />
 </LinearLayout>

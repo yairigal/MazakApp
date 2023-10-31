@@ -13,7 +13,7 @@ public class BootReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)
                 ||
                 intent.getAction().equals("action.APP_KILLED")) {
-            context.startService(new Intent(context,startAlarmService.class));
+            context.startService(new Intent(context, startAlarmService.class));
         }
     }
 }
