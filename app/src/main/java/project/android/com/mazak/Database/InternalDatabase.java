@@ -21,7 +21,7 @@ import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.TestList;
 import project.android.com.mazak.Model.Entities.getOptions;
-import project.android.com.mazak.Model.Entities.gradeIngerdiants;
+import project.android.com.mazak.Model.Entities.gradeIngredients;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.Web.MazakAPI;
 import project.android.com.mazak.R;
@@ -96,7 +96,7 @@ public class InternalDatabase implements Database {
         Gson gson = new Gson();
         String json = gson.toJson(cal1);
         editor.putString(key, json);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -133,7 +133,7 @@ public class InternalDatabase implements Database {
         Gson gson = new Gson();
         String json = gson.toJson(toSave);
         editor.putString(key, json);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -145,7 +145,7 @@ public class InternalDatabase implements Database {
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove(key);
-        editor.commit();
+        editor.apply();
         listOfItems = null;
     }
 
@@ -274,17 +274,17 @@ public class InternalDatabase implements Database {
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove(gradesKey);
-        editor.commit();
+        editor.apply();
         grades = null;
     }
 
     @Override
-    public ArrayList<gradeIngerdiants> getGradesParts(Grade currentGrade) throws Exception {
+    public ArrayList<gradeIngredients> getGradesParts(Grade currentGrade) throws Exception {
         return MazakAPI.getGradesDetailsAndNotebooks(currentGrade,activity).x;
     }
 
     @Override
-    public MazakAPI.Tuple<ArrayList<gradeIngerdiants>, NotebookList> getGradesDetailsAndNotebooks(Grade course) throws Exception {
+    public MazakAPI.Tuple<ArrayList<gradeIngredients>, NotebookList> getGradesDetailsAndNotebooks(Grade course) throws Exception {
         return MazakAPI.getGradesDetailsAndNotebooks(course,activity);
     }
     //endregion
@@ -310,7 +310,7 @@ public class InternalDatabase implements Database {
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove(IrursKey);
-        editor.commit();
+        editor.apply();
         irurs = null;
     }
 
@@ -416,7 +416,7 @@ public class InternalDatabase implements Database {
         SharedPreferences sharedPref = activity.getSharedPreferences(filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove(ScheduleKey);
-        editor.commit();
+        editor.apply();
         schedule = null;
     }
 

@@ -14,7 +14,7 @@
         android:id="@+id/NZTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:text="@string/FiveNz"
         android:textStyle="normal|bold" />
 
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginEnd="10dp"
-        android:gravity="center_vertical|right"
+        android:gravity="center_vertical|end"
         android:text="@string/course_name"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"

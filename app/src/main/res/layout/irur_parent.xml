@@ -11,7 +11,7 @@
             android:layout_margin="1dp">
 
             <TextView
-                android:text="Irur Name"
+                android:text="@string/appeal_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/IrurName"

@@ -26,8 +26,9 @@ public class GradesModel {
      * @return hash map starting with 1 - first year 2 - second year...
      */
     public static HashMap<Integer, GradesList> sortByYears(GradesList grades) {
-        if (grades.isReversed())
+        if (grades.isReversed()) {
             grades.reverse();
+        }
         HashMap<Integer, GradesList> hm = new HashMap<>();
         int year = 1;
         int lastSem = 0;
@@ -126,22 +127,22 @@ public class GradesModel {
 
     /**
      * returns the int value of the current semester
-     *
+     * TODO: see if need to change to english
      * @param sem
      * @return
      */
     public static int semsterToInt(String sem) {
-        if (sem.equals("אלול"))
+        if (sem.equalsIgnoreCase("אלול"))
             return 1;
-        if (sem.equals("א"))
+        if (sem.equalsIgnoreCase("א"))
             return 2;
-        if (sem.equals("ב"))
+        if (sem.equalsIgnoreCase("ב"))
             return 3;
-        if (sem.equals("שנתי"))
+        if (sem.equalsIgnoreCase("שנתי"))
             return 3;
-        if (sem.equals("מועד מיוחד") || sem.equals("מיוחד"))
+        if (sem.equalsIgnoreCase("מועד מיוחד") || sem.equalsIgnoreCase("מיוחד"))
             return 4;
-        if (sem.equals("ג"))
+        if (sem.equalsIgnoreCase("ג"))
             return 5;
         return 1;
     }
@@ -176,7 +177,7 @@ public class GradesModel {
         grades = removeDuplicatesOfGrades(grades);
         for (Grade g : grades.getList()) {
             try {
-                if(g.droppedOut.equals("true"))
+                if (g.droppedOut.equals("true"))
                     continue;
                 //replaceing grades like 36נ to 36.
                 g.finalGrade = g.finalGrade.replace("נ", "");
@@ -185,16 +186,13 @@ public class GradesModel {
                 Nz = Float.parseFloat(g.points);
                 switch (g.finalGrade) {
                     case "לא נבחן":
+                    case "נכשל":
                         baseOfCalcNZ += Nz;
                         sumOfGrades += 0;
                         break;
                     case "לא השלים":
                         break;
                     case "טרם":
-                        break;
-                    case "נכשל":
-                        baseOfCalcNZ += Nz;
-                        sumOfGrades += 0;
                         break;
                     case "עבר":
                         sumOfNz += Nz;
@@ -240,10 +238,13 @@ public class GradesModel {
         HashMap<String, Grade> map = new HashMap<>();
         GradesList toRet = new GradesList();
         for (Grade g : grades.getList()) {
-            if (g.name.equals(LimodeyKodesh))
-                toRet.add(g);
-            else
-                map.put(g.name, g);
+            {
+                if (g.name.equals(LimodeyKodesh)) {
+                    toRet.add(g);
+                } else {
+                    map.put(g.name, g);
+                }
+            }
         }
         for (Grade g : map.values())
             toRet.add(g);

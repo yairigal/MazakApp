@@ -34,7 +34,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:layout_margin="10dp"
                         android:layout_weight="1">
 
@@ -46,10 +46,10 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right"
+                                android:layout_gravity="end"
                                 android:layout_margin="10dp"
                                 android:elevation="0dp"
-                                android:text="בטיפול"
+                                android:text="@string/in_progress"
                                 android:textColor="@color/cardview_shadow_start_color"
                                 android:textStyle="normal|bold" />
 
@@ -69,15 +69,15 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_gravity="right"
+                            android:layout_gravity="end"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right"
+                                android:layout_gravity="end"
                                 android:layout_margin="10dp"
-                                android:text="התקבלו"
+                                android:text="@string/received"
                                 android:textColor="#388E3C"
                                 android:textStyle="normal|bold" />
 
@@ -104,9 +104,9 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right"
+                                android:layout_gravity="end"
                                 android:layout_margin="10dp"
-                                android:text="התקבלו חלקית"
+                                android:text="@string/partial_credit"
                                 android:textColor="@color/colorPrimary"
                                 android:textStyle="normal|bold" />
 
@@ -131,9 +131,9 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="right"
+                                android:layout_gravity="end"
                                 android:layout_margin="10dp"
-                                android:text="נדחו"
+                                android:text="@string/declined"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textStyle="normal|bold" />
 

@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -25,7 +28,7 @@ import project.android.com.mazak.Database.Factory;
 import project.android.com.mazak.Model.Adapters.MyAdapter;
 import project.android.com.mazak.Model.Entities.Grade;
 import project.android.com.mazak.Model.Entities.GradesList;
-import project.android.com.mazak.Model.Entities.gradeIngerdiants;
+import project.android.com.mazak.Model.Entities.gradeIngredients;
 import project.android.com.mazak.Model.Filter;
 import project.android.com.mazak.Model.GradesModel;
 import project.android.com.mazak.Model.ISearch;
@@ -53,7 +56,8 @@ public class gradesViewFragment extends Fragment implements ISearch {
         try {
             database = Factory.getInstance();
         } catch (Exception e) {
-
+            Log.e("GradesViewFragment", "onCreate: ", e);
+            Toast.makeText(getContext(), getString(R.string.error_getting_grades), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -126,16 +130,16 @@ public class gradesViewFragment extends Fragment implements ISearch {
         adapterList = (GradesList) grades.clone();
     }
 
-    private ArrayList<String> convertToStringArray(ArrayList<gradeIngerdiants> ingerdiantses) {
+    private ArrayList<String> convertToStringArray(ArrayList<gradeIngredients> ingerdiantses) {
         ArrayList<String> list = new ArrayList<>();
-        list.add("סוג");
-        list.add("משקל");
-        list.add("מועד א");
-        list.add("מועד ב");
-        list.add("מועד מיוחד");
-        list.add("מועד ג");
-        list.add("ציון מינימום");
-        for (gradeIngerdiants i : ingerdiantses) {
+        list.add(getString(R.string.type));
+        list.add(getString(R.string.weight));
+        list.add(getString(R.string.moed_a));
+        list.add(getString(R.string.moed_b));
+        list.add(getString(R.string.special_test));
+        list.add(getString(R.string.moed_c));
+        list.add(getString(R.string.min_grade));
+        for (gradeIngredients i : ingerdiantses) {
             list.add(i.type);
             String w = i.weight;
             float we = Float.valueOf(w);

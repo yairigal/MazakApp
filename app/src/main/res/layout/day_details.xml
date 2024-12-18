@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:background="@android:drawable/screen_background_light_transparent">
+    android:background="@android:drawable/screen_background_light_transparent"
+    android:layoutDirection="rtl">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:text="התחלה: "
+                    android:text="@string/start"
                     android:textColor="@color/cardview_light_background"
                     android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:text="סיום: "
+                    android:text="@string/end"
                     android:textColor="@color/cardview_light_background"
                     android:textDirection="rtl"
                     android:textStyle="bold" />
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:text="שעות לימוד: "
+                android:text="@string/course_hours"
                 android:textColor="@color/cardview_light_background"
                 android:textStyle="bold" />
 

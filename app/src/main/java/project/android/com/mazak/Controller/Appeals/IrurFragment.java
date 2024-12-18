@@ -83,7 +83,7 @@ public class IrurFragment extends Fragment implements ISearch {
         try {
             db = Factory.getInstance();
         } catch (Exception e) {
-            showSnackException("Database error");
+            showSnackException(getString(R.string.db_error));
         }
         AsyncTask<Void, Void, IrurList> task = new AsyncTask<Void, Void, IrurList>() {
             IrurList newList = new IrurList();
@@ -130,7 +130,7 @@ public class IrurFragment extends Fragment implements ISearch {
                 //progressBar.setVisibility(VISIBLE);
                 if (db != null && view != null) {
                     String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
-                    Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Last Update  " + cal1, Snackbar.LENGTH_SHORT).show();
                 }
             }
         };
@@ -161,7 +161,7 @@ public class IrurFragment extends Fragment implements ISearch {
         try {
             db = Factory.getInstance();
         } catch (Exception e) {
-            showSnackException("Database error");
+            showSnackException(getString(R.string.db_error));
         }
         AsyncTask<Void, Void, IrurList> task = new AsyncTask<Void, Void, IrurList>() {
             IrurList newList = new IrurList();
@@ -201,7 +201,7 @@ public class IrurFragment extends Fragment implements ISearch {
                 String cal1 = db.getUpdateTime(InternalDatabase.IrursKey);
                 try {
                     if (view != null)
-                        Snackbar.make(view, "Last Update  " + cal1, Toast.LENGTH_SHORT).show();
+                        Snackbar.make(view, "Last Update  " + cal1, Snackbar.LENGTH_SHORT).show();
                 } catch (Exception ex) {
                 }
                 ;
@@ -253,13 +253,13 @@ public class IrurFragment extends Fragment implements ISearch {
             getIrursAsync();
 
             progList = getIrurWithStatus(irurs, PROG);
-            inProg.setAdapter(progad = new myAdapter(getContext(), R.layout.fragment_irur_parent, progList.getList()));
+            inProg.setAdapter(progad = new myAdapter(requireContext(), R.layout.fragment_irur_parent, progList.getList()));
             acceptedList = getIrurWithStatus(irurs, ACCEPTED);
-            accpeted.setAdapter(acceptedad = new myAdapter(getContext(), R.layout.fragment_irur_parent, acceptedList.getList()));
+            accpeted.setAdapter(acceptedad = new myAdapter(requireContext(), R.layout.fragment_irur_parent, acceptedList.getList()));
             halfList = getIrurWithStatus(irurs, HALF);
-            half.setAdapter(halfad = new myAdapter(getContext(), R.layout.fragment_irur_parent, halfList.getList()));
+            half.setAdapter(halfad = new myAdapter(requireContext(), R.layout.fragment_irur_parent, halfList.getList()));
             failedList = getFailedIrurs(irurs, FAILED);
-            failed.setAdapter(failedad = new myAdapter(getContext(), R.layout.fragment_irur_parent, failedList.getList()));
+            failed.setAdapter(failedad = new myAdapter(requireContext(), R.layout.fragment_irur_parent, failedList.getList()));
 
         }
         return view;
@@ -274,9 +274,11 @@ public class IrurFragment extends Fragment implements ISearch {
      */
     private IrurList getIrurWithStatus(IrurList irurs, String status) {
         IrurList toReturn = new IrurList();
-        for (Irur r : irurs.getList())
-            if (r.getStatus().equals(status))
+        for (Irur r : irurs.getList()) {
+            if (r.getStatus().equals(status)) {
                 toReturn.add(r);
+            }
+        }
         return toReturn;
     }
 
@@ -350,14 +352,19 @@ public class IrurFragment extends Fragment implements ISearch {
         private void setAppealColor(View view, Irur current) {
             TextView name = (TextView) view;
             String status = current.getStatus();
-            if (status.equals("התקבל")) {
-                name.setTextColor(ColorTemplate.rgb("388E3C"));
-            } else if (status.equals("התקבל חלקית")) {
-                name.setTextColor(ColorTemplate.rgb("FFA000"));
-            } else if (status.equals("נדחה")) {
-                name.setTextColor(ColorTemplate.rgb("D32F2F"));
-            } else if (status.equals("בטיפול")) {
-                name.setTextColor(ColorTemplate.rgb("9E9E9E"));
+            switch (status) {
+                case "התקבל":
+                    name.setTextColor(ColorTemplate.rgb("388E3C"));
+                    break;
+                case "התקבל חלקית":
+                    name.setTextColor(ColorTemplate.rgb("FFA000"));
+                    break;
+                case "נדחה":
+                    name.setTextColor(ColorTemplate.rgb("D32F2F"));
+                    break;
+                case "בטיפול":
+                    name.setTextColor(ColorTemplate.rgb("9E9E9E"));
+                    break;
             }
         }
 

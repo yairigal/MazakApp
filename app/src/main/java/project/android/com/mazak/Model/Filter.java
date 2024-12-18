@@ -15,9 +15,11 @@ public class Filter {
     }
     public GradesList filter(String query){
        GradesList lst = new GradesList();
-        for (Grade i:rawData)
-            if(i.name.contains(query))
+        for (Grade i:rawData) {
+            if (i.name.contains(query)) {
                 lst.add(i);
+            }
+        }
         return lst;
     }
 }

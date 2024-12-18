@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppTheme">
+        <attr name="iconColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="menuColor" format="color" />
+        <attr name="backSpaceColor" format="color" />
+        <attr name="iconPlaceholder" format="integer" />
+    </declare-styleable>
+</resources>

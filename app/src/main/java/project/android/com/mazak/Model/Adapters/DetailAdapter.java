@@ -1,46 +1,49 @@
 package project.android.com.mazak.Model.Adapters;
 
 import android.content.Context;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.github.mikephil.charting.utils.ColorTemplate;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import project.android.com.mazak.Model.Entities.gradeIngerdiants;
+import project.android.com.mazak.Model.Entities.gradeIngredients;
 import project.android.com.mazak.R;
 
 /**
  * Created by Yair on 2017-07-28.
  */
 
-public class DetailAdapter extends ArrayAdapter<gradeIngerdiants> {
+public class DetailAdapter extends ArrayAdapter<gradeIngredients> {
 
-    ArrayList<gradeIngerdiants> list;
+    ArrayList<gradeIngredients> list;
 
-    public DetailAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<gradeIngerdiants> objects) {
+    public DetailAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<gradeIngredients> objects) {
         super(context, resource, objects);
-        this.list = (ArrayList<gradeIngerdiants>) objects;
-        //this.list.add(0, new gradeIngerdiants("סוג", "ציון מינימום", "משקל", "מועד א", "מועד ב", "מועד מיוחד", "מועד ג"));
+        this.list = (ArrayList<gradeIngredients>) objects;
+        //this.list.add(0, new gradeIngredients("סוג", "ציון מינימום", "משקל", "מועד א", "מועד ב", "מועד מיוחד", "מועד ג"));
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         try {
-            if (convertView == null)
+            if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.grade_detail, parent, false);
-            gradeIngerdiants current = list.get(position);
+            }
+            gradeIngredients current = list.get(position);
             ((TextView) convertView.findViewById(R.id.Type_details)).setText(current.type);
-            int calulatedWeightValue = (int) (float) Float.valueOf(current.weight);
+            int calulatedWeightValue = (int) (float) Float.parseFloat(current.weight);
             ((TextView) convertView.findViewById(R.id.Weight_details)).setText(String.valueOf(calulatedWeightValue));
             TextView mingrade = ((TextView) convertView.findViewById(R.id.MinGrade_Details));
             mingrade.setText(current.minGrade);
@@ -69,15 +72,16 @@ public class DetailAdapter extends ArrayAdapter<gradeIngerdiants> {
         String mc = moedc.getText().toString();
         String ms = moeds.getText().toString();
         int mingrade = Integer.parseInt(minGrade);
-        if (!mc.equals(""))
+        if (!mc.equals("")) {
             color(moedc, mingrade);
-        else // mc = null
-            if (!ms.equals(""))
+        } else // mc = null
+            if (!ms.equals("")) {
                 color(moeds, mingrade);
-            else if (!mb.equals(""))
+            } else if (!mb.equals("")) {
                 color(moedb, mingrade);
-            else
+            } else {
                 color(moeda, mingrade);
+            }
 
 
     }
@@ -85,19 +89,21 @@ public class DetailAdapter extends ArrayAdapter<gradeIngerdiants> {
     private void color(TextView moed, int mingrade) {
         try {
             int grade = Integer.parseInt(moed.getText().toString());
-            if (grade >= mingrade)
-                moed.setTextColor(ColorTemplate.rgb("2ecc71")); // green
-            else
-                moed.setTextColor(ColorTemplate.rgb("e74c3c")); // red
+            if (grade >= mingrade) {
+                moed.setTextColor(ContextCompat.getColor(getContext(), R.color.green)); // green
+            } else {
+                moed.setTextColor(ContextCompat.getColor(getContext(), R.color.red)); // red
+            }
         } catch (Exception ex) {
-
+            Toast.makeText(getContext(), getContext().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public int getCount() {
-        if (list != null)
+        if (list != null) {
             return list.size();
+        }
         return 0;
     }
 }

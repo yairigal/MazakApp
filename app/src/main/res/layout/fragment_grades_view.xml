@@ -22,7 +22,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="10dp"
                     android:layout_weight="1">
 
@@ -34,11 +34,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
+                            android:layout_gravity="end"
                             android:layout_margin="10dp"
                             android:elevation="0dp"
                             android:id="@+id/sem0title"
-                            android:text="סמסטר אלול"
+                            android:text="@string/elul"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="normal|bold" />
 
@@ -58,15 +58,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
+                            android:layout_gravity="end"
                             android:layout_margin="10dp"
-                            android:text="סמסטר א'"
+                            android:text="@string/first_sem"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="normal|bold" />
 
@@ -93,9 +93,9 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
+                            android:layout_gravity="end"
                             android:layout_margin="10dp"
-                            android:text="סמסטר ב'"
+                            android:text="@string/second_sem"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="normal|bold" />
 

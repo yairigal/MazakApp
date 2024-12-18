@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Code"
@@ -17,7 +17,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Name"
@@ -28,7 +28,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Detail"
@@ -39,7 +39,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Type"
@@ -50,7 +50,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Moed"
@@ -61,7 +61,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Instructor"
@@ -72,7 +72,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Lecturer"
@@ -83,7 +83,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Date"
@@ -94,7 +94,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Irur Name"
+        android:text="@string/appeal_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:id="@+id/AppealsChild_Status"

@@ -9,12 +9,9 @@ public class TfilaTime {
     public String time;
     public boolean isSelected;
 
-
-    public TfilaTime(String name, String time,boolean isSelected) {
+    public TfilaTime(String name, String time, boolean isSelected) {
         this.name = name;
         this.time = time;
         this.isSelected = isSelected;
     }
-
-
 }

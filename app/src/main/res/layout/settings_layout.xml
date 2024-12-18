@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:text="Settings"
+        android:text="@string/title_activity_settings"
         android:textSize="10dp" />
 
     <View
@@ -32,12 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:text="Starting Page"
+            android:text="@string/starting_page"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <RadioGroup
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:id="@+id/StartingPageRadioButtonsMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

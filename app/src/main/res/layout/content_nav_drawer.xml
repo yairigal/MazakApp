@@ -21,13 +21,13 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <com.google.android.gms.ads.AdView
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-2114936243095145/3126163512"
-        android:layout_gravity="center"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:id="@+id/adView" />
+<!--    <com.google.android.gms.ads.AdView-->
+<!--        ads:adSize="BANNER"-->
+<!--        ads:adUnitId="ca-app-pub-2114936243095145/3126163512"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_width="320dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:id="@+id/adView" />-->
 
 
 </LinearLayout>

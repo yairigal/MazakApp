@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Test"
+        android:text="@string/test"
         android:textSize="24sp"
         android:textStyle="normal|bold" />
 
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Test"
+        android:text="@string/test"
         android:textSize="24sp" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Test"
+        android:text="@string/test"
         android:textSize="24sp" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Test"
+        android:text="@string/test"
         android:textSize="24sp" />
 
     <LinearLayout
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Test"
+        android:text="@string/test"
         android:textSize="24sp"
         android:textStyle="normal|bold" />
 

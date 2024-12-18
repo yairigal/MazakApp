@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -221,8 +222,8 @@ public class NotebookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             pdfOpenintent.setDataAndType(path, "application/pdf");
             try {
-                context.startActivity(Intent.createChooser(pdfOpenintent, "Your title"));
-                System.out.println("Opened file");
+                context.startActivity(Intent.createChooser(pdfOpenintent, context.getString(R.string.pick_a_pdf_viewer)));
+                Toast.makeText(context, context.getString(R.string.opened_file), Toast.LENGTH_SHORT).show();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

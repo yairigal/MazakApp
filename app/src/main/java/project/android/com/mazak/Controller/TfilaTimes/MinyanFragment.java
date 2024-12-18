@@ -5,7 +5,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +39,10 @@ public class MinyanFragment extends Fragment implements IRefresh {
 
 
     private View view;
-    private ListView listView;
-    private ArrayList<TfilaTime> times = new ArrayList<>();
-    ProgressBar pb;
-    ArrayAdapter<TfilaTime> Adapter;
+    private static ListView listView;
+    private static ArrayList<TfilaTime> times = new ArrayList<>();
+    static ProgressBar pb;
+    static ArrayAdapter<TfilaTime> Adapter;
 
     public MinyanFragment() {
         // Required empty public constructor
@@ -56,16 +59,17 @@ public class MinyanFragment extends Fragment implements IRefresh {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                if (convertView == null)
+                if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.tfila_time, parent, false);
+                }
 
                 TfilaTime current = times.get(position);
                 TextView name =((TextView)convertView.findViewById(R.id.tfileName));
                 TextView time =((TextView)convertView.findViewById(R.id.tfileTime));
                 if(current.isSelected){
-                    (convertView.findViewById(R.id.mainLayoutTfilaTime)).setBackgroundColor(ColorTemplate.rgb("CC4566"));
-                    name.setTextColor(ColorTemplate.rgb("ffffff"));
-                    time.setTextColor(ColorTemplate.rgb("ffffff"));
+                    (convertView.findViewById(R.id.mainLayoutTfilaTime)).setBackgroundColor(ContextCompat.getColor(getContext(),R.color.tfila));
+                    name.setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+                    time.setTextColor(ContextCompat.getColor(getContext(),R.color.white));
                 }
                 name.setText(current.name);
                 time.setText(current.time);
@@ -87,7 +91,7 @@ public class MinyanFragment extends Fragment implements IRefresh {
      * @return
      * @throws Exception
      */
-    private String GetPageContent(String url) throws Exception {
+    private static String GetPageContent(String url) throws Exception {
 
         URL obj = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -103,13 +107,13 @@ public class MinyanFragment extends Fragment implements IRefresh {
                 "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
         int responseCode = conn.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
+        Log.d("MazakTFILA","\nSending 'GET' request to URL : " + url);
+        Log.d("MazakTFILA","Response Code : " + responseCode);
 
         BufferedReader in =
                 new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
@@ -124,7 +128,7 @@ public class MinyanFragment extends Fragment implements IRefresh {
     /**
      * gets the times to the times var
      */
-    private void getTimes() {
+    private static void getTimes() {
         new AsyncTask<Void,Void,Void>(){
             @Override
             protected void onPreExecute() {

@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import project.android.com.httpstest.Model.Entities.Delegate;
 import project.android.com.httpstest.Model.Entities.Grade;
-import project.android.com.httpstest.Model.Entities.gradeIngerdiants;
+import project.android.com.httpstest.Model.Entities.gradeIngredients;
 import project.android.com.httpstest.Model.HtmlParser;
 import project.android.com.httpstest.Model.Web.ConnectionData;
 import project.android.com.httpstest.Model.getOptions;
@@ -40,7 +40,7 @@ public class WebViewDatabase implements Database {
     }
 
     void setGradesIngrid(ArrayList<Grade> grds){
-        ArrayList<gradeIngerdiants> arr;
+        ArrayList<gradeIngredients> arr;
         for (Grade g:grds) {
             String html;
             html = connection.getWindow(g.subDetailsID);

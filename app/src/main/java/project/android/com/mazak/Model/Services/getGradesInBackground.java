@@ -73,25 +73,25 @@ public class getGradesInBackground extends Service {
             }.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR );
     }
 
-    private void sendIrurNotification() {
-
-        vibrate();
-
-
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.mold_icon)
-                        .setContentTitle("Appeals Arrived")
-                        .setContentText("Appeals Status has Changed");
-        int NOTIFICATION_ID = 1;
-        builder.setAutoCancel(true);
-        Intent targetIntent = new Intent(this, NavDrawerActivity.class);
-        targetIntent.putExtra("fragment","appeals");
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
-        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nManager.notify(NOTIFICATION_ID, builder.build());
-    }
+//    private void sendIrurNotification() {
+//
+//        vibrate();
+//
+//
+//        NotificationCompat.Builder builder =
+//                new NotificationCompat.Builder(this)
+//                        .setSmallIcon(R.mipmap.mold_icon)
+//                        .setContentTitle("Appeals Arrived")
+//                        .setContentText("Appeals Status has Changed");
+//        int NOTIFICATION_ID = 1;
+//        builder.setAutoCancel(true);
+//        Intent targetIntent = new Intent(this, NavDrawerActivity.class);
+//        targetIntent.putExtra("fragment","appeals");
+//        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        builder.setContentIntent(contentIntent);
+//        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        nManager.notify(NOTIFICATION_ID, builder.build());
+//    }
 
     private void vibrate() {
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);

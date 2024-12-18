@@ -21,6 +21,7 @@ import project.android.com.mazak.Model.Entities.GradesList;
 import project.android.com.mazak.Model.ISearch;
 import project.android.com.mazak.R;
 
+@Deprecated
 public class TabsFragment extends Fragment implements ISearch {
 
     HashMap<Integer,GradesList> GradesList;

@@ -35,7 +35,7 @@ import project.android.com.mazak.Model.Entities.NotebookList;
 import project.android.com.mazak.Model.Entities.ScheduleList;
 import project.android.com.mazak.Model.Entities.Test;
 import project.android.com.mazak.Model.Entities.TestList;
-import project.android.com.mazak.Model.Entities.gradeIngerdiants;
+import project.android.com.mazak.Model.Entities.gradeIngredients;
 
 /**
  * Created by Yair Yigal on 2018-02-20.
@@ -393,16 +393,16 @@ public class MazakAPI {
         return tests;
     }
 
-    private static Tuple<ArrayList<gradeIngerdiants>, NotebookList> TryGetGradesDetails(Grade course, String cookies) throws Exception {
+    private static Tuple<ArrayList<gradeIngredients>, NotebookList> TryGetGradesDetails(Grade course, String cookies) throws Exception {
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("actualCourseId", course.actualCourseID);
         JSONObject data = new JSONObject(dataMap);
         JSONObject r = new JSONObject(POST("https://levnet.jct.ac.il/api/student/coursePartGrades.ashx?action=GetStudentCoursePartGrades", data.toString(), "", cookies).x);
-        ArrayList<gradeIngerdiants> parts = new ArrayList<>();
+        ArrayList<gradeIngredients> parts = new ArrayList<>();
         JSONArray items = r.getJSONArray("partGrades");
         for (int i = 0; i < items.length(); ++i) {
             JSONObject current = items.getJSONObject(i);
-            gradeIngerdiants currentPart = new gradeIngerdiants();
+            gradeIngredients currentPart = new gradeIngredients();
             currentPart.minGrade = current.getString("minGrade").equals("null") ? "" : current.getString("minGrade");
             currentPart.moedA = current.getString("gradeAName").equals("null") ? "" : current.getString("gradeAName");
             currentPart.moedB = current.getString("gradeBName").equals("null") ? "" : current.getString("gradeBName");
@@ -427,7 +427,7 @@ public class MazakAPI {
         return new Tuple<>(parts, notebooks);
     }
 
-    public static Tuple<ArrayList<gradeIngerdiants>, NotebookList> getGradesDetailsAndNotebooks(Grade course, Context ctx) throws Exception {
+    public static Tuple<ArrayList<gradeIngredients>, NotebookList> getGradesDetailsAndNotebooks(Grade course, Context ctx) throws Exception {
         String cookies = login(ctx);
         return TryGetGradesDetails(course, cookies);
     }

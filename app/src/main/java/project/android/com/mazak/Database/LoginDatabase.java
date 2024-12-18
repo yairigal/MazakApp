@@ -7,6 +7,8 @@ import android.util.Base64;
 import java.io.IOException;
 import java.util.HashMap;
 
+import project.android.com.mazak.R;
+
 /**
  * Created by Yair on 2017-02-20.
  */
@@ -16,11 +18,14 @@ public class LoginDatabase {
     String password;
     Context ctx;
 
+    String pw = "pw";
+
     private static LoginDatabase ourInstance = null;
 
     public static LoginDatabase getInstance(Context ctx) {
-        if (ourInstance == null)
+        if (ourInstance == null) {
             ourInstance = new LoginDatabase(ctx);
+        }
         return ourInstance;
     }
 
@@ -30,21 +35,25 @@ public class LoginDatabase {
 
     /**
      * saves the username and password in the device memory.
+     *
      * @param us
      * @param pw
      * @throws IOException
      */
-    public void saveLoginInformation(String us,String pw) throws IOException {
-        SharedPreferences sharedPref = ctx.getSharedPreferences("pw", Context.MODE_PRIVATE);
+    public void saveLoginInformation(String us, String pw) throws IOException {
+        SharedPreferences sharedPref = ctx.getSharedPreferences(pw, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        username = us; password = pw;
-        editor.putString("username", encrypt(username));
-        editor.putString("password", encrypt(password));
-        editor.commit();
+        username = us;
+        password = pw;
+
+        editor.putString(ctx.getString(R.string.username_key), encrypt(username));
+        editor.putString(ctx.getString(R.string.password_key), encrypt(password));
+        editor.apply();
     }
 
     /**
      * encrpyes the data with base64.encode function.
+     *
      * @param toEnc
      * @return
      */
@@ -55,6 +64,7 @@ public class LoginDatabase {
 
     /**
      * decrypts the data .
+     *
      * @param toDec
      * @return
      */
@@ -65,14 +75,15 @@ public class LoginDatabase {
 
     /**
      * deletes the login information from the device memory.
+     *
      * @throws IOException
      */
     public void clearLoginInformation() throws IOException {
-        SharedPreferences sharedPref = ctx.getSharedPreferences("pw", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = ctx.getSharedPreferences(pw, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove("username");
-        editor.remove("password");
-        editor.commit();
+        editor.remove(ctx.getString(R.string.username_key));
+        editor.remove(ctx.getString(R.string.password_key));
+        editor.apply();
 
         username = "";
         password = "";
@@ -93,7 +104,7 @@ public class LoginDatabase {
                     Toast.makeText(context, "Please check your entries", Toast.LENGTH_LONG).show();
                 else {
                     data.put("username",username);
-                    data.put("password",password);
+                    data.put(ctx.getString(R.string.password_key),password);
                     dialog.dismiss();
                     onDialogClosed.function(null);
                 }
@@ -105,6 +116,7 @@ public class LoginDatabase {
 
     /**
      * checks if the login information is saved or not.
+     *
      * @return
      */
     public boolean dataIsSaved() {
@@ -118,29 +130,31 @@ public class LoginDatabase {
 
     /**
      * returns the login information from the device memory.
+     *
      * @return
      * @throws IOException
      */
-    public HashMap<String,String> getLoginDataFromMemory() throws IOException {
-        HashMap<String,String> map = new HashMap<>();
-        SharedPreferences sharedPref = ctx.getSharedPreferences("pw", Context.MODE_PRIVATE);
-        username = sharedPref.getString("username", "");
-        password = sharedPref.getString("password", "");
-        map.put("username", decrypt(username));
-        map.put("password", decrypt(password));
+    public HashMap<String, String> getLoginDataFromMemory() throws IOException {
+        HashMap<String, String> map = new HashMap<>();
+        SharedPreferences sharedPref = ctx.getSharedPreferences(pw, Context.MODE_PRIVATE);
+        username = sharedPref.getString(ctx.getString(R.string.username_key), "");
+        password = sharedPref.getString(ctx.getString(R.string.password_key), "");
+        map.put(ctx.getString(R.string.username_key), decrypt(username));
+        map.put(ctx.getString(R.string.password_key), decrypt(password));
         return map;
     }
     //help functions
 
     /**
      * turns the string to a byte array
+     *
      * @param str
      * @return
      */
-    public static byte[] StringToByte(String str){
+    public static byte[] StringToByte(String str) {
         byte[] toRet = new byte[str.length()];
         char[] arr = str.toCharArray();
-        for(int i=0;i<arr.length;i++) {
+        for (int i = 0; i < arr.length; i++) {
             toRet[i] = (byte) arr[i];
         }
         return toRet;
@@ -148,12 +162,13 @@ public class LoginDatabase {
 
     /**
      * turns the byte array to a string
+     *
      * @param arg
      * @return
      */
-    public static String ByteToString(byte[] arg){
+    public static String ByteToString(byte[] arg) {
         char[] arr = new char[arg.length];
-        for(int i = 0;i<arg.length;i++){
+        for (int i = 0; i < arg.length; i++) {
             arr[i] = (char) arg[i];
         }
         return String.valueOf(arr);

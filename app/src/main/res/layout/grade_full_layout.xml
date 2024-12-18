@@ -14,7 +14,7 @@
         app:titleTextColor="?android:attr/colorBackground" />
 
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center">
@@ -25,7 +25,7 @@
             android:background="#e8e8e8"
             android:orientation="vertical">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/gradeCard"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -56,7 +56,7 @@
                 <include layout="@layout/expandable_grade_details_child" />
             </LinearLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/gradeCard3"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -71,7 +71,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="10dp"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="מחברת בחינה"
+                    android:text="@string/test_notebook"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
                     android:textStyle="normal|bold" />
@@ -112,7 +112,7 @@
                         android:layout_height="70dp"
                         android:layout_gravity="center"
                         android:gravity="center_horizontal|center_vertical"
-                        android:text="לא נמצאו מחברות"
+                        android:text="@string/notebook_error"
                         android:textColor="@color/darkerGray"
                         android:visibility="gone" />
 
@@ -128,14 +128,14 @@
                         android:id="@+id/NotebookRefreshButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="REFRESH NOTEBOOK LIST"
+                        android:text="@string/refresh_notebook_list"
                         android:visibility="gone" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:id="@+id/gradeCard2"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -150,7 +150,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="10dp"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="סטטיסטיקה"
+                    android:text="@string/statistics"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
                     android:textStyle="normal|bold" />
